@@ -1,0 +1,66 @@
+{
+  "name": "rsbuild-plugin-pwa",
+  "description": "Zero-config PWA support for rsbuild",
+  "version": "0.1.0",
+  "author": "Ilya Strus <strax1990@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/s-r-x/rsbuild-plugin-pwa"
+  },
+  "homepage": "https://github.com/s-r-x/rsbuild-plugin-pwa",
+  "bugs": {
+    "url": "https://github.com/s-r-x/rsbuild-plugin-pwa/issues"
+  },
+  "keywords": [
+    "rsbuild",
+    "rsbuild-plugin",
+    "pwa"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "lint:fix": "biome lint",
+    "lint": "biome lint --write",
+    "format": "biome format",
+    "format:fix": "biome format --write",
+    "check-types": "tsc --noEmit",
+    "test": "node ./test/index.test.ts",
+    "docs:build": "rspress build",
+    "docs:dev": "rspress dev",
+    "docs:preview": "rspress preview"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.14",
+    "@rsbuild/core": "^1.7.3",
+    "@rslib/core": "^0.19.6",
+    "@rspress/core": "^2.0.6",
+    "@rspress/plugin-typedoc": "^2.0.6",
+    "@types/node": "^24.10.13",
+    "cheerio": "^1.2.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "^1.0.0 || ^2.0.0-0"
+  },
+  "dependencies": {
+    "@types/web-app-manifest": "^1.0.9",
+    "chalk": "^5.6.2",
+    "workbox-build": "^7.4.0"
+  }
+}

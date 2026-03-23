@@ -1,0 +1,20 @@
+version: "3"
+
+vars:
+  PKG_MNGR: npm
+  PKG_MNGR_SCRIPT: "{{.PKG_MNGR}} run"
+tasks:
+  default:
+    - task: dev
+  dev: "{{.PKG_MNGR_SCRIPT}} dev"
+  build: "{{.PKG_MNGR_SCRIPT}} build"
+  lint: "{{.PKG_MNGR_SCRIPT}} lint"
+  lint.fix: "{{.PKG_MNGR_SCRIPT}} lint:fix"
+  format: "{{.PKG_MNGR_SCRIPT}} format"
+  format.fix: "{{.PKG_MNGR_SCRIPT}} format:fix"
+  check-types: "{{.PKG_MNGR_SCRIPT}} check-types"
+  test: "{{.PKG_MNGR_SCRIPT}} test"
+  docs.build: "{{.PKG_MNGR_SCRIPT}} docs:build"
+  docs.dev: "{{.PKG_MNGR_SCRIPT}} docs:dev"
+  docs.preview: "{{.PKG_MNGR_SCRIPT}} docs:preview"
+  deps: "{{.PKG_MNGR}} ci"
