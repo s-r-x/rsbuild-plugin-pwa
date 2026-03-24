@@ -256,7 +256,7 @@ export const pluginPWA = ({
     );
 
     function extractEnvBaseUrl(ctx: EnvironmentContext): string {
-      return ctx.config.server.base;
+      return ctx.config.server.base || "/";
     }
     function checkIfPluginDisabled({
       environmentName,
