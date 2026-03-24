@@ -104,6 +104,72 @@ test("should generate and inject into html pwa related stuff", async function ()
     "sw should be generated",
   );
 });
+test("should generate and inject into html pwa related stuff in 'injectManifest' mode", async function () {
+  const registerSwScriptName = "my-register-sw.js";
+  const swScriptName = "sw-with-injected-manifest.js";
+  const webAppManifestName = "my-manifest.webmanifest";
+  const outputDir = genOutputDir();
+  const appDir = path.resolve(__dirname, "inject-manifest-app");
+  const entrypoint = path.join(appDir, "index.ts");
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      logLevel: "error",
+      plugins: [
+        pluginPWA({
+          webAppManifest: false,
+          registerSw: {
+            type: "script",
+            scriptName: registerSwScriptName,
+          },
+          sw: {
+            mode: "injectManifest",
+            srcFile: path.join(appDir, "custom-sw.ts"),
+            filename: swScriptName,
+          },
+        }),
+      ],
+      security: {
+        nonce: "test-nonce",
+      },
+      source: {
+        entry: {
+          index: entrypoint,
+        },
+      },
+      output: {
+        distPath: outputDir,
+        filenameHash: false,
+        dataUriLimit: 0,
+      },
+      tools: {
+        htmlPlugin: true,
+      },
+    },
+  });
+  await rsbuild.build();
+  const html = await fs.readFile(path.join(outputDir, "index.html"), "utf8");
+  const $ = cheerio.load(html);
+
+  const $registerSwScript = $(`script[src="${"/" + registerSwScriptName}"]`)[0];
+  assert($registerSwScript, "register sw script should be in html");
+
+  const $manifest = $(
+    `link[rel="manifest"][href="${"/" + webAppManifestName}"]`,
+  )[0];
+  assert(!$manifest, "link to web app manifest shouldn't be in html");
+
+  const webAppManifest = await fs
+    .readFile(path.join(outputDir, webAppManifestName), "utf8")
+    .then((value) => JSON.parse(value) as WebAppManifest)
+    .catch(() => null);
+  assert(!webAppManifest, "web app manifest shouldn't be generated");
+
+  assert(
+    await fileExists(path.join(outputDir, swScriptName)),
+    "sw should be generated",
+  );
+});
 test.before(async function cleanup() {
   await fs.rm(baseOutputDir, { recursive: true, force: true });
 });

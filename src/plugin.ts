@@ -6,7 +6,8 @@ import type {
   RsbuildPlugin,
 } from "@rsbuild/core";
 import chalk from "chalk";
-import { generateSW } from "workbox-build";
+import { generateSW, injectManifest } from "workbox-build";
+import { buildCustomSw } from "./build-custom-sw.ts";
 import {
   DEFAULT_DISABLE_PLUGIN,
   DEFAULT_SW_CONFIG,
@@ -112,6 +113,7 @@ export const pluginPWA = ({
     api.onAfterEnvironmentCompile(
       async function handleEnvironmentCompilation(opts) {
         const baseUrl = extractEnvBaseUrl(opts.environment);
+        const rootFolder = api.context.rootPath;
         const environmentName = opts.environment.name;
         if (checkIfPluginDisabled({ environmentName })) {
           api.logger.debug(LOG_PREFIX + "plugin is disabled");
@@ -170,6 +172,15 @@ export const pluginPWA = ({
           api.logger.debug(LOG_PREFIX + "skipping web app manifest generation");
         }
 
+        const wbGlobPatterns = swConfig.include
+          ? typeof swConfig.include === "function"
+            ? swConfig.include(assetsToPrecache)
+            : swConfig.include
+          : assetsToPrecache;
+        const wbModifyUrlPrefix = {
+          // prepend baseUrl to every url
+          "": baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`,
+        };
         if (swConfig.mode === "generateSw") {
           const {
             globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,
@@ -191,28 +202,52 @@ export const pluginPWA = ({
             globDirectory: outputPath,
             globIgnores,
             sourcemap,
-            globPatterns: swConfig.include
-              ? typeof swConfig.include === "function"
-                ? swConfig.include(assetsToPrecache)
-                : swConfig.include
-              : assetsToPrecache,
+            globPatterns: wbGlobPatterns,
             swDest: path.resolve(outputPath, swFilename),
             inlineWorkboxRuntime,
-            modifyURLPrefix: {
-              // prepend baseUrl to every url
-              "": baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`,
-            },
+            modifyURLPrefix: wbModifyUrlPrefix,
           });
 
           const buildTime = performance.now() - buildStartedAt;
           if (buildResult.warnings?.length) {
             api.logger.warn(LOG_PREFIX + buildResult.warnings.join("\n"));
           }
-          const successMessage = [
-            `generated in ${chalk.bold(formatMs(buildTime))}`,
-            `Precached files: ${chalk.bold(buildResult.count)}`,
-          ].join("\n");
-          api.logger.success(LOG_PREFIX + successMessage);
+          printSuccessMessage({ buildTime, precachedCount: buildResult.count });
+        } else if (swConfig.mode === "injectManifest") {
+          const {
+            globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,
+            ...workboxOpts
+          } = swConfig.workboxOptions || {};
+          const swSrcBase = swConfig.srcFile;
+          const rsbuildResult = await buildCustomSw({
+            rootFolder,
+            swSrc: path.isAbsolute(swSrcBase)
+              ? swSrcBase
+              : path.resolve(rootFolder, swSrcBase),
+            minify: swConfig.minify ?? true,
+          });
+
+          const wbBuildResult = await injectManifest({
+            ...workboxOpts,
+            globDirectory: outputPath,
+            globIgnores,
+            globPatterns: wbGlobPatterns,
+            swSrc: rsbuildResult.swDest,
+            swDest: path.resolve(outputPath, swFilename),
+            modifyURLPrefix: wbModifyUrlPrefix,
+          });
+
+          // buildCustomSw cleanup
+          await fs.rm(rsbuildResult.destDir, { recursive: true, force: true });
+
+          const buildTime = performance.now() - buildStartedAt;
+          if (wbBuildResult.warnings?.length) {
+            api.logger.warn(LOG_PREFIX + wbBuildResult.warnings.join("\n"));
+          }
+          printSuccessMessage({
+            buildTime,
+            precachedCount: wbBuildResult.count,
+          });
         } else {
           api.logger.error(LOG_PREFIX + "Unknown SW mode");
           return;
@@ -232,6 +267,19 @@ export const pluginPWA = ({
       else if (typeof disabled === "function")
         return disabled({ environmentName });
       else return Boolean(disabled);
+    }
+    function printSuccessMessage({
+      buildTime,
+      precachedCount,
+    }: {
+      buildTime: number;
+      precachedCount: number;
+    }) {
+      const successMessage = [
+        `generated in ${chalk.bold(formatMs(buildTime))}`,
+        `Precached files: ${chalk.bold(precachedCount)}`,
+      ].join("\n");
+      api.logger.success(LOG_PREFIX + successMessage);
     }
   },
 });

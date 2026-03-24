@@ -1,5 +1,5 @@
 import type { WebAppManifest } from "web-app-manifest";
-import type { GenerateSWOptions } from "workbox-build";
+import type { GenerateSWOptions, InjectManifestOptions } from "workbox-build";
 
 export type { WebAppManifest };
 
@@ -53,9 +53,12 @@ export type WorkboxGenerateSWOptions = Omit<
   GenerateSWOptions,
   "globDirectory" | "swDest" | "globPatterns" | "modifyURLPrefix"
 >;
+export type WorkboxInjectManifestOptions = Omit<
+  InjectManifestOptions,
+  "globDirectory" | "globPatterns" | "modifyURLPrefix"
+>;
 
-export interface GenerateSwModeConfig {
-  mode: "generateSw";
+export interface SharedSwConfig {
   /**
    * @defaultValue "sw.js"
    */
@@ -73,9 +76,31 @@ export interface GenerateSwModeConfig {
    * ```
    */
   include?: string[] | ((assets: string[]) => string[]);
+}
+export interface GenerateSwModeConfig extends SharedSwConfig {
+  mode: "generateSw";
   workboxOptions?: WorkboxGenerateSWOptions;
 }
-export type ServiceWorkerConfig = GenerateSwModeConfig;
+export interface InjectManifestModeConfig extends SharedSwConfig {
+  mode: "injectManifest";
+  /**
+   * path to your sw relative to the project root
+   * @example
+   * ```ts
+   * path.join("src", "my-sw.js")
+   * ```
+   * @example
+   * ```ts
+   * "/home/user/my-project/src/sw.ts"
+   * ```
+   */
+  srcFile: string;
+  minify?: boolean;
+  workboxOptions?: WorkboxInjectManifestOptions;
+}
+export type ServiceWorkerConfig =
+  | GenerateSwModeConfig
+  | InjectManifestModeConfig;
 export type RegisterSwConfig = RegisterSwInlineConfig | RegisterSwScriptConfig;
 export interface RegisterSwEvents {
   /**

@@ -6,7 +6,6 @@ It uses [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbo
 
 ## Limitations
 
-- Only [generateSw](https://developer.chrome.com/docs/workbox/modules/workbox-build#generatesw_mode) mode is supported atm.
 - [HTML plugin](https://rsbuild.rs/config/tools/html-plugin#toolshtmlplugin) is required to inject the SW registration script and the web app manifest link. If it's disabled, you'll need to perform these steps manually.
 - Only `rsbuild build` command is supported, so **the plugin doesn't work in dev mode**.
 

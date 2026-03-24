@@ -6,7 +6,6 @@
 
 ## Ограничения
 
-- На данный момент поддерживается только режим [generateSw](https://developer.chrome.com/docs/workbox/modules/workbox-build#generatesw_mode).
 - Для внедрения скрипта регистрации SW и ссылки на манифест веб-приложения [HTML плагин](https://rsbuild.rs/config/tools/html-plugin#toolshtmlplugin) должен быть включен. Если он отключен, вам придется выполнить эти шаги вручную.
 - Поддерживается только команда `rsbuild build`, поэтому **плагин не работает в dev режиме**.
 
