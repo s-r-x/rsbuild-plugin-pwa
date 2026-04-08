@@ -118,10 +118,12 @@ export interface RegisterSwEvents {
   /**
    * A new SW has been detected but the old one is still active. You may ask the user to reload the page
    * ```ts
-   * window.addEventListener("rsbuild-plugin-pwa:waiting-refresh", function () {
+   * window.addEventListener("rsbuild-plugin-pwa:waiting-refresh", function ({detail:{worker}}) {
    *   if (
    *     window.confirm("A new version of the app is available. Reload the page?")
    *   ) {
+   *     // activate the waiting SW 
+   *     worker.postMessage({ type: 'SKIP_WAITING' });
    *     window.location.reload();
    *   }
    * });
