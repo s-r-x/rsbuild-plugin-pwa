@@ -55,7 +55,7 @@ export type WorkboxGenerateSWOptions = Omit<
 >;
 export type WorkboxInjectManifestOptions = Omit<
   InjectManifestOptions,
-  "globDirectory" | "globPatterns" | "modifyURLPrefix"
+  "globDirectory" | "globPatterns" | "modifyURLPrefix" | "swSrc" | "swDest"
 >;
 
 export interface SharedSwConfig {
@@ -122,7 +122,7 @@ export interface RegisterSwEvents {
    *   if (
    *     window.confirm("A new version of the app is available. Reload the page?")
    *   ) {
-   *     // activate the waiting SW 
+   *     // activate the waiting SW
    *     worker.postMessage({ type: 'SKIP_WAITING' });
    *     window.location.reload();
    *   }
