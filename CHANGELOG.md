@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.0...rsbuild-plugin-pwa-v0.2.1) (2026-04-09)
+
+
+### Bug Fixes
+
+* remove swSrc and swDest from workbox options type in injectManifest mode ([66b7d9f](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/66b7d9f4413d4d89f9dc5d445646d5c2ebbc803f))
+
 ## [0.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.1.1...rsbuild-plugin-pwa-v0.2.0) (2026-03-24)
 
 
