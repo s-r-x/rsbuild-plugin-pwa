@@ -33,7 +33,9 @@ export async function buildCustomSw({
           },
           source: {
             entry: {
-              sw: swSrc,
+              sw: path.isAbsolute(swSrc)
+                ? swSrc
+                : path.resolve(rootFolder, swSrc),
             },
           },
           tools: {

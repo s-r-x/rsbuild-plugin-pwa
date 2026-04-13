@@ -12,9 +12,13 @@ import type {
   RegisterSwScriptConfig,
 } from "./types.ts";
 
+export type NormalizedRegisterSwConfig =
+  | Required<RegisterSwInlineConfig>
+  | Required<RegisterSwScriptConfig>
+  | null;
 export function normalizeRegisterSwCfg(
   baseRegisterSwCfg?: RegisterSwConfig | false,
-): Required<RegisterSwInlineConfig> | Required<RegisterSwScriptConfig> | null {
+): NormalizedRegisterSwConfig {
   if (typeof baseRegisterSwCfg === "undefined") {
     return DEFAULT_REG_SW_CONFIG;
   } else if (baseRegisterSwCfg === false) {

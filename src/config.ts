@@ -1,3 +1,5 @@
+import os from "node:os";
+import path from "node:path";
 import chalk from "chalk";
 import type {
   PWAPluginOptions,
@@ -49,6 +51,16 @@ export const DEFAULT_SW_CONFIG: ServiceWorkerConfig = {
   filename: DEFAULT_SW_FILENAME,
 };
 
-export const DEFAULT_DISABLE_PLUGIN: PWAPluginOptions["disabled"] = ({
-  environmentName,
-}) => environmentName !== "web";
+export const DEFAULT_DISABLE_PLUGIN: NonNullable<
+  PWAPluginOptions["disabled"]
+> = ({ environmentName }) => environmentName !== "web";
+
+export const DEFAULT_ENABLE_PLUGIN_IN_DEV = false;
+export const DEV_GENERATE_SW_GLOB_FOLDER = path.join(
+  os.tmpdir(),
+  "rsbuild-plugin-pwa-gen-sw-dev-glob-dir",
+);
+export const DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME =
+  "suppress-workbox-build-warnings.js";
+export const DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT =
+  "const meaningOfLine = '42';";

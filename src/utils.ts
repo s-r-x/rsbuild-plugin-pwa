@@ -56,3 +56,16 @@ export async function readHostPackageJson<
     }
   }
 }
+
+// AI GENERATED
+/**
+ * Ensures a directory is empty by deleting it entirely and recreating it.
+ * @param dirPath The path to the directory
+ */
+export async function resetDir(dirPath: string): Promise<void> {
+  // force: true means it WON'T throw an error if the folder doesn't exist yet
+  await fs.rm(dirPath, { recursive: true, force: true });
+
+  // recursive: true creates any missing parent folders (e.g., creates 'src' if you ask for 'src/assets')
+  await fs.mkdir(dirPath, { recursive: true });
+}

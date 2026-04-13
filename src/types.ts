@@ -152,4 +152,9 @@ export interface PWAPluginOptions {
    * ```
    */
   disabled?: boolean | ((ctx: { environmentName: string }) => boolean);
+  /**
+   * Enable with "rsbuild dev" command?
+   * @defaultValue false
+   */
+  dev?: boolean;
 }
