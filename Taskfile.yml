@@ -18,3 +18,6 @@ tasks:
   docs.dev: "{{.PKG_MNGR_SCRIPT}} docs:dev"
   docs.preview: "{{.PKG_MNGR_SCRIPT}} docs:preview"
   deps: "{{.PKG_MNGR}} ci"
+  sandbox.build: "{{.PKG_MNGR_SCRIPT}} sandbox:build"
+  sandbox.dev: "{{.PKG_MNGR_SCRIPT}} sandbox:dev"
+  sandbox.preview: "{{.PKG_MNGR_SCRIPT}} sandbox:preview"

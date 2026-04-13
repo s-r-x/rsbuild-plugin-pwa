@@ -43,7 +43,10 @@
     "test": "node ./test/index.test.ts",
     "docs:build": "rspress build",
     "docs:dev": "rspress dev",
-    "docs:preview": "rspress preview"
+    "docs:preview": "rspress preview",
+    "sandbox:build": "rsbuild build --root=./sandbox",
+    "sandbox:dev": "rsbuild dev --root=./sandbox",
+    "sandbox:preview": "rsbuild preview --root=./sandbox"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
