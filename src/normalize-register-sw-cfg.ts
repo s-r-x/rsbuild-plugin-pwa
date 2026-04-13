@@ -6,6 +6,7 @@ import {
   DEFAULT_REG_SW_SCRIPT_INJ_POS,
   DEFAULT_REG_SW_SCRIPT_INJ_TAR,
 } from "./config.ts";
+import type { OmitRequired } from "./type-utils.ts";
 import type {
   RegisterSwConfig,
   RegisterSwInlineConfig,
@@ -13,8 +14,8 @@ import type {
 } from "./types.ts";
 
 export type NormalizedRegisterSwConfig =
-  | Required<RegisterSwInlineConfig>
-  | Required<RegisterSwScriptConfig>
+  | OmitRequired<Required<RegisterSwInlineConfig>, "scope">
+  | OmitRequired<Required<RegisterSwScriptConfig>, "scope">
   | null;
 export function normalizeRegisterSwCfg(
   baseRegisterSwCfg?: RegisterSwConfig | false,
@@ -29,12 +30,14 @@ export function normalizeRegisterSwCfg(
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
       events = DEFAULT_REG_SW_EVENTS,
+      ...rest
     } = baseRegisterSwCfg;
     return {
       type,
       injectPosition,
       injectTarget,
       events,
+      ...rest,
     };
   } else if (baseRegisterSwCfg.type === "script") {
     const {
@@ -44,6 +47,7 @@ export function normalizeRegisterSwCfg(
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
       defer = DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
       events = DEFAULT_REG_SW_EVENTS,
+      ...rest
     } = baseRegisterSwCfg;
     return {
       type,
@@ -52,6 +56,7 @@ export function normalizeRegisterSwCfg(
       injectTarget,
       defer,
       events,
+      ...rest,
     };
   } else {
     throw new Error("invalid registerSw config");

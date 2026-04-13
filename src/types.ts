@@ -32,6 +32,7 @@ export interface RegisterSwSharedConfig {
    * @defaultValue "end"
    */
   injectPosition?: RegisterSwScriptInjectionPosition;
+  scope?: string;
 }
 
 export interface RegisterSwInlineConfig extends RegisterSwSharedConfig {

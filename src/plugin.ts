@@ -74,6 +74,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             registerSwTag.children = genRegisterSwScript({
               baseUrl,
               scope:
+                registerSwCfg.scope ||
                 (webAppManifestCfg !== false &&
                   webAppManifestCfg.content?.scope) ||
                 baseUrl,

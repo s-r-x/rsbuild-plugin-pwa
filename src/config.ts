@@ -1,6 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import chalk from "chalk";
+import type { OmitRequired } from "./type-utils.ts";
 import type {
   PWAPluginOptions,
   RegisterSwEvents,
@@ -38,7 +39,7 @@ export const DEFAULT_REG_SW_CONFIG = {
   injectTarget: DEFAULT_REG_SW_SCRIPT_INJ_TAR,
   defer: DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
   events: DEFAULT_REG_SW_EVENTS,
-} as const satisfies Required<RegisterSwScriptConfig>;
+} as const satisfies OmitRequired<Required<RegisterSwScriptConfig>, "scope">;
 
 export const DEFAULT_WORKBOX_BUILD_VALUES = {
   inlineWorkboxRuntime: true,

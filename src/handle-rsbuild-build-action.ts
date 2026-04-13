@@ -65,7 +65,7 @@ export function handleRsBuildBuildAction({
           path.resolve(outputPath, registerSwCfg.scriptName),
           genRegisterSwScript({
             baseUrl,
-            scope: webAppManifest.scope || baseUrl,
+            scope: registerSwCfg.scope || webAppManifest.scope || baseUrl,
             swFilename,
             events: registerSwCfg.events,
           }),

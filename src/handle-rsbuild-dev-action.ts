@@ -132,7 +132,7 @@ export function handleRsBuildDevAction({
         writeRes(
           genRegisterSwScript({
             baseUrl,
-            scope: manifest?.scope || baseUrl,
+            scope: registerSwCfg.scope || manifest?.scope || baseUrl,
             swFilename,
             events: registerSwCfg.events,
           }),
