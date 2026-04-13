@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.1...rsbuild-plugin-pwa-v0.3.0) (2026-04-13)
+
+
+### Features
+
+* add "scope" to "registerSw" config ([69827b4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/69827b48d05c29e40a2e4101a081a0a977f00fd8))
+* dev mode ([2119f3e](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/2119f3e5b2c04aec2ff4b20d5e373d5c6fe8069e))
+
 ## [0.2.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.0...rsbuild-plugin-pwa-v0.2.1) (2026-04-09)
 
 
