@@ -1,6 +1,6 @@
 # Plugin setup
 
-In order to use virtual modules [registerSw](/api/interfaces/PWAPluginOptions.html#registersw) type in the plugin config needs to be changed to [virtual-module](/api/interfaces/RegisterSwVirtualModuleConfig.html).
+In order to use virtual modules [registerSw](/api/interfaces/index.PWAPluginOptions.html#registersw) type in the plugin config needs to be changed to [virtual-module](/api/interfaces/index.RegisterSwVirtualModuleConfig.html).
 
 ```ts
 // rsbuild.config.ts

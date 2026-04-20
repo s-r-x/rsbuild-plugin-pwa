@@ -1,6 +1,6 @@
 # Режим injectManifest
 
-Вы можете создать собственный Service Worker, передав `{mode: "injectManifest"}` в [конфиг](/api/interfaces/PWAPluginOptions.html#sw). Единственным обязательным полем (помимо `mode`) является [srcFile](/api/interfaces/InjectManifestModeConfig.html#srcfile), которое должно указывать на путь к вашему SW. Плагин использует `rsbuild` для сборки SW, поэтому typescript поддерживается из коробки.
+Вы можете создать собственный Service Worker, передав `{mode: "injectManifest"}` в [конфиг](/api/interfaces/index.PWAPluginOptions.html#sw). Единственным обязательным полем (помимо `mode`) является [srcFile](/api/interfaces/index.InjectManifestModeConfig.html#srcfile), которое должно указывать на путь к вашему SW. Плагин использует `rsbuild` для сборки SW, поэтому typescript поддерживается из коробки.
 
 Минимальный пример:
 

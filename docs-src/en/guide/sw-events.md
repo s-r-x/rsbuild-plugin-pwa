@@ -8,6 +8,6 @@ window.addEventListener("my-event", function () {
 });
 ```
 
-Every event can be [renamed](/api/interfaces/RegisterSwSharedConfig.html#events) in the [config](/api/interfaces/PWAPluginOptions.html#registersw)
+Every event can be [renamed](/api/interfaces/index.RegisterSwSharedConfig.html#events) in the [config](/api/interfaces/index.PWAPluginOptions.html#registersw)
 
-[Default events](/api/variables/DEFAULT_REG_SW_EVENTS.html)
+[Default events](/api/variables/index.DEFAULT_REG_SW_EVENTS.html)

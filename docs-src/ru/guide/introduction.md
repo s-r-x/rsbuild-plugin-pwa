@@ -2,7 +2,7 @@
 
 ## Что делает этот плагин?
 
-Он использует [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbox-build) для генерации Service Worker (SW), который предварительно кэширует ([по умолчанию](/api/interfaces/GenerateSwModeConfig.html#include)) все ресурсы, созданные Rsbuild, генерирует скрипт регистрации SW и [манифест веб-приложения](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest), а затем внедряет их в HTML. Все шаги, кроме генерации SW, являются необязательными, поэтому вы можете зарегистрировать SW и добавить манифест веб-приложения вручную.
+Он использует [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbox-build) для генерации Service Worker (SW), который предварительно кэширует ([по умолчанию](/api/interfaces/index.GenerateSwModeConfig.html#include)) все ресурсы, созданные Rsbuild, генерирует скрипт регистрации SW и [манифест веб-приложения](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest), а затем внедряет их в HTML. Все шаги, кроме генерации SW, являются необязательными, поэтому вы можете зарегистрировать SW и добавить манифест веб-приложения вручную.
 
 ## Ограничения
 

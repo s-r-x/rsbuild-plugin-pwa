@@ -2,7 +2,7 @@
 
 ## What does this plugin do?
 
-It uses [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbox-build) to generate a Service Worker (SW) that precaches ([by default](/api/interfaces/GenerateSwModeConfig.html#include)) all assets emitted by Rsbuild. It also generates a SW registration script and a [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest), and injects them into HTML. Every step except SW generation is optional, so you can register the SW and add the web app manifest manually.
+It uses [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbox-build) to generate a Service Worker (SW) that precaches ([by default](/api/interfaces/index.GenerateSwModeConfig.html#include)) all assets emitted by Rsbuild. It also generates a SW registration script and a [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest), and injects them into HTML. Every step except SW generation is optional, so you can register the SW and add the web app manifest manually.
 
 ## Limitations
 

@@ -7,7 +7,7 @@ const swScope = "__SW_SCOPE";
 export type { RegisterSWOptions, RegisterSWReturnValue };
 
 /**
- * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide//virtual-modules/vanilla.html | Usage}
+ * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/vanilla.html | Usage}
  */
 export function registerSW({
   immediate,

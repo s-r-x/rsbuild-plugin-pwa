@@ -1,9 +1,9 @@
 # Регистрация Service Worker
 
-Существует несколько способов зарегистрировать SW. Это поведение можно настроить с помощью параметра [registerSw](/api/interfaces/PWAPluginOptions.html#registersw) в конфигурации плагина.
+Существует несколько способов зарегистрировать SW. Это поведение можно настроить с помощью параметра [registerSw](/api/interfaces/index.PWAPluginOptions.html#registersw) в конфигурации плагина.
 
 ## Инжект в HTML
-Это дефолтный способ. Простой скрипт вставляется в HTML. Он может быть либо [файлом](/api/interfaces/RegisterSwScriptConfig.html) либо [inline-скриптом](/api/interfaces/RegisterSwInlineConfig.html).
+Это дефолтный способ. Простой скрипт вставляется в HTML. Он может быть либо [файлом](/api/interfaces/index.RegisterSwScriptConfig.html) либо [inline-скриптом](/api/interfaces/index.RegisterSwInlineConfig.html).
 
 ## Virtual module
 Посетите [страницу виртуальных модулей](/guide/virtual-modules.html) для подробностей.

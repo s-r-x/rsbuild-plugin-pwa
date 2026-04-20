@@ -1,6 +1,6 @@
 # Настройка плагина
 
-Чтобы использовать виртуальные модули тип [registerSw](/api/interfaces/PWAPluginOptions.html#registersw) в конфиге плагина должен быть изменен на [virtual-module](/api/interfaces/RegisterSwVirtualModuleConfig.html).
+Чтобы использовать виртуальные модули тип [registerSw](/api/interfaces/index.PWAPluginOptions.html#registersw) в конфиге плагина должен быть изменен на [virtual-module](/api/interfaces/index.RegisterSwVirtualModuleConfig.html).
 
 ```ts
 // rsbuild.config.ts

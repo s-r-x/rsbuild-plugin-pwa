@@ -16,7 +16,7 @@ const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
   };
 
 /**
- * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide//virtual-modules/react.html | Usage}
+ * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/react.html | Usage}
  */
 export function useRegisterSW(
   options: RegisterSWOptions = {},
