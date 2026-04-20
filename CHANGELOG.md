@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.3.0...rsbuild-plugin-pwa-v0.4.0) (2026-04-20)
+
+
+### Features
+
+* virtual modules ([7eb68ea](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7eb68ea84b15dcb486328150731916c6648054ec))
+
 ## [0.3.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.1...rsbuild-plugin-pwa-v0.3.0) (2026-04-13)
 
 
