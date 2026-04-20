@@ -1,12 +1,21 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import type { HtmlBasicTag, RsbuildPlugin } from "@rsbuild/core";
-import { DEFAULT_SW_FILENAME, LOG_PREFIX, PLUGIN_NAME } from "./config.ts";
+import {
+  DEFAULT_SW_FILENAME,
+  PLUGIN_NAME,
+  VM_COMPILED_FOLDER,
+  VM_COMPILED_FOLDER_MOCK,
+  VM_LIST,
+  VM_MOD_BASE_NAME,
+} from "./config.ts";
 import { genRegisterSwScript } from "./gen-register-sw-script.ts";
 import { handleRsBuildBuildAction } from "./handle-rsbuild-build-action.ts";
 import { handleRsBuildDevAction } from "./handle-rsbuild-dev-action.ts";
 import { normalizePluginConfig } from "./normalize-plugin-config.ts";
 import type { PWAPluginOptions } from "./types.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
+import { formatLog } from "./utils.ts";
 import { genWebAppManifestUrl } from "./web-app-manifest-utils.ts";
 
 /**
@@ -23,9 +32,14 @@ import { genWebAppManifestUrl } from "./web-app-manifest-utils.ts";
 export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
   name: PLUGIN_NAME,
   setup(api) {
+    if (api.context.action === "preview") {
+      return;
+    }
+
     const cfg = normalizePluginConfig(baseCfg);
+
     if (typeof cfg.disabled === "boolean" && cfg.disabled) {
-      api.logger.debug(LOG_PREFIX + "plugin is disabled");
+      api.logger.debug(formatLog("plugin is disabled"));
       return;
     }
 
@@ -41,7 +55,24 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
       extractEnvBaseUrl(ctx) {
         return ctx.config.server.base || "/";
       },
+      genSwUrl({ baseUrl }) {
+        return path.posix.join(baseUrl, cfg.sw.filename || DEFAULT_SW_FILENAME);
+      },
+      genSwScope({ baseUrl }) {
+        if (cfg.registerSw?.scope) return cfg.registerSw.scope;
+        const webAppManifestScope =
+          cfg.webAppManifest !== false && cfg.webAppManifest.content?.scope;
+        if (webAppManifestScope) return webAppManifestScope;
+        return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+      },
     };
+
+    if (cfg.registerSw?.type === "virtual-module") {
+      // bootstrap virtual modules even if it's dev and the plugin is disabled
+      // to prevent runtime errors due to missing imports
+      initVirtualModules();
+    }
+
     if (api.context.action === "build") {
       handleCommonHooks();
       return handleRsBuildBuildAction(handlerCtx);
@@ -50,15 +81,12 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
       return handleRsBuildDevAction(handlerCtx);
     } else {
       api.logger.debug(
-        LOG_PREFIX + `skipping rsbuild action "${api.context.action}"`,
+        formatLog(`skipping rsbuild action "${api.context.action}"`),
       );
     }
+
     function handleCommonHooks() {
-      const swFilename = cfg.sw.filename || DEFAULT_SW_FILENAME;
-      const registerSwCfg = cfg.registerSw;
-      const webAppManifestCfg = cfg.webAppManifest;
       api.modifyHTMLTags(function modifyHtmlTags(tags, { environment }) {
-        const baseUrl = environment.config.server.base || "/";
         if (
           handlerCtx.checkIfPluginDisabled({
             environmentName: environment.name,
@@ -66,22 +94,22 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
         ) {
           return tags;
         }
-        if (registerSwCfg) {
+
+        const webAppManifestCfg = cfg.webAppManifest;
+        const registerSwCfg = cfg.registerSw;
+        const baseUrl = handlerCtx.extractEnvBaseUrl(environment);
+
+        if (registerSwCfg && registerSwCfg.type !== "virtual-module") {
           const registerSwTag: HtmlBasicTag = {
             tag: "script",
           };
           if (registerSwCfg.type === "inline") {
             registerSwTag.children = genRegisterSwScript({
-              baseUrl,
-              scope:
-                registerSwCfg.scope ||
-                (webAppManifestCfg !== false &&
-                  webAppManifestCfg.content?.scope) ||
-                baseUrl,
-              swFilename,
+              swUrl: handlerCtx.genSwUrl({ baseUrl }),
+              scope: handlerCtx.genSwScope({ baseUrl }),
               events: registerSwCfg.events,
             });
-          } else {
+          } else if (registerSwCfg.type === "script") {
             registerSwTag.attrs = {
               defer: registerSwCfg.defer,
               src: path.posix.join(baseUrl, registerSwCfg.scriptName),
@@ -96,8 +124,9 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
           } else {
             tagsToMutate.push(registerSwTag);
           }
-          api.logger.debug(LOG_PREFIX + "register sw script added to the html");
+          api.logger.debug(formatLog("register sw script added to the html"));
         }
+
         if (webAppManifestCfg && !webAppManifestCfg.skipHtmlInjection) {
           tags.headTags.unshift({
             tag: "link",
@@ -110,10 +139,78 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             },
           });
           api.logger.debug(
-            LOG_PREFIX + "link to web app manifest added to the html",
+            formatLog("link to web app manifest added to the html"),
           );
         }
+
         return tags;
+      });
+    }
+
+    function initVirtualModules() {
+      // rspack vm plugin doesn't work out of the box
+      // 1. we need to initialize rspack vm plugin with a map in format { fake path -> empty string (or something else, it doesn't matter, cause they're ignored anyway) }
+      // 2. update rspack resolve aliases with a map { import name (e.g. rsbuild-plugin-pwa-virtual/register-sw) -> fake path }
+      // 3. intercept those fake paths imports using api.transform and return the real module's code from there
+
+      const vmPluginEntries: Record<string, string> = {};
+      const rspackResolveAliasEntries: Record<string, string> = {};
+      for (const moduleName of VM_LIST) {
+        const importName = VM_MOD_BASE_NAME + "/" + moduleName;
+        const realPath = path.join(
+          api.context.action === "dev" && !cfg.dev
+            ? VM_COMPILED_FOLDER_MOCK
+            : VM_COMPILED_FOLDER,
+          moduleName + ".js",
+        );
+        const fakePath = path.join(
+          path.join(api.context.rootPath, ".rsbuild-pwa-virtual-module"),
+          VM_MOD_BASE_NAME + "/" + moduleName + ".js",
+        );
+        vmPluginEntries[fakePath] = "ololo";
+        rspackResolveAliasEntries[importName] = fakePath;
+        // it looks like this transform thing works only when called synchronously in "setup" cb
+        // cause it does nothing inside modifyRspackConfig cb
+        api.transform(
+          {
+            test: fakePath,
+          },
+          async function transformVirtualModule(ctx) {
+            const content = await fs.readFile(realPath, "utf8");
+            return content.replace(/__SW_URL|__SW_SCOPE/g, function (match) {
+              const baseUrl = handlerCtx.extractEnvBaseUrl(ctx.environment);
+              switch (match) {
+                case "__SW_URL":
+                  return handlerCtx.genSwUrl({ baseUrl });
+                case "__SW_SCOPE":
+                  return handlerCtx.genSwScope({ baseUrl });
+                default:
+                  return match;
+              }
+            });
+          },
+        );
+      }
+
+      api.modifyRspackConfig(function modifyRspackCfg(rspackCfg, utils) {
+        if (
+          handlerCtx.checkIfPluginDisabled({
+            environmentName: utils.environment.name,
+          })
+        ) {
+          return;
+        }
+
+        rspackCfg.plugins.push(
+          new utils.rspack.experiments.VirtualModulesPlugin(vmPluginEntries),
+        );
+        const newRspackCfg = utils.mergeConfig(rspackCfg, {
+          resolve: {
+            alias: rspackResolveAliasEntries,
+          },
+        });
+        api.logger.debug(formatLog("virtual modules initialized"));
+        return newRspackCfg;
       });
     }
   },

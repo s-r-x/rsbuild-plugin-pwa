@@ -10,12 +10,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./types/register-sw": {
+      "types": "./types/register-sw.d.ts"
+    },
+    "./types/react": {
+      "types": "./types/react.d.ts"
     }
   },
   "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
+    "vm-dist",
+    "types",
     "README.md",
     "LICENSE"
   ],
@@ -46,16 +55,24 @@
     "docs:preview": "rspress preview",
     "sandbox:build": "rsbuild build --root=./sandbox",
     "sandbox:dev": "rsbuild dev --root=./sandbox",
-    "sandbox:preview": "rsbuild preview --root=./sandbox"
+    "sandbox:preview": "rsbuild preview --root=./sandbox",
+    "vm:build": "node ./scripts/build-vm.ts",
+    "vm:build-types": "node ./scripts/build-vm-types.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
+    "@microsoft/api-extractor": "^7.58.5",
     "@rsbuild/core": "^1.7.3",
+    "@rsbuild/plugin-react": "^1.4.6",
     "@rslib/core": "^0.19.6",
     "@rspress/core": "^2.0.6",
     "@rspress/plugin-typedoc": "^2.0.6",
     "@types/node": "^24.10.13",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "cheerio": "^1.2.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
@@ -64,6 +81,7 @@
   "dependencies": {
     "@types/web-app-manifest": "^1.0.9",
     "chalk": "^5.6.2",
-    "workbox-build": "^7.4.0"
+    "workbox-build": "^7.4.0",
+    "workbox-window": "^7.4.0"
   }
 }

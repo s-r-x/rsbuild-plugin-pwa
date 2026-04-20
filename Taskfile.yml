@@ -8,6 +8,11 @@ tasks:
     - task: dev
   dev: "{{.PKG_MNGR_SCRIPT}} dev"
   build: "{{.PKG_MNGR_SCRIPT}} build"
+  build.all:
+    cmds:
+      - task: vm.build
+      - task: vm.build-types
+      - task: build
   lint: "{{.PKG_MNGR_SCRIPT}} lint"
   lint.fix: "{{.PKG_MNGR_SCRIPT}} lint:fix"
   format: "{{.PKG_MNGR_SCRIPT}} format"
@@ -17,7 +22,10 @@ tasks:
   docs.build: "{{.PKG_MNGR_SCRIPT}} docs:build"
   docs.dev: "{{.PKG_MNGR_SCRIPT}} docs:dev"
   docs.preview: "{{.PKG_MNGR_SCRIPT}} docs:preview"
+  pack-tarball: "{{.PKG_MNGR}} pack"
   deps: "{{.PKG_MNGR}} ci"
   sandbox.build: "{{.PKG_MNGR_SCRIPT}} sandbox:build"
   sandbox.dev: "{{.PKG_MNGR_SCRIPT}} sandbox:dev"
   sandbox.preview: "{{.PKG_MNGR_SCRIPT}} sandbox:preview"
+  vm.build: "{{.PKG_MNGR_SCRIPT}} vm:build"
+  vm.build-types: "{{.PKG_MNGR_SCRIPT}} vm:build-types"

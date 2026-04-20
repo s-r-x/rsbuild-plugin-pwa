@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createRsbuild } from "@rsbuild/core";
 import * as cheerio from "cheerio";
 import { pluginPWA, type WebAppManifest } from "../src/index.ts";
+import { pluginReact } from "@rsbuild/plugin-react";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const baseOutputDir = path.join(__dirname, "dist");
@@ -169,6 +170,73 @@ test("should generate and inject into html pwa related stuff in 'injectManifest'
     await fileExists(path.join(outputDir, swScriptName)),
     "sw should be generated",
   );
+});
+test("should build a react app that imports useRegisterSW vm", async function () {
+  const outputDir = genOutputDir();
+  const appDir = path.resolve(__dirname, "vm-react-app");
+  const entrypoint = path.join(appDir, "index.jsx");
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      logLevel: "error",
+      plugins: [
+        pluginReact(),
+        pluginPWA({
+          registerSw: {
+            type: "virtual-module",
+          },
+        }),
+      ],
+      source: {
+        entry: {
+          index: entrypoint,
+        },
+      },
+      output: {
+        distPath: outputDir,
+        filenameHash: false,
+        dataUriLimit: 0,
+      },
+      tools: {
+        htmlPlugin: true,
+      },
+    },
+  });
+  const result = await rsbuild.build();
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
+});
+test("should build an app that imports registerSW vm", async function () {
+  const outputDir = genOutputDir();
+  const appDir = path.resolve(__dirname, "vm-vanilla-app");
+  const entrypoint = path.join(appDir, "index.js");
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      logLevel: "error",
+      plugins: [
+        pluginPWA({
+          registerSw: {
+            type: "virtual-module",
+          },
+        }),
+      ],
+      source: {
+        entry: {
+          index: entrypoint,
+        },
+      },
+      output: {
+        distPath: outputDir,
+        filenameHash: false,
+        dataUriLimit: 0,
+      },
+      tools: {
+        htmlPlugin: true,
+      },
+    },
+  });
+  const result = await rsbuild.build();
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
 });
 test.before(async function cleanup() {
   await fs.rm(baseOutputDir, { recursive: true, force: true });

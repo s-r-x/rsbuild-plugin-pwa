@@ -24,4 +24,4 @@ export default defineConfig({
 });
 ```
 
-[API](/api)
+[API](/api/modules/index.html)

@@ -24,12 +24,11 @@ jobs:
 
       - name: Lint
         run: npm run lint:fix
-
       - name: Type check
         run: npm run check-types
-
+      - name: Build VM
+        run: npm run vm:build
       - name: Test
         run: npm test
-
       - name: Build
         run: npm run build

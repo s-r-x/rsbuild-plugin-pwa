@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { LOG_PREFIX } from "./config.ts";
 
 export function formatMs(ms: number): string {
   return (ms / 1000).toFixed(2) + "s";
@@ -10,6 +11,10 @@ export async function getFileSize(filePath: string): Promise<{
 }> {
   const { size } = await fs.stat(filePath);
   return { size };
+}
+
+export function formatLog(message: string): string {
+  return LOG_PREFIX + message;
 }
 
 // AI GENERATED

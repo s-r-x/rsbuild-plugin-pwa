@@ -1,20 +1,16 @@
-import path from "node:path";
 import { DEFAULT_REG_SW_EVENTS } from "./config.ts";
 import type { RegisterSwEvents } from "./types.ts";
 
 // AI GENERATED
 export function genRegisterSwScript({
-  baseUrl,
+  swUrl,
   scope,
-  swFilename,
   events: baseEvents = DEFAULT_REG_SW_EVENTS,
 }: {
-  baseUrl: string;
+  swUrl: string;
   scope: string;
-  swFilename: string;
   events?: Partial<RegisterSwEvents>;
 }) {
-  const scriptUrl = path.posix.join(baseUrl, swFilename);
   const events: RegisterSwEvents = {
     ...DEFAULT_REG_SW_EVENTS,
     ...baseEvents,
@@ -33,7 +29,7 @@ export function genRegisterSwScript({
           }
         });
 
-        navigator.serviceWorker.register("${scriptUrl}", { scope: "${scope}" })
+        navigator.serviceWorker.register("${swUrl}", { scope: "${scope}" })
           .then((reg) => {
             window.dispatchEvent(new CustomEvent("${events.registered}", { 
               detail: { registration: reg } 

@@ -1,6 +1,12 @@
 # Service Worker registration
 There are several ways to register a SW. The behavior can be customized via [registerSw](/api/interfaces/PWAPluginOptions.html#registersw) in the plugin config.
-If you wish to disable the default registration script, you need to pass `false` to that field, and then manually add the registration script. Something like this should work:
+## Script injection
+This is the default one. A simple script is injected into the html. It can be either a [script file](/api/interfaces/RegisterSwScriptConfig.html) or an [inline script](/api/interfaces/RegisterSwInlineConfig.html).
+## Virtual module
+Check out [virtual modules page](/guide/virtual-modules.html) for details.
+
+## Manual registration
+If you want to register a SW manually, [registerSw](/api/interfaces/PWAPluginOptions.html#registersw) needs to be `false`. You can then manually add the registration script. The simplest version might look something like this:
 
 ```ts
 if('serviceWorker' in navigator) {

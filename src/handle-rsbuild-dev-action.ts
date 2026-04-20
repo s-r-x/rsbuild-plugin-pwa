@@ -9,12 +9,11 @@ import {
   DEV_GENERATE_SW_GLOB_FOLDER,
   DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT,
   DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME,
-  LOG_PREFIX,
 } from "./config.ts";
 import { genRegisterSwScript } from "./gen-register-sw-script.ts";
 import type { WebAppManifest } from "./types.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
-import { resetDir } from "./utils.ts";
+import { formatLog, resetDir } from "./utils.ts";
 import {
   genWebAppManifestUrl,
   normalizeWebAppManifest,
@@ -29,6 +28,8 @@ export function handleRsBuildDevAction({
     sw: swConfig,
     registerSw: registerSwCfg,
   },
+  genSwScope,
+  genSwUrl,
 }: RsBuildActionHandlerCtx) {
   const swFilename = swConfig.filename || DEFAULT_SW_FILENAME;
 
@@ -44,7 +45,7 @@ export function handleRsBuildDevAction({
     }
     if (!baseUrl) baseUrl = "/";
 
-    const manifestName = webAppManifestCfg
+    const manifestUrl = webAppManifestCfg
       ? genWebAppManifestUrl({
           baseUrl,
           filename: webAppManifestCfg.filename,
@@ -105,7 +106,7 @@ export function handleRsBuildDevAction({
           modifyURLPrefix: genWbModifyUrlPrefix(baseUrl),
         });
         if (buildResult.warnings?.length) {
-          api.logger.warn(LOG_PREFIX + buildResult.warnings.join("\n"));
+          api.logger.warn(formatLog(buildResult.warnings.join("\n")));
         }
 
         const sw = await fs.readFile(swDest, "utf8");
@@ -113,8 +114,9 @@ export function handleRsBuildDevAction({
         return sw;
       }
     })();
+    const swUrl = genSwUrl({ baseUrl });
     server.middlewares.use(async function (req, res, next) {
-      if (req.url === manifestName) {
+      if (req.url === manifestUrl) {
         const manifest = await manifestPromise;
         if (webAppManifestCfg && manifest) {
           writeRes(
@@ -128,17 +130,15 @@ export function handleRsBuildDevAction({
         registerSwCfg?.type === "script" &&
         req.url === path.posix.join(baseUrl, registerSwCfg.scriptName)
       ) {
-        const manifest = await manifestPromise;
         writeRes(
           genRegisterSwScript({
-            baseUrl,
-            scope: registerSwCfg.scope || manifest?.scope || baseUrl,
-            swFilename,
+            swUrl,
+            scope: genSwScope({ baseUrl }),
             events: registerSwCfg.events,
           }),
           "text/javascript",
         );
-      } else if (req.url === path.posix.join(baseUrl, swFilename)) {
+      } else if (req.url === swUrl) {
         const sw = await swContentPromise;
         writeRes(sw, "text/javascript");
       } else if (

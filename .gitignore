@@ -6,6 +6,7 @@
 # Dist
 node_modules
 dist/
+vm-dist/
 storybook-static
 doc_build/
 docs

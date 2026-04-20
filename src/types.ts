@@ -19,11 +19,7 @@ export interface WebAppManifestConfig {
 export type RegisterSwScriptInjectionTarget = "head" | "body";
 export type RegisterSwScriptInjectionPosition = "start" | "end";
 
-export interface RegisterSwSharedConfig {
-  /**
-   * overrides built-in registration events
-   */
-  events?: Partial<RegisterSwEvents>;
+export interface RegisterSwInjectableOptions {
   /**
    * @defaultValue "head"
    */
@@ -32,13 +28,24 @@ export interface RegisterSwSharedConfig {
    * @defaultValue "end"
    */
   injectPosition?: RegisterSwScriptInjectionPosition;
+  /**
+   * overrides built-in registration events
+   */
+  events?: Partial<RegisterSwEvents>;
+}
+export interface RegisterSwSharedOptions {
   scope?: string;
 }
 
-export interface RegisterSwInlineConfig extends RegisterSwSharedConfig {
+export interface RegisterSwVirtualModuleConfig extends RegisterSwSharedOptions {
+  type: "virtual-module";
+}
+export interface RegisterSwInlineConfig
+  extends RegisterSwSharedOptions, RegisterSwInjectableOptions {
   type: "inline";
 }
-export interface RegisterSwScriptConfig extends RegisterSwSharedConfig {
+export interface RegisterSwScriptConfig
+  extends RegisterSwSharedOptions, RegisterSwInjectableOptions {
   type: "script";
   /**
    * @defaultValue "register-sw.js"
@@ -102,7 +109,10 @@ export interface InjectManifestModeConfig extends SharedSwConfig {
 export type ServiceWorkerConfig =
   | GenerateSwModeConfig
   | InjectManifestModeConfig;
-export type RegisterSwConfig = RegisterSwInlineConfig | RegisterSwScriptConfig;
+export type RegisterSwConfig =
+  | RegisterSwInlineConfig
+  | RegisterSwScriptConfig
+  | RegisterSwVirtualModuleConfig;
 export interface RegisterSwEvents {
   /**
    * SW has been registered

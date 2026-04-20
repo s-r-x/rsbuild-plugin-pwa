@@ -36,6 +36,8 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - run: npm ci
+      - run: npm run vm:build
+      - run: npm run vm:build-types
       - run: npm run build
 
       - run: npm publish --provenance --access public

@@ -41,7 +41,8 @@
     "enabled": true,
     "rules": {
       "correctness": {
-        "noUndeclaredVariables": "error"
+        "noUndeclaredVariables": "error",
+        "useExhaustiveDependencies": "off"
       },
       "recommended": true,
       "suspicious": {

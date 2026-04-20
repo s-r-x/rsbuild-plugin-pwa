@@ -11,11 +11,13 @@ import type {
   RegisterSwConfig,
   RegisterSwInlineConfig,
   RegisterSwScriptConfig,
+  RegisterSwVirtualModuleConfig,
 } from "./types.ts";
 
 export type NormalizedRegisterSwConfig =
-  | OmitRequired<Required<RegisterSwInlineConfig>, "scope">
-  | OmitRequired<Required<RegisterSwScriptConfig>, "scope">
+  | OmitRequired<RegisterSwInlineConfig, "scope">
+  | OmitRequired<RegisterSwScriptConfig, "scope">
+  | OmitRequired<RegisterSwVirtualModuleConfig, "scope">
   | null;
 export function normalizeRegisterSwCfg(
   baseRegisterSwCfg?: RegisterSwConfig | false,
@@ -26,14 +28,12 @@ export function normalizeRegisterSwCfg(
     return null;
   } else if (baseRegisterSwCfg.type === "inline") {
     const {
-      type,
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
       events = DEFAULT_REG_SW_EVENTS,
       ...rest
     } = baseRegisterSwCfg;
     return {
-      type,
       injectPosition,
       injectTarget,
       events,
@@ -41,7 +41,6 @@ export function normalizeRegisterSwCfg(
     };
   } else if (baseRegisterSwCfg.type === "script") {
     const {
-      type,
       scriptName = DEFAULT_REG_SW_FILENAME,
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
@@ -50,7 +49,6 @@ export function normalizeRegisterSwCfg(
       ...rest
     } = baseRegisterSwCfg;
     return {
-      type,
       scriptName,
       injectPosition,
       injectTarget,
@@ -58,6 +56,8 @@ export function normalizeRegisterSwCfg(
       events,
       ...rest,
     };
+  } else if (baseRegisterSwCfg.type === "virtual-module") {
+    return baseRegisterSwCfg;
   } else {
     throw new Error("invalid registerSw config");
   }

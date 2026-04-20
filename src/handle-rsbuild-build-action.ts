@@ -7,11 +7,10 @@ import {
   DEFAULT_SW_FILENAME,
   DEFAULT_WEB_APP_MANIFEST_FILENAME,
   DEFAULT_WORKBOX_BUILD_VALUES,
-  LOG_PREFIX,
 } from "./config.ts";
 import { genRegisterSwScript } from "./gen-register-sw-script.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
-import { formatMs } from "./utils.ts";
+import { formatLog, formatMs } from "./utils.ts";
 import {
   normalizeWebAppManifest,
   serializeWebAppManifest,
@@ -27,19 +26,17 @@ export function handleRsBuildBuildAction({
   },
   checkIfPluginDisabled,
   extractEnvBaseUrl,
+  genSwUrl,
+  genSwScope,
 }: RsBuildActionHandlerCtx) {
   const swFilename = swConfig.filename || DEFAULT_SW_FILENAME;
-  const webAppManifest = webAppManifestCfg
-    ? webAppManifestCfg.content || {}
-    : {};
-
   api.onAfterEnvironmentCompile(
     async function handleEnvironmentCompilation(opts) {
       const baseUrl = extractEnvBaseUrl(opts.environment);
       const rootFolder = api.context.rootPath;
       const environmentName = opts.environment.name;
       if (checkIfPluginDisabled({ environmentName })) {
-        api.logger.debug(LOG_PREFIX + "plugin is disabled");
+        api.logger.debug(formatLog("plugin is disabled"));
         return;
       }
       const stats = opts.stats?.toJson({
@@ -51,7 +48,7 @@ export function handleRsBuildBuildAction({
       const { outputPath, assets } = stats;
       if (!outputPath) return;
 
-      api.logger.start(LOG_PREFIX + "generating...");
+      api.logger.start(formatLog("generating..."));
       const buildStartedAt = performance.now();
 
       const assetsToPrecache = (assets || []).reduce((acc, asset) => {
@@ -64,13 +61,12 @@ export function handleRsBuildBuildAction({
         await fs.writeFile(
           path.resolve(outputPath, registerSwCfg.scriptName),
           genRegisterSwScript({
-            baseUrl,
-            scope: registerSwCfg.scope || webAppManifest.scope || baseUrl,
-            swFilename,
+            swUrl: genSwUrl({ baseUrl }),
+            scope: genSwScope({ baseUrl }),
             events: registerSwCfg.events,
           }),
         );
-        api.logger.debug(LOG_PREFIX + "register sw script generated");
+        api.logger.debug(formatLog("register sw script generated"));
         assetsToPrecache.push(registerSwCfg.scriptName);
       }
 
@@ -85,10 +81,10 @@ export function handleRsBuildBuildAction({
           path.resolve(outputPath, name),
           serializeWebAppManifest(manifest, webAppManifestCfg.minify),
         );
-        api.logger.debug(LOG_PREFIX + "web app manifest generated");
+        api.logger.debug(formatLog("web app manifest generated"));
         assetsToPrecache.push(name);
       } else {
-        api.logger.debug(LOG_PREFIX + "skipping web app manifest generation");
+        api.logger.debug(formatLog("skipping web app manifest generation"));
       }
 
       const wbGlobPatterns = swConfig.include
@@ -126,7 +122,7 @@ export function handleRsBuildBuildAction({
 
         const buildTime = performance.now() - buildStartedAt;
         if (buildResult.warnings?.length) {
-          api.logger.warn(LOG_PREFIX + buildResult.warnings.join("\n"));
+          api.logger.warn(formatLog(buildResult.warnings.join("\n")));
         }
         printSuccessMessage({ buildTime, precachedCount: buildResult.count });
       } else if (swConfig.mode === "injectManifest") {
@@ -155,14 +151,14 @@ export function handleRsBuildBuildAction({
 
         const buildTime = performance.now() - buildStartedAt;
         if (wbBuildResult.warnings?.length) {
-          api.logger.warn(LOG_PREFIX + wbBuildResult.warnings.join("\n"));
+          api.logger.warn(formatLog(wbBuildResult.warnings.join("\n")));
         }
         printSuccessMessage({
           buildTime,
           precachedCount: wbBuildResult.count,
         });
       } else {
-        api.logger.error(LOG_PREFIX + "Unknown SW mode");
+        api.logger.error(formatLog("Unknown SW mode"));
         return;
       }
     },
@@ -179,6 +175,6 @@ export function handleRsBuildBuildAction({
       `generated in ${chalk.bold(formatMs(buildTime))}`,
       `Precached files: ${chalk.bold(precachedCount)}`,
     ].join("\n");
-    api.logger.success(LOG_PREFIX + successMessage);
+    api.logger.success(formatLog(successMessage));
   }
 }
