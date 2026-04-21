@@ -15,7 +15,6 @@ export async function normalizeWebAppManifest(
   const pkgJson = shouldReadPkgJson ? await readHostPackageJson() : null;
   const {
     name = pkgJson?.name || DEFAULT_WEB_APP_MANIFEST_NAME,
-    scope = baseUrl,
     start_url = baseUrl,
     description = pkgJson?.description,
     ...baseManifest
@@ -23,7 +22,8 @@ export async function normalizeWebAppManifest(
   return {
     ...baseManifest,
     name,
-    scope,
+    scope:
+      baseManifest.scope || (baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"),
     start_url,
     description,
   };

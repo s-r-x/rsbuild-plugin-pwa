@@ -5,9 +5,9 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { createRsbuild } from "@rsbuild/core";
+import { pluginReact } from "@rsbuild/plugin-react";
 import * as cheerio from "cheerio";
 import { pluginPWA, type WebAppManifest } from "../src/index.ts";
-import { pluginReact } from "@rsbuild/plugin-react";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const baseOutputDir = path.join(__dirname, "dist");
@@ -94,7 +94,7 @@ test("should generate and inject into html pwa related stuff", async function ()
     webAppManifest,
     {
       ...webAppManifestContent,
-      scope: baseUrl,
+      scope: baseUrl + "/",
       start_url: baseUrl,
     } satisfies WebAppManifest,
     "web app manifest should include user defined values and some default ones",

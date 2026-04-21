@@ -5,15 +5,14 @@ export default defineConfig({
   dev: {
     hmr: true,
   },
-  //server: {
-  //  base: "/sandbox",
-  //},
+  server: {
+    base: "/sandbox",
+  },
   plugins: [
     pluginPWA({
       dev: true,
       registerSw: {
-        type: "script",
-        scriptName: "my-reg-sw-script.js",
+        type: "virtual-module",
       },
       sw: {
         srcFile: "./src/sw.js",
