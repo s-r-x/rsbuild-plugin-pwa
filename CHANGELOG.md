@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.1...rsbuild-plugin-pwa-v0.4.2) (2026-04-21)
+
+
+### Bug Fixes
+
+* **react:** set newSwWaiting to false after activation of the new SW ([08818a4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/08818a4fa188dbde9c136a55402b738d461aba7f))
+
 ## [0.4.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.0...rsbuild-plugin-pwa-v0.4.1) (2026-04-21)
 
 
