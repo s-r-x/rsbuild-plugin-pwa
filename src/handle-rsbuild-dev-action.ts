@@ -115,17 +115,18 @@ export function handleRsBuildDevAction({
       }
     })();
     const swUrl = genSwUrl({ baseUrl });
-    server.middlewares.use(async function (req, res, next) {
+    server.middlewares.use(function (req, res, next) {
       if (req.url === manifestUrl) {
-        const manifest = await manifestPromise;
-        if (webAppManifestCfg && manifest) {
-          writeRes(
-            serializeWebAppManifest(manifest, webAppManifestCfg.minify),
-            "application/manifest+json",
-          );
-        } else {
-          next();
-        }
+        manifestPromise.then(function (manifest) {
+          if (webAppManifestCfg && manifest) {
+            writeRes(
+              serializeWebAppManifest(manifest, webAppManifestCfg.minify),
+              "application/manifest+json",
+            );
+          } else {
+            next();
+          }
+        });
       } else if (
         registerSwCfg?.type === "script" &&
         req.url === path.posix.join(baseUrl, registerSwCfg.scriptName)
@@ -139,8 +140,9 @@ export function handleRsBuildDevAction({
           "text/javascript",
         );
       } else if (req.url === swUrl) {
-        const sw = await swContentPromise;
-        writeRes(sw, "text/javascript");
+        swContentPromise.then(function (sw) {
+          writeRes(sw, "text/javascript");
+        });
       } else if (
         req.url ===
         path.posix.join(baseUrl, DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME)
