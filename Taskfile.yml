@@ -7,6 +7,9 @@ includes:
   example.vanilla:
     taskfile: ./examples/vanilla/Taskfile.yml
     dir: ./examples/vanilla
+  example.react:
+    taskfile: ./examples/react/Taskfile.yml
+    dir: ./examples/react
 tasks:
   default:
     - task: dev
