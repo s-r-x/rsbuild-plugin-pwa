@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0-beta.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.2...rsbuild-plugin-pwa-v0.5.0-beta.1) (2026-04-21)
+
+
+### Features
+
+* use "output.assetPrefix" if it's defined in rsbuild config to generate asset urls ([9e4f4a4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9e4f4a42042ca18426421935dba6ad22b89a42aa))
+
+
+### Miscellaneous Chores
+
+* force beta track ([9d8307d](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9d8307de48649a73f7f997cdec81e55c3f5e3245))
+
 ## [0.4.2](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.1...rsbuild-plugin-pwa-v0.4.2) (2026-04-21)
 
 
