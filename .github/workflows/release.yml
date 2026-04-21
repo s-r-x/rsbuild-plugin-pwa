@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches: [main, beta]
 
 permissions:
   contents: write
@@ -13,11 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: ${{ github.ref == 'refs/heads/beta' && 'release-please-beta.json' || 'release-please-config.json' }}
 
   publish:
     needs: release-please
@@ -40,6 +42,12 @@ jobs:
       - run: npm run vm:build-types
       - run: npm run build
 
-      - run: npm publish --provenance --access public
+      - name: Publish to npm
+        run: |
+          if [[ "${{ needs.release-please.outputs.tag_name }}" == *"-beta"* ]]; then
+            npm publish --provenance --access public --tag beta
+          else
+            npm publish --provenance --access public --tag latest
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
