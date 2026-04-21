@@ -58,6 +58,7 @@ export function useRegisterSW(
       },
       onNewSwActive() {
         newSwActiveTuple[1](true);
+        newSwWaitingTuple[1](false);
         callbacksRef.current.onNewSwActive?.();
       },
       onRegister(...args) {
