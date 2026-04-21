@@ -20,6 +20,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: ${{ github.ref == 'refs/heads/beta' && 'release-please-beta.json' || 'release-please-config.json' }}
+          target-branch: ${{ github.ref_name }}
 
   publish:
     needs: release-please
