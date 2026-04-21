@@ -1,0 +1,19 @@
+{
+  "name": "vanilla",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild dev --open",
+    "preview": "rsbuild preview"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.7.1",
+    "rsbuild-plugin-pwa": "^0.4.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "notiflix": "^3.2.8"
+  }
+}

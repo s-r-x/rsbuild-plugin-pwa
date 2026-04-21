@@ -3,6 +3,10 @@ version: "3"
 vars:
   PKG_MNGR: npm
   PKG_MNGR_SCRIPT: "{{.PKG_MNGR}} run"
+includes:
+  example.vanilla: 
+    taskfile: ./examples/vanilla/Taskfile.yml
+    dir: ./examples/vanilla
 tasks:
   default:
     - task: dev
