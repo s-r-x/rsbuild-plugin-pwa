@@ -28,11 +28,13 @@ export function handleRsBuildBuildAction({
   extractEnvBaseUrl,
   genSwUrl,
   genSwScope,
+  extractAssetPrefix,
 }: RsBuildActionHandlerCtx) {
   const swFilename = swConfig.filename || DEFAULT_SW_FILENAME;
   api.onAfterEnvironmentCompile(
     async function handleEnvironmentCompilation(opts) {
-      const baseUrl = extractEnvBaseUrl(opts.environment);
+      const environment = opts.environment;
+      const baseUrl = extractEnvBaseUrl(environment);
       const rootFolder = api.context.rootPath;
       const environmentName = opts.environment.name;
       if (checkIfPluginDisabled({ environmentName })) {
@@ -61,7 +63,7 @@ export function handleRsBuildBuildAction({
         await fs.writeFile(
           path.resolve(outputPath, registerSwCfg.scriptName),
           genRegisterSwScript({
-            swUrl: genSwUrl({ baseUrl }),
+            swUrl: genSwUrl({ environment: opts.environment }),
             scope: genSwScope({ baseUrl }),
             events: registerSwCfg.events,
           }),
@@ -92,7 +94,9 @@ export function handleRsBuildBuildAction({
           ? swConfig.include(assetsToPrecache)
           : swConfig.include
         : assetsToPrecache;
-      const wbModifyUrlPrefix = genWbModifyUrlPrefix(baseUrl);
+      const wbModifyUrlPrefix = genWbModifyUrlPrefix(
+        extractAssetPrefix(environment),
+      );
       if (swConfig.mode === "generateSw") {
         const {
           globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,

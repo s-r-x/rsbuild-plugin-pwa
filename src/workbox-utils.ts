@@ -1,6 +1,5 @@
-export function genWbModifyUrlPrefix(baseUrl: string) {
+export function genWbModifyUrlPrefix(prefix: string) {
   return {
-    // prepend baseUrl to every url
-    "": baseUrl.endsWith("/") ? baseUrl : baseUrl + "/",
+    "": prefix.endsWith("/") ? prefix : prefix + "/",
   };
 }

@@ -1,8 +1,4 @@
-import path from "node:path";
-import {
-  DEFAULT_WEB_APP_MANIFEST_FILENAME,
-  DEFAULT_WEB_APP_MANIFEST_NAME,
-} from "./config.ts";
+import { DEFAULT_WEB_APP_MANIFEST_NAME } from "./config.ts";
 import type { SetRequired } from "./type-utils.ts";
 import type { WebAppManifest } from "./types.ts";
 import { readHostPackageJson } from "./utils.ts";
@@ -27,16 +23,6 @@ export async function normalizeWebAppManifest(
     start_url,
     description,
   };
-}
-
-export function genWebAppManifestUrl({
-  baseUrl,
-  filename = DEFAULT_WEB_APP_MANIFEST_FILENAME,
-}: {
-  baseUrl: string;
-  filename?: string;
-}): string {
-  return path.posix.join(baseUrl, filename);
 }
 
 export function serializeWebAppManifest(

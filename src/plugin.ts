@@ -3,6 +3,7 @@ import path from "node:path";
 import type { HtmlBasicTag, RsbuildPlugin } from "@rsbuild/core";
 import {
   DEFAULT_SW_FILENAME,
+  DEFAULT_WEB_APP_MANIFEST_FILENAME,
   PLUGIN_NAME,
   VM_COMPILED_FOLDER,
   VM_COMPILED_FOLDER_MOCK,
@@ -16,7 +17,6 @@ import { normalizePluginConfig } from "./normalize-plugin-config.ts";
 import type { PWAPluginOptions } from "./types.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
 import { formatLog } from "./utils.ts";
-import { genWebAppManifestUrl } from "./web-app-manifest-utils.ts";
 
 /**
  * @example
@@ -43,27 +43,67 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
       return;
     }
 
+    const extractEnvBaseUrl: RsBuildActionHandlerCtx["extractEnvBaseUrl"] =
+      function (env) {
+        return env?.config.server.base || "/";
+      };
+    const extractAssetPrefix: RsBuildActionHandlerCtx["extractAssetPrefix"] =
+      function (env) {
+        let prefix: string;
+        const assetPrefix = env?.config.output.assetPrefix;
+        const baseUrl = extractEnvBaseUrl(env);
+        if (api.context.action !== "build") {
+          prefix = baseUrl;
+        } else {
+          // TODO:: support "auto"
+          if (assetPrefix && assetPrefix !== "auto") {
+            prefix = assetPrefix;
+          } else {
+            prefix = baseUrl;
+          }
+        }
+        return prefix.replace(/\/$/, "");
+      };
+    const normalizeAssetUrl: RsBuildActionHandlerCtx["normalizeAssetUrl"] =
+      function ({ environment, asset }) {
+        const assetPrefix = extractAssetPrefix(environment);
+        return assetPrefix + "/" + asset.replace(/^\//, "");
+      };
+    const genWebAppManifestUrl: RsBuildActionHandlerCtx["genWebAppManifestUrl"] =
+      function ({ environment, filename = DEFAULT_WEB_APP_MANIFEST_FILENAME }) {
+        return normalizeAssetUrl({ environment, asset: filename });
+      };
+    const genSwScope: RsBuildActionHandlerCtx["genSwScope"] = function ({
+      baseUrl,
+    }) {
+      if (cfg.registerSw?.scope) return cfg.registerSw.scope;
+      const webAppManifestScope =
+        cfg.webAppManifest !== false && cfg.webAppManifest.content?.scope;
+      if (webAppManifestScope) return webAppManifestScope;
+      return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+    };
+    const genSwUrl: RsBuildActionHandlerCtx["genSwUrl"] = function ({
+      environment,
+    }) {
+      return normalizeAssetUrl({
+        environment,
+        asset: cfg.sw.filename || DEFAULT_SW_FILENAME,
+      });
+    };
     const handlerCtx: RsBuildActionHandlerCtx = {
       rsbuildApi: api,
       pluginConfig: cfg,
+      extractEnvBaseUrl,
+      extractAssetPrefix,
+      normalizeAssetUrl,
+      genWebAppManifestUrl,
+      genSwScope,
+      genSwUrl,
       checkIfPluginDisabled({ environmentName }) {
         if (!cfg.disabled) return false;
         else if (typeof cfg.disabled === "function")
           return cfg.disabled({ environmentName });
         else return Boolean(cfg.disabled);
-      },
-      extractEnvBaseUrl(ctx) {
-        return ctx.config.server.base || "/";
-      },
-      genSwUrl({ baseUrl }) {
-        return path.posix.join(baseUrl, cfg.sw.filename || DEFAULT_SW_FILENAME);
-      },
-      genSwScope({ baseUrl }) {
-        if (cfg.registerSw?.scope) return cfg.registerSw.scope;
-        const webAppManifestScope =
-          cfg.webAppManifest !== false && cfg.webAppManifest.content?.scope;
-        if (webAppManifestScope) return webAppManifestScope;
-        return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
       },
     };
 
@@ -105,14 +145,17 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
           };
           if (registerSwCfg.type === "inline") {
             registerSwTag.children = genRegisterSwScript({
-              swUrl: handlerCtx.genSwUrl({ baseUrl }),
+              swUrl: handlerCtx.genSwUrl({ environment }),
               scope: handlerCtx.genSwScope({ baseUrl }),
               events: registerSwCfg.events,
             });
           } else if (registerSwCfg.type === "script") {
             registerSwTag.attrs = {
               defer: registerSwCfg.defer,
-              src: path.posix.join(baseUrl, registerSwCfg.scriptName),
+              src: handlerCtx.normalizeAssetUrl({
+                environment,
+                asset: registerSwCfg.scriptName,
+              }),
             };
           }
           const tagsToMutate =
@@ -132,8 +175,8 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             tag: "link",
             attrs: {
               rel: "manifest",
-              href: genWebAppManifestUrl({
-                baseUrl,
+              href: handlerCtx.genWebAppManifestUrl({
+                environment,
                 filename: webAppManifestCfg.filename,
               }),
             },
@@ -167,7 +210,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
           path.join(api.context.rootPath, ".rsbuild-pwa-virtual-module"),
           VM_MOD_BASE_NAME + "/" + moduleName + ".js",
         );
-        vmPluginEntries[fakePath] = "ololo";
+        vmPluginEntries[fakePath] = "";
         rspackResolveAliasEntries[importName] = fakePath;
         // it looks like this transform thing works only when called synchronously in "setup" cb
         // cause it does nothing inside modifyRspackConfig cb
@@ -181,7 +224,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
               const baseUrl = handlerCtx.extractEnvBaseUrl(ctx.environment);
               switch (match) {
                 case "__SW_URL":
-                  return handlerCtx.genSwUrl({ baseUrl });
+                  return handlerCtx.genSwUrl({ environment: ctx.environment });
                 case "__SW_SCOPE":
                   return handlerCtx.genSwScope({ baseUrl });
                 default:

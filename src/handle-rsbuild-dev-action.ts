@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import type { EnvironmentContext } from "@rsbuild/core";
 import { generateSW } from "workbox-build";
 import { buildCustomSw } from "./build-custom-sw.ts";
 import {
@@ -15,7 +16,6 @@ import type { WebAppManifest } from "./types.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
 import { formatLog, resetDir } from "./utils.ts";
 import {
-  genWebAppManifestUrl,
   normalizeWebAppManifest,
   serializeWebAppManifest,
 } from "./web-app-manifest-utils.ts";
@@ -29,25 +29,28 @@ export function handleRsBuildDevAction({
     registerSw: registerSwCfg,
   },
   genSwScope,
+  genWebAppManifestUrl,
+  extractEnvBaseUrl,
   genSwUrl,
+  normalizeAssetUrl,
+  extractAssetPrefix,
 }: RsBuildActionHandlerCtx) {
-  const swFilename = swConfig.filename || DEFAULT_SW_FILENAME;
-
   api.onBeforeStartDevServer(async function ({ server, environments }) {
-    let baseUrl = "";
+    const swFilename = swConfig.filename || DEFAULT_SW_FILENAME;
+
+    let env: EnvironmentContext | null = null;
     for (const envName in environments) {
-      const env = environments[envName];
-      const base = env.config.server.base;
-      if (env.config.output.target === "web" && base) {
-        baseUrl = base;
+      const env_ = environments[envName];
+      if (env_.config.output.target === "web") {
+        env = env_;
         break;
       }
     }
-    if (!baseUrl) baseUrl = "/";
+    const baseUrl = extractEnvBaseUrl(env);
 
     const manifestUrl = webAppManifestCfg
       ? genWebAppManifestUrl({
-          baseUrl,
+          environment: env,
           filename: webAppManifestCfg.filename,
         })
       : undefined;
@@ -103,7 +106,7 @@ export function handleRsBuildDevAction({
           globPatterns: [DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME],
           swDest,
           inlineWorkboxRuntime: true,
-          modifyURLPrefix: genWbModifyUrlPrefix(baseUrl),
+          modifyURLPrefix: genWbModifyUrlPrefix(extractAssetPrefix(env)),
         });
         if (buildResult.warnings?.length) {
           api.logger.warn(formatLog(buildResult.warnings.join("\n")));
@@ -114,7 +117,7 @@ export function handleRsBuildDevAction({
         return sw;
       }
     })();
-    const swUrl = genSwUrl({ baseUrl });
+    const swUrl = genSwUrl({ environment: env });
     server.middlewares.use(function (req, res, next) {
       if (req.url === manifestUrl) {
         manifestPromise.then(function (manifest) {
@@ -145,7 +148,10 @@ export function handleRsBuildDevAction({
         });
       } else if (
         req.url ===
-        path.posix.join(baseUrl, DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME)
+        normalizeAssetUrl({
+          environment: env,
+          asset: DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME,
+        })
       ) {
         writeRes(DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT, "text/javascript");
       } else {
