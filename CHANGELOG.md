@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.0...rsbuild-plugin-pwa-v0.4.1) (2026-04-21)
+
+
+### Bug Fixes
+
+* the default web app manifest scope is the base url with "/" appended if it's not defined in the config ([4441225](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/44412250e5f1a2a155d53e76dc97dd805fe719a0))
+
+
+### Performance Improvements
+
+* don't create a new promise on every dev server request ([decf392](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/decf39261c22f875baa68db0d223efef8fce826a))
+
 ## [0.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.3.0...rsbuild-plugin-pwa-v0.4.0) (2026-04-20)
 
 
