@@ -32,11 +32,7 @@
     "type": "git",
     "url": "https://github.com/s-r-x/rsbuild-plugin-pwa"
   },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "homepage": "https://github.com/s-r-x/rsbuild-plugin-pwa",
+  "homepage": "https://s-r-x.github.io/rsbuild-plugin-pwa",
   "bugs": {
     "url": "https://github.com/s-r-x/rsbuild-plugin-pwa/issues"
   },
