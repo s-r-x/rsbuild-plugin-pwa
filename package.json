@@ -16,6 +16,9 @@
     },
     "./types/react": {
       "types": "./types/react.d.ts"
+    },
+    "./types/vue": {
+      "types": "./types/vue.d.ts"
     }
   },
   "main": "./dist/index.cjs",
@@ -66,6 +69,7 @@
     "@release-it/conventional-changelog": "^10.0.6",
     "@rsbuild/core": "^1.7.3",
     "@rsbuild/plugin-react": "^1.4.6",
+    "@rsbuild/plugin-vue": "^1.2.7",
     "@rslib/core": "^0.19.6",
     "@rspress/core": "^2.0.6",
     "@rspress/plugin-typedoc": "^2.0.6",
@@ -75,7 +79,8 @@
     "cheerio": "^1.2.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vue": "^3.5.33"
   },
   "peerDependencies": {
     "@rsbuild/core": "^1.0.0 || ^2.0.0-0"

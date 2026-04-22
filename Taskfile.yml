@@ -44,4 +44,13 @@ tasks:
       - task: sandbox.preview
   vm.build: "{{.PKG_MNGR_SCRIPT}} vm:build"
   vm.build-types: "{{.PKG_MNGR_SCRIPT}} vm:build-types"
-  release: "{{.PKG_MNGR_SCRIPT}} release"
+  prepare-release:
+    cmds:
+      - task: lint
+      - task: check-types
+      - task: build.all
+      - task: test
+  release:
+    cmds:
+      - task: prepare-release
+      - "{{.PKG_MNGR_SCRIPT}} release"

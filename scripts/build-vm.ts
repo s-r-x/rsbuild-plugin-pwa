@@ -25,16 +25,22 @@ import {
                   entry: { [entry]: src },
                 },
                 format: "esm",
+                syntax: "esnext",
                 dts: dts ? { bundle: true } : false,
                 output: {
                   target: "web",
-                  externals: ["workbox-window", "react"],
+                  externals: ["workbox-window", "react", "vue"],
                   distPath: {
                     root: dst,
                   },
                 },
               },
             ],
+            performance: {
+              chunkSplit: {
+                strategy: "all-in-one",
+              },
+            },
           },
         });
         return rslib.build();

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/test/app-1"]
+    "includes": ["**", "!**/test/app-1", "!**/test/vm-vue-app"]
   },
   "assist": {
     "actions": {

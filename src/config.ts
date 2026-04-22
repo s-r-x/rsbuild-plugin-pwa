@@ -68,7 +68,7 @@ export const DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT =
   "const meaningOfLine = '42';";
 
 export const VM_MOD_BASE_NAME = "rsbuild-plugin-pwa_vm";
-export const VM_LIST = ["register-sw", "react"];
+export const VM_LIST = ["register-sw", "react", "vue"];
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 export const VM_SRC_BASE_FOLDER = path.join(dirname, "vm");
 export const VM_SRC_FOLDER_MOCK = path.join(VM_SRC_BASE_FOLDER, "mock");
