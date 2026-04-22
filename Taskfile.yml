@@ -44,3 +44,4 @@ tasks:
       - task: sandbox.preview
   vm.build: "{{.PKG_MNGR_SCRIPT}} vm:build"
   vm.build-types: "{{.PKG_MNGR_SCRIPT}} vm:build-types"
+  release: "{{.PKG_MNGR_SCRIPT}} release"
