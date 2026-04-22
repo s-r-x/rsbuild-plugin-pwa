@@ -2,53 +2,41 @@ name: Release
 
 on:
   push:
-    branches: [main, beta]
-
+    branches:
+      - main
+      - beta
 permissions:
   contents: write
+  issues: write
   pull-requests: write
+  id-token: write
 
 jobs:
-  release-please:
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@v4
-        id: release
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: ${{ github.ref == 'refs/heads/beta' && 'release-please-beta.json' || 'release-please-config.json' }}
-          target-branch: ${{ github.ref_name }}
+          fetch-depth: 0 
 
-  publish:
-    needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-          registry-url: https://registry.npmjs.org
 
-      - run: npm ci
-      - run: npm run vm:build
-      - run: npm run vm:build-types
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Publish to npm
+      - name: Build project
         run: |
-          if [[ "${{ needs.release-please.outputs.tag_name }}" == *"-beta"* ]]; then
-            npm publish --provenance --access public --tag beta
-          else
-            npm publish --provenance --access public --tag latest
-          fi
+          npm run vm:build
+          npm run vm:build-types
+          npm run build
+
+      - name: Run Semantic Release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
