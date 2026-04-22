@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.5.0-beta.1...rsbuild-plugin-pwa-v0.5.0) (2026-04-22)
+
+
+### Miscellaneous Chores
+
+* promote beta to stable ([959e2f7](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/959e2f78478f8efb053af67cb7fc3aff768cb57f))
+
 ## [0.5.0-beta.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.2...rsbuild-plugin-pwa-v0.5.0-beta.1) (2026-04-21)
 
 
