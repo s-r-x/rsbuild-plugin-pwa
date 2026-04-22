@@ -1,7 +1,7 @@
 {
   "name": "rsbuild-plugin-pwa",
   "description": "Zero-config PWA support for rsbuild",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Ilya Strus <strax1990@gmail.com>",
   "license": "MIT",
   "type": "module",
@@ -63,7 +63,6 @@
     "vm:build": "node ./scripts/build-vm.ts",
     "vm:build-types": "node ./scripts/build-vm-types.ts",
     "release": "npx release-it"
-
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
