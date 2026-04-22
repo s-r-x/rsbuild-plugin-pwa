@@ -1,92 +1,32 @@
-# Changelog
 
-## [0.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.5.0-beta.1...rsbuild-plugin-pwa-v0.5.0) (2026-04-22)
-
-
-### Miscellaneous Chores
-
-* promote beta to stable ([959e2f7](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/959e2f78478f8efb053af67cb7fc3aff768cb57f))
-
-## [0.5.0-beta.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.2...rsbuild-plugin-pwa-v0.5.0-beta.1) (2026-04-21)
+# [1.1.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.0.0...v1.1.0) (2026-04-22)
 
 
 ### Features
 
-* use "output.assetPrefix" if it's defined in rsbuild config to generate asset urls ([9e4f4a4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9e4f4a42042ca18426421935dba6ad22b89a42aa))
+* support modifyURLPrefix in workbox config ([6777aa5](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/6777aa59b4f97aa925a8b0d795f49c96bfdfa905))
 
-
-### Miscellaneous Chores
-
-* force beta track ([9d8307d](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9d8307de48649a73f7f997cdec81e55c3f5e3245))
-
-## [0.4.2](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.1...rsbuild-plugin-pwa-v0.4.2) (2026-04-21)
+# [1.0.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/39ddc9d8fafc468041395c1328efe1979422df95...v1.0.0) (2026-04-22)
 
 
 ### Bug Fixes
 
+* fallback to "/" if the base url is not defined in rsbuild config ([7bd2cf5](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7bd2cf53afd993ff85d01695655d019acd65cdac))
 * **react:** set newSwWaiting to false after activation of the new SW ([08818a4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/08818a4fa188dbde9c136a55402b738d461aba7f))
-
-## [0.4.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.4.0...rsbuild-plugin-pwa-v0.4.1) (2026-04-21)
-
-
-### Bug Fixes
-
+* remove swSrc and swDest from workbox options type in injectManifest mode ([66b7d9f](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/66b7d9f4413d4d89f9dc5d445646d5c2ebbc803f))
 * the default web app manifest scope is the base url with "/" appended if it's not defined in the config ([4441225](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/44412250e5f1a2a155d53e76dc97dd805fe719a0))
+
+
+### Features
+
+* "injectManifest" mode ([a8f1b8b](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/a8f1b8b1d2a206e1af4120f7bc0ecb1a9a5d5a9f))
+* add "scope" to "registerSw" config ([69827b4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/69827b48d05c29e40a2e4101a081a0a977f00fd8))
+* dev mode ([2119f3e](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/2119f3e5b2c04aec2ff4b20d5e373d5c6fe8069e))
+* release ([39ddc9d](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/39ddc9d8fafc468041395c1328efe1979422df95))
+* use "output.assetPrefix" if it's defined in rsbuild config to generate asset urls ([9e4f4a4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9e4f4a42042ca18426421935dba6ad22b89a42aa))
+* virtual modules ([7eb68ea](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7eb68ea84b15dcb486328150731916c6648054ec))
 
 
 ### Performance Improvements
 
 * don't create a new promise on every dev server request ([decf392](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/decf39261c22f875baa68db0d223efef8fce826a))
-
-## [0.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.3.0...rsbuild-plugin-pwa-v0.4.0) (2026-04-20)
-
-
-### Features
-
-* virtual modules ([7eb68ea](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7eb68ea84b15dcb486328150731916c6648054ec))
-
-## [0.3.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.1...rsbuild-plugin-pwa-v0.3.0) (2026-04-13)
-
-
-### Features
-
-* add "scope" to "registerSw" config ([69827b4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/69827b48d05c29e40a2e4101a081a0a977f00fd8))
-* dev mode ([2119f3e](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/2119f3e5b2c04aec2ff4b20d5e373d5c6fe8069e))
-
-## [0.2.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.2.0...rsbuild-plugin-pwa-v0.2.1) (2026-04-09)
-
-
-### Bug Fixes
-
-* remove swSrc and swDest from workbox options type in injectManifest mode ([66b7d9f](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/66b7d9f4413d4d89f9dc5d445646d5c2ebbc803f))
-
-## [0.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.1.1...rsbuild-plugin-pwa-v0.2.0) (2026-03-24)
-
-
-### Features
-
-* "injectManifest" mode ([a8f1b8b](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/a8f1b8b1d2a206e1af4120f7bc0ecb1a9a5d5a9f))
-* release ([39ddc9d](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/39ddc9d8fafc468041395c1328efe1979422df95))
-
-
-### Bug Fixes
-
-* fallback to "/" if the base url is not defined in rsbuild config ([7bd2cf5](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7bd2cf53afd993ff85d01695655d019acd65cdac))
-
-
-### Miscellaneous Chores
-
-* release 0.2.0 ([3f68d73](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/3f68d73f1ddf6c15a769470eb2013b5fc1f569ed))
-
-## [0.1.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/rsbuild-plugin-pwa-v0.1.0...rsbuild-plugin-pwa-v0.1.1) (2026-03-24)
-
-
-### Features
-
-* "injectManifest" mode ([a8f1b8b](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/a8f1b8b1d2a206e1af4120f7bc0ecb1a9a5d5a9f))
-* release ([39ddc9d](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/39ddc9d8fafc468041395c1328efe1979422df95))
-
-
-### Bug Fixes
-
-* fallback to "/" if the base url is not defined in rsbuild config ([7bd2cf5](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/7bd2cf53afd993ff85d01695655d019acd65cdac))
