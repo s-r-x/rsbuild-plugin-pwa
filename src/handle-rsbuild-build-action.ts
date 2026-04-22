@@ -94,7 +94,7 @@ export function handleRsBuildBuildAction({
           ? swConfig.include(assetsToPrecache)
           : swConfig.include
         : assetsToPrecache;
-      const wbModifyUrlPrefix = genWbModifyUrlPrefix(
+      const defaultWbModifyUrlPrefix = genWbModifyUrlPrefix(
         extractAssetPrefix(environment),
       );
       if (swConfig.mode === "generateSw") {
@@ -102,6 +102,7 @@ export function handleRsBuildBuildAction({
           globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,
           inlineWorkboxRuntime = DEFAULT_WORKBOX_BUILD_VALUES.inlineWorkboxRuntime,
           cleanupOutdatedCaches = DEFAULT_WORKBOX_BUILD_VALUES.cleanupOutdatedCaches,
+          modifyURLPrefix = defaultWbModifyUrlPrefix,
           ...workboxOpts
         } = swConfig.workboxOptions || {};
         let sourcemap = workboxOpts.sourcemap;
@@ -121,7 +122,7 @@ export function handleRsBuildBuildAction({
           globPatterns: wbGlobPatterns,
           swDest: path.resolve(outputPath, swFilename),
           inlineWorkboxRuntime,
-          modifyURLPrefix: wbModifyUrlPrefix,
+          modifyURLPrefix,
         });
 
         const buildTime = performance.now() - buildStartedAt;
@@ -132,6 +133,7 @@ export function handleRsBuildBuildAction({
       } else if (swConfig.mode === "injectManifest") {
         const {
           globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,
+          modifyURLPrefix = defaultWbModifyUrlPrefix,
           ...workboxOpts
         } = swConfig.workboxOptions || {};
         const rsbuildResult = await buildCustomSw({
@@ -147,7 +149,7 @@ export function handleRsBuildBuildAction({
           globPatterns: wbGlobPatterns,
           swSrc: rsbuildResult.swDest,
           swDest: path.resolve(outputPath, swFilename),
-          modifyURLPrefix: wbModifyUrlPrefix,
+          modifyURLPrefix: modifyURLPrefix,
         });
 
         // buildCustomSw cleanup

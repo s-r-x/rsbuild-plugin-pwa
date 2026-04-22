@@ -88,6 +88,7 @@ export function handleRsBuildDevAction({
         const {
           globIgnores = DEFAULT_WORKBOX_BUILD_VALUES.globIgnores,
           cleanupOutdatedCaches = DEFAULT_WORKBOX_BUILD_VALUES.cleanupOutdatedCaches,
+          modifyURLPrefix = genWbModifyUrlPrefix(extractAssetPrefix(env)),
           ...workboxOpts
         } = swConfig.workboxOptions || {};
 
@@ -106,7 +107,7 @@ export function handleRsBuildDevAction({
           globPatterns: [DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME],
           swDest,
           inlineWorkboxRuntime: true,
-          modifyURLPrefix: genWbModifyUrlPrefix(extractAssetPrefix(env)),
+          modifyURLPrefix,
         });
         if (buildResult.warnings?.length) {
           api.logger.warn(formatLog(buildResult.warnings.join("\n")));

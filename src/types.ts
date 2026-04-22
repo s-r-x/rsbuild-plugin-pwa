@@ -59,11 +59,11 @@ export interface RegisterSwScriptConfig
 
 export type WorkboxGenerateSWOptions = Omit<
   GenerateSWOptions,
-  "globDirectory" | "swDest" | "globPatterns" | "modifyURLPrefix"
+  "globDirectory" | "swDest" | "globPatterns"
 >;
 export type WorkboxInjectManifestOptions = Omit<
   InjectManifestOptions,
-  "globDirectory" | "globPatterns" | "modifyURLPrefix" | "swSrc" | "swDest"
+  "globDirectory" | "globPatterns" | "swSrc" | "swDest"
 >;
 
 export interface SharedSwConfig {
