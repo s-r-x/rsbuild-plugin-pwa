@@ -1,3 +1,11 @@
+# Changelog
+
+# [1.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.1.0...v1.2.0) (2026-04-22)
+
+
+### Features
+
+* vue virtual module ([ca7ef97](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/ca7ef97a4c26aae2c409fcb6c81416109a514430))
 
 # [1.1.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.0.0...v1.1.0) (2026-04-22)
 
