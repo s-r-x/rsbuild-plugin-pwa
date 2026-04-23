@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/test/app-1", "!**/test/vm-vue-app"]
+    "includes": ["**", "!**/test/vm-vue-app"]
   },
   "assist": {
     "actions": {
@@ -56,5 +56,25 @@
         "useImportType": "error"
       }
     }
-  }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": false
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
