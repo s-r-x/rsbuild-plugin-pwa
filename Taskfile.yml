@@ -16,6 +16,9 @@ includes:
   example.svelte:
     taskfile: ./examples/svelte/Taskfile.yml
     dir: ./examples/svelte
+  example.solid:
+    taskfile: ./examples/solid/Taskfile.yml
+    dir: ./examples/solid
 tasks:
   default:
     - task: dev
