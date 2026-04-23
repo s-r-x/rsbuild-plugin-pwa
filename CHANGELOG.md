@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.2.0...v1.3.0) (2026-04-23)
+
+
+### Features
+
+* svelte virtual module ([f1da64b](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/f1da64b9f42f79c715388db944c0066b41577a7b))
+
 # [1.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.1.0...v1.2.0) (2026-04-22)
 
 
