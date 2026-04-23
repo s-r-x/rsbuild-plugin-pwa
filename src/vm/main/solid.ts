@@ -30,9 +30,9 @@ export function useRegisterSW(
     onRegisterError,
   } = options;
 
-  const [offlineReady, setOfflineReady] = createSignal(false);
-  const [newSwWaiting, setNewSwWaiting] = createSignal(false);
-  const [newSwActive, setNewSwActive] = createSignal(false);
+  const offlineReadySignal = createSignal(false);
+  const newSwWaitingSignal = createSignal(false);
+  const newSwActiveSignal = createSignal(false);
 
   let skipWaitingFn = defaultRegisterSwReturnValue.skipWaiting;
   let detachEventListenersFn: (() => void) | undefined;
@@ -41,16 +41,16 @@ export function useRegisterSW(
     const { skipWaiting, detachEventListeners } = registerSW({
       immediate,
       onOfflineReady() {
-        setOfflineReady(true);
+        offlineReadySignal[1](true);
         onOfflineReady?.();
       },
       onNewSwWaiting() {
-        setNewSwWaiting(true);
+        newSwWaitingSignal[1](true);
         onNewSwWaiting?.();
       },
       onNewSwActive() {
-        setNewSwActive(true);
-        setNewSwWaiting(false);
+        newSwActiveSignal[1](true);
+        newSwWaitingSignal[1](false);
         onNewSwActive?.();
       },
       onRegister(...args) {
@@ -70,10 +70,9 @@ export function useRegisterSW(
   });
 
   return {
-    newSwActive,
-    newSwWaiting,
-    setNewSwWaiting,
-    offlineReady,
+    newSwActive: newSwActiveSignal,
+    newSwWaiting: newSwWaitingSignal,
+    offlineReady: offlineReadySignal,
     skipWaiting() {
       return skipWaitingFn();
     },

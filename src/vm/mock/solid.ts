@@ -19,14 +19,13 @@ const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
 export function useRegisterSW(
   _options: RegisterSWOptions = {},
 ): UseRegisterSWReturnValue {
-  const [offlineReady] = createSignal(false);
-  const [newSwWaiting, setNewSwWaiting] = createSignal(false);
-  const [newSwActive] = createSignal(false);
+  const offlineReady = createSignal(false);
+  const newSwWaiting = createSignal(false);
+  const newSwActive = createSignal(false);
 
   return {
     newSwActive,
     newSwWaiting,
-    setNewSwWaiting,
     offlineReady,
     skipWaiting: defaultRegisterSwReturnValue.skipWaiting,
   };

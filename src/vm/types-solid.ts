@@ -1,10 +1,9 @@
-import type { Accessor, Setter } from "solid-js";
+import type { Signal } from "solid-js";
 import type { RegisterSWReturnValue } from "./types.ts";
 
 export type UseRegisterSWReturnValue = {
-  newSwActive: Accessor<boolean>;
-  newSwWaiting: Accessor<boolean>;
-  setNewSwWaiting: Setter<boolean>;
-  offlineReady: Accessor<boolean>;
+  newSwActive: Signal<boolean>;
+  newSwWaiting: Signal<boolean>;
+  offlineReady: Signal<boolean>;
   skipWaiting: RegisterSWReturnValue["skipWaiting"];
 };
