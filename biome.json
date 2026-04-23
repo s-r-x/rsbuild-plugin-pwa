@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/test/vm-vue-app"]
+    "includes": ["**", "!**/test/vm-vue-app", "!**/test/vm-svelte-app"]
   },
   "assist": {
     "actions": {

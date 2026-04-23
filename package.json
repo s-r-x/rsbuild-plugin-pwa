@@ -19,6 +19,9 @@
     },
     "./types/vue": {
       "types": "./types/vue.d.ts"
+    },
+    "./types/svelte": {
+      "types": "./types/svelte.d.ts"
     }
   },
   "main": "./dist/index.cjs",
@@ -69,6 +72,7 @@
     "@release-it/conventional-changelog": "^10.0.6",
     "@rsbuild/core": "^1.7.3",
     "@rsbuild/plugin-react": "^1.4.6",
+    "@rsbuild/plugin-svelte": "^1.1.1",
     "@rsbuild/plugin-vue": "^1.2.7",
     "@rslib/core": "^0.19.6",
     "@rspress/core": "^2.0.6",
@@ -79,6 +83,7 @@
     "cheerio": "^1.2.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "svelte": "^5.55.4",
     "typescript": "^5.9.3",
     "vue": "^3.5.33"
   },

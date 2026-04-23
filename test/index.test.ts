@@ -6,6 +6,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { createRsbuild } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
+import { pluginSvelte } from "@rsbuild/plugin-svelte";
 import { pluginVue } from "@rsbuild/plugin-vue";
 import * as cheerio from "cheerio";
 import { pluginPWA, type WebAppManifest } from "../src/index.ts";
@@ -302,6 +303,40 @@ test("should build a vue app that imports useRegisterSW vm", async function () {
       logLevel: "error",
       plugins: [
         pluginVue(),
+        pluginPWA({
+          registerSw: {
+            type: "virtual-module",
+          },
+        }),
+      ],
+      source: {
+        entry: {
+          index: entrypoint,
+        },
+      },
+      output: {
+        distPath: outputDir,
+        filenameHash: false,
+        dataUriLimit: 0,
+      },
+      tools: {
+        htmlPlugin: true,
+      },
+    },
+  });
+  const result = await rsbuild.build();
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
+});
+test("should build a svelte app that imports useRegisterSW vm", async function () {
+  const outputDir = genOutputDir();
+  const appDir = path.resolve(__dirname, "vm-svelte-app");
+  const entrypoint = path.join(appDir, "index.ts");
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      logLevel: "error",
+      plugins: [
+        pluginSvelte(),
         pluginPWA({
           registerSw: {
             type: "virtual-module",
