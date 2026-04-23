@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/// <reference types="../../types/vue.d.ts" />
 import { useRegisterSW } from "rsbuild-plugin-pwa_vm/vue";
 useRegisterSW();
 </script>

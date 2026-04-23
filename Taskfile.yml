@@ -10,6 +10,9 @@ includes:
   example.react:
     taskfile: ./examples/react/Taskfile.yml
     dir: ./examples/react
+  example.vue:
+    taskfile: ./examples/vue/Taskfile.yml
+    dir: ./examples/vue
 tasks:
   default:
     - task: dev
