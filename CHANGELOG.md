@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.4.0...v1.5.0) (2026-04-23)
+
+
+### Features
+
+* **solid:** return plain signals from useRegisterSW ([58e3052](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/58e3052d2174809720ced57a5a2aa96166b1b48e))
+
 # [1.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.3.0...v1.4.0) (2026-04-23)
 
 
