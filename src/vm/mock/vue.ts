@@ -1,15 +1,14 @@
 import { ref } from "vue";
 import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-vue.ts";
+import { printRegisterSWMockWarn } from "./utils.ts";
 
 export type { RegisterSWOptions };
 
 const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
   {
     skipWaiting() {
-      console.warn(
-        "registerSW hasn't been called yet so this doesn't have any effect",
-      );
+      printRegisterSWMockWarn();
       return Promise.resolve();
     },
   };
