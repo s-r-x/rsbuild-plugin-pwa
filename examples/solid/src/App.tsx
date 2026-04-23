@@ -5,12 +5,15 @@ import { useRegisterSW } from "rsbuild-plugin-pwa_vm/solid";
 const App = () => {
   let offlineReadyDialogRef: HTMLDialogElement | undefined;
 
-  const { skipWaiting, newSwWaiting, setNewSwWaiting, newSwActive } =
-    useRegisterSW({
-      onOfflineReady() {
-        offlineReadyDialogRef?.showModal();
-      },
-    });
+  const {
+    skipWaiting,
+    newSwWaiting: [newSwWaiting, setNewSwWaiting],
+    newSwActive: [newSwActive],
+  } = useRegisterSW({
+    onOfflineReady() {
+      offlineReadyDialogRef?.showModal();
+    },
+  });
 
   return (
     <>
