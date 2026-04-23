@@ -29,7 +29,14 @@ import {
                 dts: dts ? { bundle: true } : false,
                 output: {
                   target: "web",
-                  externals: ["workbox-window", "react", "vue", "svelte", "svelte/store"],
+                  externals: [
+                    "workbox-window",
+                    "react",
+                    "vue",
+                    "svelte",
+                    "svelte/store",
+                    "solid-js",
+                  ],
                   distPath: {
                     root: dst,
                   },

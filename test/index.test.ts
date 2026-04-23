@@ -4,8 +4,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { createRsbuild } from "@rsbuild/core";
+import { createRsbuild, type RsbuildPlugin } from "@rsbuild/core";
+import { pluginBabel } from "@rsbuild/plugin-babel";
 import { pluginReact } from "@rsbuild/plugin-react";
+import { pluginSolid } from "@rsbuild/plugin-solid";
 import { pluginSvelte } from "@rsbuild/plugin-svelte";
 import { pluginVue } from "@rsbuild/plugin-vue";
 import * as cheerio from "cheerio";
@@ -260,83 +262,68 @@ test("should generate and inject into html pwa related stuff in 'injectManifest'
   );
 });
 test("should build a react app that imports useRegisterSW vm", async function () {
-  const outputDir = genOutputDir();
-  const appDir = path.resolve(__dirname, "vm-react-app");
-  const entrypoint = path.join(appDir, "index.jsx");
-  const rsbuild = await createRsbuild({
-    cwd: __dirname,
-    rsbuildConfig: {
-      logLevel: "error",
-      plugins: [
-        pluginReact(),
-        pluginPWA({
-          registerSw: {
-            type: "virtual-module",
-          },
-        }),
-      ],
-      source: {
-        entry: {
-          index: entrypoint,
-        },
-      },
-      output: {
-        distPath: outputDir,
-        filenameHash: false,
-        dataUriLimit: 0,
-      },
-      tools: {
-        htmlPlugin: true,
-      },
-    },
+  const result = await buildVmApp({
+    appDir: "vm-react-app",
+    entryFile: "index.jsx",
+    plugins: [pluginReact()],
   });
-  const result = await rsbuild.build();
   assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
 });
 test("should build a vue app that imports useRegisterSW vm", async function () {
-  const outputDir = genOutputDir();
-  const appDir = path.resolve(__dirname, "vm-vue-app");
-  const entrypoint = path.join(appDir, "index.js");
-  const rsbuild = await createRsbuild({
-    cwd: __dirname,
-    rsbuildConfig: {
-      logLevel: "error",
-      plugins: [
-        pluginVue(),
-        pluginPWA({
-          registerSw: {
-            type: "virtual-module",
-          },
-        }),
-      ],
-      source: {
-        entry: {
-          index: entrypoint,
-        },
-      },
-      output: {
-        distPath: outputDir,
-        filenameHash: false,
-        dataUriLimit: 0,
-      },
-      tools: {
-        htmlPlugin: true,
-      },
-    },
+  const result = await buildVmApp({
+    appDir: "vm-vue-app",
+    entryFile: "index.js",
+    plugins: [pluginVue()],
   });
-  const result = await rsbuild.build();
   assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
 });
 test("should build a svelte app that imports useRegisterSW vm", async function () {
+  const result = await buildVmApp({
+    appDir: "vm-svelte-app",
+    entryFile: "index.ts",
+    plugins: [pluginSvelte()],
+  });
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
+});
+test("should build a vanilla js app that imports registerSW vm", async function () {
+  const result = await buildVmApp({
+    appDir: "vm-vanilla-app",
+    entryFile: "index.js",
+    plugins: [],
+  });
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
+});
+test("should build a solid app that imports useRegisterSW vm", async function () {
+  const result = await buildVmApp({
+    appDir: "vm-solid-app",
+    entryFile: "index.jsx",
+    plugins: [
+      pluginBabel({
+        include: /\.(?:jsx|tsx)$/,
+      }),
+      pluginSolid(),
+    ],
+  });
+  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
+});
+async function buildVmApp({
+  appDir: baseAppDir,
+  plugins,
+  entryFile,
+}: {
+  appDir: string;
+  entryFile: string;
+  plugins: RsbuildPlugin[];
+}) {
   const outputDir = genOutputDir();
-  const appDir = path.resolve(__dirname, "vm-svelte-app");
-  const entrypoint = path.join(appDir, "index.ts");
+  const appDir = path.resolve(__dirname, baseAppDir);
+  const entrypoint = path.join(appDir, entryFile);
   const rsbuild = await createRsbuild({
     cwd: __dirname,
     rsbuildConfig: {
       logLevel: "error",
       plugins: [
-        pluginSvelte(),
+        ...plugins,
         pluginPWA({
           registerSw: {
             type: "virtual-module",
@@ -358,42 +345,8 @@ test("should build a svelte app that imports useRegisterSW vm", async function (
       },
     },
   });
-  const result = await rsbuild.build();
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
-test("should build an app that imports registerSW vm", async function () {
-  const outputDir = genOutputDir();
-  const appDir = path.resolve(__dirname, "vm-vanilla-app");
-  const entrypoint = path.join(appDir, "index.js");
-  const rsbuild = await createRsbuild({
-    cwd: __dirname,
-    rsbuildConfig: {
-      logLevel: "error",
-      plugins: [
-        pluginPWA({
-          registerSw: {
-            type: "virtual-module",
-          },
-        }),
-      ],
-      source: {
-        entry: {
-          index: entrypoint,
-        },
-      },
-      output: {
-        distPath: outputDir,
-        filenameHash: false,
-        dataUriLimit: 0,
-      },
-      tools: {
-        htmlPlugin: true,
-      },
-    },
-  });
-  const result = await rsbuild.build();
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
+  return await rsbuild.build();
+}
 test.before(async function cleanup() {
   await fs.rm(baseOutputDir, { recursive: true, force: true });
 });
