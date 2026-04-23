@@ -1,5 +1,7 @@
 # Vanilla
 
+[Example app](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/vanilla)
+
 ## Plugin setup
 
 [Instructions](/guide/virtual-modules/plugin-setup.html)

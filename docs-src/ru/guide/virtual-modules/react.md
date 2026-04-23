@@ -1,5 +1,7 @@
 # React
 
+[Пример приложения](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/react)
+
 ## Настройка плагина
 
 [Инструкции](/guide/virtual-modules/plugin-setup.html)
