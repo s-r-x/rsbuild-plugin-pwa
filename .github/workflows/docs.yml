@@ -9,8 +9,6 @@ on:
       - "package.json"
       - "rspress.config.ts"
       - "tsconfig.json"
-  release:
-    types: [published]
   workflow_dispatch:
 
 permissions:
