@@ -13,6 +13,9 @@ includes:
   example.vue:
     taskfile: ./examples/vue/Taskfile.yml
     dir: ./examples/vue
+  example.svelte:
+    taskfile: ./examples/svelte/Taskfile.yml
+    dir: ./examples/svelte
 tasks:
   default:
     - task: dev

@@ -1,0 +1,22 @@
+{
+  "name": "svelte",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild --open",
+    "preview": "rsbuild preview",
+    "svelte-check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "svelte": "^5.55.4"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^2.0.0",
+    "@rsbuild/plugin-svelte": "^1.1.1",
+    "rsbuild-plugin-pwa": "^1.3.0",
+    "svelte-check": "^4.4.6",
+    "typescript": "^6.0.3"
+  }
+}

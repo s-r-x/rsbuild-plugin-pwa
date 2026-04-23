@@ -1,0 +1,15 @@
+version: "3"
+
+vars:
+  PKG_MNGR: npm
+  PKG_MNGR_SCRIPT: "{{.PKG_MNGR}} run"
+tasks:
+  default:
+    - task: dev
+  dev: "{{.PKG_MNGR_SCRIPT}} dev"
+  build: "{{.PKG_MNGR_SCRIPT}} build"
+  preview: "{{.PKG_MNGR_SCRIPT}} preview"
+  build-and-preview:
+    cmds:
+      - task: build
+      - task: preview
