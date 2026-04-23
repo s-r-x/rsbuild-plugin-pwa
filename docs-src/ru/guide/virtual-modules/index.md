@@ -5,3 +5,4 @@
 - [Vanilla js](/guide/virtual-modules/vanilla.html)
 - [React](/guide/virtual-modules/react.html)
 - [Vue](/guide/virtual-modules/vue.html)
+- [Svelte](/guide/virtual-modules/svelte.html)

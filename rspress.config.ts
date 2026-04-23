@@ -42,6 +42,7 @@ export default defineConfig({
         path.join(__dirname, "src", "vm", "main/register-sw.ts"),
         path.join(__dirname, "src", "vm", "main/react.ts"),
         path.join(__dirname, "src", "vm", "main/vue.ts"),
+        path.join(__dirname, "src", "vm", "main/svelte.ts"),
       ],
     }),
   ],
