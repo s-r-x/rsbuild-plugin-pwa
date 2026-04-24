@@ -1,11 +1,8 @@
 import { useState } from "preact/hooks";
 import type { RegisterSWOptions } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-preact.ts";
-import { printRegisterSWMockWarn } from "./utils.ts";
+import { mockedSkipWaitingFn } from "./utils.ts";
 
-async function skipWaiting() {
-  printRegisterSWMockWarn();
-}
 export function useRegisterSW(
   _options?: RegisterSWOptions,
 ): UseRegisterSWReturnValue {
@@ -16,6 +13,6 @@ export function useRegisterSW(
     offlineReady: offlineReadyTuple,
     newSwActive: newSwActiveTuple,
     newSwWaiting: newSwWaitingTuple,
-    skipWaiting,
+    skipWaiting: mockedSkipWaitingFn,
   };
 }

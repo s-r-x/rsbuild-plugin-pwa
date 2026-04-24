@@ -1,15 +1,7 @@
 import { ref } from "vue";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
+import type { RegisterSWOptions } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-vue.ts";
-import { printRegisterSWMockWarn } from "./utils.ts";
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting() {
-      printRegisterSWMockWarn();
-      return Promise.resolve();
-    },
-  };
+import { mockedSkipWaitingFn } from "./utils.ts";
 
 export function useRegisterSW(
   _options: RegisterSWOptions = {},
@@ -22,6 +14,6 @@ export function useRegisterSW(
     newSwActive,
     newSwWaiting,
     offlineReady,
-    skipWaiting: defaultRegisterSwReturnValue.skipWaiting,
+    skipWaiting: mockedSkipWaitingFn,
   };
 }

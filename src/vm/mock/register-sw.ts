@@ -1,15 +1,11 @@
 import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import { printRegisterSWMockWarn } from "./utils.ts";
-export type { RegisterSWOptions };
+import { mockedSkipWaitingFn } from "./utils.ts";
 
 export function registerSW(
   _options: RegisterSWOptions = {},
 ): RegisterSWReturnValue {
   return {
     async detachEventListeners() {},
-    skipWaiting() {
-      printRegisterSWMockWarn();
-      return Promise.resolve();
-    },
+    skipWaiting: mockedSkipWaitingFn,
   };
 }
