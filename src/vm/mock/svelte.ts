@@ -3,8 +3,6 @@ import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-svelte.ts";
 import { printRegisterSWMockWarn } from "./utils.ts";
 
-export type { RegisterSWOptions };
-
 const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
   {
     skipWaiting() {

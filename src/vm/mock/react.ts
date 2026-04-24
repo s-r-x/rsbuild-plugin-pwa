@@ -3,8 +3,6 @@ import type { RegisterSWOptions } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-react.ts";
 import { printRegisterSWMockWarn } from "./utils.ts";
 
-export type { RegisterSWOptions };
-
 async function skipWaiting() {
   printRegisterSWMockWarn();
 }
