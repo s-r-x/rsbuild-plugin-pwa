@@ -19,6 +19,9 @@ includes:
   example.solid:
     taskfile: ./examples/solid/Taskfile.yml
     dir: ./examples/solid
+  example.preact:
+    taskfile: ./examples/preact/Taskfile.yml
+    dir: ./examples/preact
 tasks:
   default:
     - task: dev
