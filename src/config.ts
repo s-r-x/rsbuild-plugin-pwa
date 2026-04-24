@@ -69,11 +69,12 @@ export const DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT =
 
 export const VM_MOD_BASE_NAME = "rsbuild-plugin-pwa_vm";
 export const VM_LIST = [
-  "register-sw",
+  "preact",
   "react",
-  "vue",
-  "svelte",
+  "register-sw",
   "solid",
+  "svelte",
+  "vue",
 ] as const;
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 export const VM_SRC_BASE_FOLDER = path.join(dirname, "vm");

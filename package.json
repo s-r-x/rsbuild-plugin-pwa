@@ -25,6 +25,9 @@
     },
     "./types/solid": {
       "types": "./types/solid.d.ts"
+    },
+    "./types/preact": {
+      "types": "./types/preact.d.ts"
     }
   },
   "main": "./dist/index.cjs",
@@ -75,6 +78,7 @@
     "@release-it/conventional-changelog": "^10.0.6",
     "@rsbuild/core": "^1.7.3",
     "@rsbuild/plugin-babel": "^1.1.2",
+    "@rsbuild/plugin-preact": "^1.7.2",
     "@rsbuild/plugin-react": "^1.4.6",
     "@rsbuild/plugin-solid": "^1.1.1",
     "@rsbuild/plugin-svelte": "^1.1.1",
@@ -86,6 +90,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "cheerio": "^1.2.0",
+    "preact": "^10.29.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "solid-js": "^1.9.12",

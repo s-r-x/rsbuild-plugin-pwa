@@ -36,6 +36,8 @@ import {
                     "svelte",
                     "svelte/store",
                     "solid-js",
+                    "preact",
+                    "preact/hooks",
                   ],
                   distPath: {
                     root: dst,

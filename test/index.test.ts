@@ -10,6 +10,7 @@ import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginSolid } from "@rsbuild/plugin-solid";
 import { pluginSvelte } from "@rsbuild/plugin-svelte";
 import { pluginVue } from "@rsbuild/plugin-vue";
+import { pluginPreact } from "@rsbuild/plugin-preact";
 import * as cheerio from "cheerio";
 import { pluginPWA, type WebAppManifest } from "../src/index.ts";
 
@@ -261,41 +262,41 @@ test("should generate and inject into html pwa related stuff in 'injectManifest'
     "sw should be generated",
   );
 });
-test("should build a react app that imports useRegisterSW vm", async function () {
-  const result = await buildVmApp({
+
+const vmApps: Parameters<typeof testVmApp>[0][] = [
+  {
     appDir: "vm-react-app",
+    appName: "react",
     entryFile: "index.jsx",
     plugins: [pluginReact()],
-  });
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
-test("should build a vue app that imports useRegisterSW vm", async function () {
-  const result = await buildVmApp({
+  },
+  {
+    appDir: "vm-preact-app",
+    appName: "preact",
+    entryFile: "index.jsx",
+    plugins: [pluginPreact()],
+  },
+  {
     appDir: "vm-vue-app",
+    appName: "vue",
     entryFile: "index.js",
     plugins: [pluginVue()],
-  });
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
-test("should build a svelte app that imports useRegisterSW vm", async function () {
-  const result = await buildVmApp({
+  },
+  {
     appDir: "vm-svelte-app",
+    appName: "svelte",
     entryFile: "index.ts",
     plugins: [pluginSvelte()],
-  });
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
-test("should build a vanilla js app that imports registerSW vm", async function () {
-  const result = await buildVmApp({
+  },
+  {
     appDir: "vm-vanilla-app",
+    appName: "vanilla js",
     entryFile: "index.js",
     plugins: [],
-  });
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
-test("should build a solid app that imports useRegisterSW vm", async function () {
-  const result = await buildVmApp({
+  },
+  {
     appDir: "vm-solid-app",
+    appName: "solid",
     entryFile: "index.jsx",
     plugins: [
       pluginBabel({
@@ -303,9 +304,34 @@ test("should build a solid app that imports useRegisterSW vm", async function ()
       }),
       pluginSolid(),
     ],
+  },
+];
+for (const cfg of vmApps) {
+  testVmApp(cfg);
+}
+function testVmApp({
+  plugins,
+  appDir,
+  entryFile,
+  appName,
+}: {
+  plugins: RsbuildPlugin[];
+  appDir: string;
+  entryFile: string;
+  appName: string;
+}) {
+  test(`should build a ${appName} app that uses a vm`, async function () {
+    const result = await buildVmApp({
+      appDir,
+      entryFile,
+      plugins,
+    });
+    assert(
+      result.stats?.hasErrors() === false,
+      "shouldn't be any build errors",
+    );
   });
-  assert(result.stats?.hasErrors() === false, "shouldn't be any build errors");
-});
+}
 async function buildVmApp({
   appDir: baseAppDir,
   plugins,
