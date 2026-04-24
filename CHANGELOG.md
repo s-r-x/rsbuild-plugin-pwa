@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.6.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.5.0...v1.6.0) (2026-04-24)
+
+
+### Features
+
+* preact virtual module ([3ea80dc](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/3ea80dc670c45c29e002117b2ceebc3d0dacc9ee))
+
 # [1.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.4.0...v1.5.0) (2026-04-23)
 
 
