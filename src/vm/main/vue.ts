@@ -2,17 +2,13 @@ import { onMounted, onUnmounted, ref } from "vue";
 import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-vue.ts";
 import { registerSW } from "./register-sw.ts";
+import { defaultSkipWaitingFn } from "./utils.ts";
 
 export type { RegisterSWOptions, UseRegisterSWReturnValue };
 
 const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
   {
-    skipWaiting() {
-      console.warn(
-        "registerSW hasn't been called yet so this doesn't have any effect",
-      );
-      return Promise.resolve();
-    },
+    skipWaiting: defaultSkipWaitingFn,
   };
 
 /**

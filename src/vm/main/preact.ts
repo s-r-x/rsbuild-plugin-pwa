@@ -2,17 +2,13 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
 import type { UseRegisterSWReturnValue } from "../types-preact.ts";
 import { registerSW } from "./register-sw.ts";
+import { defaultSkipWaitingFn } from "./utils.ts";
 
 export type { RegisterSWOptions, UseRegisterSWReturnValue };
 
 const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
   {
-    skipWaiting() {
-      console.warn(
-        "registerSW hasn't been called yet so this doesn't have any effect",
-      );
-      return Promise.resolve();
-    },
+    skipWaiting: defaultSkipWaitingFn,
   };
 
 /**
