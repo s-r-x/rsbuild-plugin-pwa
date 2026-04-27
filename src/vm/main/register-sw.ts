@@ -8,7 +8,7 @@ import type {
 const swUrl = "__SW_URL";
 const swScope = "__SW_SCOPE";
 
-export type { RegisterSWOptions, RegisterSWReturnValue };
+export type { RegisterSWOptions, RegisterSWReturnValue, CreateWorkboxFn };
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/vanilla.html | Usage}
