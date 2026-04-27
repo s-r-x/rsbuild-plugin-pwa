@@ -2,6 +2,8 @@
 
 [Example app](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/svelte)
 
+[Svelte + rsbuild](https://rsbuild.rs/guide/framework/svelte)
+
 ## Plugin setup
 
 [Instructions](/guide/virtual-modules/plugin-setup.html)

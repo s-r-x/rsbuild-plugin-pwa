@@ -2,6 +2,8 @@
 
 [Example app](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/react)
 
+[React + rsbuild](https://rsbuild.rs/guide/framework/react)
+
 ## Plugin setup
 
 [Instructions](/guide/virtual-modules/plugin-setup.html)

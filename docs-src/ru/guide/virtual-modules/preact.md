@@ -2,6 +2,8 @@
 
 [Пример приложения](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/preact)
 
+[Preact + rsbuild](https://rsbuild.rs/guide/framework/preact)
+
 ## Настройка плагина
 
 [Инструкции](/guide/virtual-modules/plugin-setup.html)

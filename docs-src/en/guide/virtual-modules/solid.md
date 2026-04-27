@@ -2,6 +2,8 @@
 
 [Example app](https://github.com/s-r-x/rsbuild-plugin-pwa/tree/main/examples/solid)
 
+[Solid + rsbuild](https://rsbuild.rs/guide/framework/solid)
+
 ## Plugin setup
 
 [Instructions](/guide/virtual-modules/plugin-setup.html)
