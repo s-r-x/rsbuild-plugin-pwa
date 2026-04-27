@@ -29,7 +29,7 @@ jobs:
       - name: Build VM
         run: npm run vm:build
       - name: Build default SW reg script
-        run: npm reg-sw-script:build
+        run: npm run reg-sw-script:build
       - name: Test
         run: npm test
       - name: Build
