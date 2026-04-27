@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.7.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.6.0...v1.7.0) (2026-04-27)
+
+
+### Features
+
+* add `createWorkbox` to virtual modules' options ([adc7f07](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/adc7f07d3080123960b0abba31ed005f47a3a50a))
+
 # [1.6.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.5.0...v1.6.0) (2026-04-24)
 
 
