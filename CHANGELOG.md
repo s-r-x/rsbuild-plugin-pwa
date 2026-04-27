@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.1.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.0.0...v2.1.0) (2026-04-27)
+
+
+### Features
+
+* add `features` to `registerSw` options when using the default registration script ([77d49da](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/77d49dacb7c94d0bc359ed5bce789157367c0a03))
+
 # [2.0.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.7.0...v2.0.0) (2026-04-27)
 
 
