@@ -67,3 +67,5 @@ const { skipWaiting, newSwActive, newSwWaiting, offlineReady } = useRegisterSW({
 ```
 
 [API](/api/modules/vm_main_vue.html)
+
+[Source code](https://github.com/s-r-x/rsbuild-plugin-pwa/blob/main/src/vm/main/vue.ts)

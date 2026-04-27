@@ -69,3 +69,5 @@ export default function App() {
 ```
 
 [API](/api/modules/vm_main_solid.html)
+
+[Исходный код](https://github.com/s-r-x/rsbuild-plugin-pwa/blob/main/src/vm/main/solid.ts)

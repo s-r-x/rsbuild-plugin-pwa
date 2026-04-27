@@ -61,3 +61,5 @@ const { skipWaiting } = registerSW({
 ```
 
 [API](/api/modules/vm_main_register-sw.html)
+
+[Source code](https://github.com/s-r-x/rsbuild-plugin-pwa/blob/main/src/vm/main/register-sw.ts)

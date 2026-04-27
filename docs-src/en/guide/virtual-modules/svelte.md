@@ -70,3 +70,5 @@ Or add this line to your global .d.ts:
 ```
 
 [API](/api/modules/vm_main_svelte.html)
+
+[Source code](https://github.com/s-r-x/rsbuild-plugin-pwa/blob/main/src/vm/main/svelte.ts)
