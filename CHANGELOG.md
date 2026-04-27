@@ -1,5 +1,17 @@
 # Changelog
 
+# [2.0.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.7.0...v2.0.0) (2026-04-27)
+
+
+### Features
+
+* native events (waiting-refresh, etc.) are removed from the default SW registration script ([4bd46bf](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/4bd46bf5ff87d3f714315324577f7125a14eb2b0))
+
+
+### BREAKING CHANGES
+
+* Use virtual modules instead.
+
 # [1.7.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v1.6.0...v1.7.0) (2026-04-27)
 
 
