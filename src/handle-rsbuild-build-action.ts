@@ -62,10 +62,9 @@ export function handleRsBuildBuildAction({
       if (registerSwCfg?.type === "script") {
         await fs.writeFile(
           path.resolve(outputPath, registerSwCfg.scriptName),
-          genRegisterSwScript({
+          await genRegisterSwScript({
             swUrl: genSwUrl({ environment: opts.environment }),
             scope: genSwScope({ baseUrl }),
-            events: registerSwCfg.events,
           }),
         );
         api.logger.debug(formatLog("register sw script generated"));

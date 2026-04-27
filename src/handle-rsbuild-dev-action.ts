@@ -119,6 +119,16 @@ export function handleRsBuildDevAction({
       }
     })();
     const swUrl = genSwUrl({ environment: env });
+    const regSwScriptPromise: Promise<string> = (async function () {
+      if (registerSwCfg?.type === "script") {
+        return genRegisterSwScript({
+          swUrl,
+          scope: genSwScope({ baseUrl }),
+        });
+      } else {
+        return "";
+      }
+    })();
     server.middlewares.use(function (req, res, next) {
       if (req.url === manifestUrl) {
         manifestPromise.then(function (manifest) {
@@ -133,16 +143,15 @@ export function handleRsBuildDevAction({
         });
       } else if (
         registerSwCfg?.type === "script" &&
-        req.url === path.posix.join(baseUrl, registerSwCfg.scriptName)
+        req.url ===
+          normalizeAssetUrl({
+            environment: env,
+            asset: registerSwCfg.scriptName,
+          })
       ) {
-        writeRes(
-          genRegisterSwScript({
-            swUrl,
-            scope: genSwScope({ baseUrl }),
-            events: registerSwCfg.events,
-          }),
-          "text/javascript",
-        );
+        regSwScriptPromise.then(function (regScript) {
+          writeRes(regScript, "text/javascript");
+        });
       } else if (req.url === swUrl) {
         swContentPromise.then(function (sw) {
           writeRes(sw, "text/javascript");

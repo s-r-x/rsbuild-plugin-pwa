@@ -1,78 +1,26 @@
-import { DEFAULT_REG_SW_EVENTS } from "./config.ts";
-import type { RegisterSwEvents } from "./types.ts";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { REG_SW_SCRIPT_COMPILED_FOLDER } from "./config.ts";
 
-// AI GENERATED
-export function genRegisterSwScript({
+export async function genRegisterSwScript({
   swUrl,
   scope,
-  events: baseEvents = DEFAULT_REG_SW_EVENTS,
 }: {
   swUrl: string;
   scope: string;
-  events?: Partial<RegisterSwEvents>;
-}) {
-  const events: RegisterSwEvents = {
-    ...DEFAULT_REG_SW_EVENTS,
-    ...baseEvents,
-  };
-
-  return `
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        let refreshing = false;
-
-        // Triggers the actual page reload AFTER the new worker activates
-        navigator.serviceWorker.addEventListener("controllerchange", () => {
-          if (!refreshing) {
-            refreshing = true;
-            window.location.reload();
-          }
-        });
-
-        navigator.serviceWorker.register("${swUrl}", { scope: "${scope}" })
-          .then((reg) => {
-            window.dispatchEvent(new CustomEvent("${events.registered}", { 
-              detail: { registration: reg } 
-            }));
-
-            // Check if there is already a waiting worker from a previous visit
-            if (reg.waiting) {
-              dispatchWaitingRefresh(reg.waiting);
-              return;
-            }
-
-            // Listen for a new service worker installing in the background
-            reg.addEventListener("updatefound", () => {
-              const newWorker = reg.installing;
-              if (!newWorker) return;
-
-              newWorker.addEventListener("statechange", () => {
-                if (newWorker.state === "installed") {
-                  // If there's a controller, it's an update
-                  if (navigator.serviceWorker.controller) {
-                    dispatchWaitingRefresh(newWorker);
-                  } else {
-                    // If no controller, it's the first install!
-                    window.dispatchEvent(new CustomEvent("${events.offlineReady}"));
-                  }
-                }
-              });
-            });
-          })
-          .catch((err) => {
-            console.error("SW registration failed:", err);
-            window.dispatchEvent(new CustomEvent("${events.registerError}", { 
-              detail: { error: err } 
-            }));
-          });
-
-        function dispatchWaitingRefresh(worker) {
-          const event = new CustomEvent("${events.waitingRefresh}", { 
-            detail: { worker } 
-          });
-          window.dispatchEvent(event);
-        }
-      });
+}): Promise<string> {
+  const content = await fs.readFile(
+    path.join(REG_SW_SCRIPT_COMPILED_FOLDER, "basic.js"),
+    "utf8",
+  );
+  return content.replace(/__SW_URL|__SW_SCOPE/g, function (match) {
+    switch (match) {
+      case "__SW_URL":
+        return swUrl;
+      case "__SW_SCOPE":
+        return scope;
+      default:
+        return match;
     }
-  `;
+  });
 }

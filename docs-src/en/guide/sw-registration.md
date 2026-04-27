@@ -10,9 +10,8 @@ If you want to register a SW manually, [registerSw](/api/interfaces/index.PWAPlu
 
 ```ts
 if('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+    window.addEventListener('load', function () {
       navigator.serviceWorker.register('/sw.js', { scope: '/' })
     })
   }
 ```
-Keep in mind that in that case built-in [SW events](/guide/sw-events) won't work.

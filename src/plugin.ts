@@ -126,7 +126,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
     }
 
     function handleCommonHooks() {
-      api.modifyHTMLTags(function modifyHtmlTags(tags, { environment }) {
+      api.modifyHTMLTags(async function modifyHtmlTags(tags, { environment }) {
         if (
           handlerCtx.checkIfPluginDisabled({
             environmentName: environment.name,
@@ -144,10 +144,9 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             tag: "script",
           };
           if (registerSwCfg.type === "inline") {
-            registerSwTag.children = genRegisterSwScript({
+            registerSwTag.children = await genRegisterSwScript({
               swUrl: handlerCtx.genSwUrl({ environment }),
               scope: handlerCtx.genSwScope({ baseUrl }),
-              events: registerSwCfg.events,
             });
           } else if (registerSwCfg.type === "script") {
             registerSwTag.attrs = {

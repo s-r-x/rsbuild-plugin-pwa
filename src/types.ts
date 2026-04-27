@@ -28,10 +28,6 @@ export interface RegisterSwInjectableOptions {
    * @defaultValue "end"
    */
   injectPosition?: RegisterSwScriptInjectionPosition;
-  /**
-   * overrides built-in registration events
-   */
-  events?: Partial<RegisterSwEvents>;
 }
 export interface RegisterSwSharedOptions {
   scope?: string;
@@ -113,35 +109,6 @@ export type RegisterSwConfig =
   | RegisterSwInlineConfig
   | RegisterSwScriptConfig
   | RegisterSwVirtualModuleConfig;
-export interface RegisterSwEvents {
-  /**
-   * SW has been registered
-   */
-  registered: string;
-  /**
-   * First install. The app is ready to work offline
-   */
-  offlineReady: string;
-  /**
-   * Something went wrong during SW registration
-   */
-  registerError: string;
-  /**
-   * A new SW has been detected but the old one is still active. You may ask the user to reload the page
-   * ```ts
-   * window.addEventListener("rsbuild-plugin-pwa:waiting-refresh", function ({detail:{worker}}) {
-   *   if (
-   *     window.confirm("A new version of the app is available. Reload the page?")
-   *   ) {
-   *     // activate the waiting SW
-   *     worker.postMessage({ type: 'SKIP_WAITING' });
-   *     window.location.reload();
-   *   }
-   * });
-   * ```
-   */
-  waitingRefresh: string;
-}
 
 export interface PWAPluginOptions {
   sw?: ServiceWorkerConfig;

@@ -31,6 +31,7 @@ tasks:
     cmds:
       - task: vm.build
       - task: vm.build-types
+      - task: reg-sw-script.build
       - task: build
   lint: "{{.PKG_MNGR_SCRIPT}} lint"
   lint.fix: "{{.PKG_MNGR_SCRIPT}} lint:fix"
@@ -56,6 +57,7 @@ tasks:
       - task: sandbox.preview
   vm.build: "{{.PKG_MNGR_SCRIPT}} vm:build"
   vm.build-types: "{{.PKG_MNGR_SCRIPT}} vm:build-types"
+  reg-sw-script.build: "{{.PKG_MNGR_SCRIPT}} reg-sw-script:build"
   prepare-release:
     cmds:
       - task: lint

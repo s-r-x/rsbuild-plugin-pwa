@@ -13,10 +13,8 @@
 
 ```ts
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
+  window.addEventListener('load', function() {
     navigator.serviceWorker.register('/sw.js', { scope: '/' });
   });
 }
 ```
-
-Имейте в виду, что в этом случае встроенные [события SW](/guide/sw-events) работать не будут.

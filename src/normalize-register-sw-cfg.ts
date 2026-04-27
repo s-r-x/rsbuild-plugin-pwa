@@ -1,6 +1,5 @@
 import {
   DEFAULT_REG_SW_CONFIG,
-  DEFAULT_REG_SW_EVENTS,
   DEFAULT_REG_SW_FILENAME,
   DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
   DEFAULT_REG_SW_SCRIPT_INJ_POS,
@@ -30,13 +29,11 @@ export function normalizeRegisterSwCfg(
     const {
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
-      events = DEFAULT_REG_SW_EVENTS,
       ...rest
     } = baseRegisterSwCfg;
     return {
       injectPosition,
       injectTarget,
-      events,
       ...rest,
     };
   } else if (baseRegisterSwCfg.type === "script") {
@@ -45,7 +42,6 @@ export function normalizeRegisterSwCfg(
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
       defer = DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
-      events = DEFAULT_REG_SW_EVENTS,
       ...rest
     } = baseRegisterSwCfg;
     return {
@@ -53,7 +49,6 @@ export function normalizeRegisterSwCfg(
       injectPosition,
       injectTarget,
       defer,
-      events,
       ...rest,
     };
   } else if (baseRegisterSwCfg.type === "virtual-module") {

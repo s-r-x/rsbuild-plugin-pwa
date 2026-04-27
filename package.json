@@ -36,6 +36,7 @@
   "files": [
     "dist",
     "vm-dist",
+    "register-sw-script-dist",
     "types",
     "README.md",
     "LICENSE"
@@ -70,6 +71,7 @@
     "sandbox:preview": "rsbuild preview --root=./sandbox",
     "vm:build": "node ./scripts/build-vm.ts",
     "vm:build-types": "node ./scripts/build-vm-types.ts",
+    "reg-sw-script:build": "node ./scripts/build-register-sw-script.ts",
     "release": "npx release-it"
   },
   "devDependencies": {

@@ -7,6 +7,7 @@
 node_modules
 dist/
 vm-dist/
+register-sw-script-dist/
 storybook-static
 doc_build/
 docs

@@ -5,7 +5,6 @@ import chalk from "chalk";
 import type { OmitRequired } from "./type-utils.ts";
 import type {
   PWAPluginOptions,
-  RegisterSwEvents,
   RegisterSwScriptConfig,
   RegisterSwScriptInjectionPosition,
   RegisterSwScriptInjectionTarget,
@@ -26,20 +25,12 @@ export const DEFAULT_REG_SW_SCRIPT_INJ_POS: RegisterSwScriptInjectionPosition =
 export const DEFAULT_REG_SW_SCRIPT_INJ_TAR: RegisterSwScriptInjectionTarget =
   "head";
 export const DEFAULT_REG_SW_SCRIPT_INJ_DEFER = true;
-const REG_SW_EVENT_PREFIX = "rsbuild-plugin-pwa:";
-export const DEFAULT_REG_SW_EVENTS = {
-  registered: `${REG_SW_EVENT_PREFIX}registered`,
-  registerError: `${REG_SW_EVENT_PREFIX}register-error`,
-  offlineReady: `${REG_SW_EVENT_PREFIX}offline-ready`,
-  waitingRefresh: `${REG_SW_EVENT_PREFIX}waiting-refresh`,
-} as const satisfies RegisterSwEvents;
 export const DEFAULT_REG_SW_CONFIG = {
   type: "script",
   scriptName: DEFAULT_REG_SW_FILENAME,
   injectPosition: DEFAULT_REG_SW_SCRIPT_INJ_POS,
   injectTarget: DEFAULT_REG_SW_SCRIPT_INJ_TAR,
   defer: DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
-  events: DEFAULT_REG_SW_EVENTS,
 } as const satisfies OmitRequired<RegisterSwScriptConfig, "scope">;
 
 export const DEFAULT_WORKBOX_BUILD_VALUES = {
@@ -85,4 +76,14 @@ export const VM_COMPILED_FOLDER = path.join(VM_COMPILED_BASE_FOLDER, "main");
 export const VM_COMPILED_FOLDER_MOCK = path.join(
   VM_COMPILED_BASE_FOLDER,
   "mock",
+);
+
+export const REG_SW_SCRIPT_SRC_FOLDER = path.join(
+  dirname,
+  "register-sw-script",
+);
+export const REG_SW_SCRIPT_COMPILED_FOLDER = path.join(
+  dirname,
+  "..",
+  "register-sw-script-dist",
 );
