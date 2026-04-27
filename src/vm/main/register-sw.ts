@@ -1,5 +1,9 @@
 import type { WorkboxLifecycleEvent } from "workbox-window";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
+import type {
+  CreateWorkboxFn,
+  RegisterSWOptions,
+  RegisterSWReturnValue,
+} from "../types.ts";
 
 const swUrl = "__SW_URL";
 const swScope = "__SW_SCOPE";
@@ -16,6 +20,7 @@ export function registerSW({
   onOfflineReady,
   onRegister,
   onRegisterError,
+  createWorkbox = defaultCreateWorkbox,
 }: RegisterSWOptions = {}): RegisterSWReturnValue {
   async function register(): Promise<
     { skipWaiting: () => void; detachEventListeners: () => void } | undefined
@@ -24,17 +29,18 @@ export function registerSW({
       console.warn("SW is not supported in this environment");
       return;
     }
-
-    const wb = await import("workbox-window")
-      .then(function ({ Workbox }) {
-        return new Workbox(swUrl, {
-          scope: swScope,
-        });
-      })
-      .catch(function (e) {
-        onRegisterError?.(e);
-        return null;
-      });
+    let wb: ReturnType<CreateWorkboxFn>;
+    try {
+      const wbLoader = createWorkbox({ swUrl, swScope });
+      if (wbLoader instanceof Promise) {
+        wb = await wbLoader;
+      } else {
+        wb = wbLoader;
+      }
+    } catch (e) {
+      onRegisterError?.(e);
+      return;
+    }
     if (!wb) return;
 
     const wbEventCallbacks = {
@@ -110,3 +116,13 @@ export function registerSW({
     },
   };
 }
+
+const defaultCreateWorkbox: CreateWorkboxFn = async function ({
+  swUrl,
+  swScope,
+}) {
+  const { Workbox } = await import("workbox-window");
+  return new Workbox(swUrl, {
+    scope: swScope,
+  });
+};

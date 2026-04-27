@@ -14,18 +14,15 @@ const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/preact.html | Usage}
  */
-export function useRegisterSW(
-  options: RegisterSWOptions = {},
-): UseRegisterSWReturnValue {
-  const {
-    immediate = true,
-    onNewSwActive,
-    onNewSwWaiting,
-    onOfflineReady,
-    onRegister,
-    onRegisterError,
-  } = options;
-
+export function useRegisterSW({
+  immediate = true,
+  onNewSwActive,
+  onNewSwWaiting,
+  onOfflineReady,
+  onRegister,
+  onRegisterError,
+  createWorkbox,
+}: RegisterSWOptions = {}): UseRegisterSWReturnValue {
   const [registerSwReturnValue, setRegisterSwReturnValue] = useState(
     defaultRegisterSwReturnValue,
   );
@@ -63,6 +60,7 @@ export function useRegisterSW(
       onRegisterError(e) {
         callbacksRef.current.onRegisterError?.(e);
       },
+      createWorkbox,
     });
     setRegisterSwReturnValue({ skipWaiting });
     return function cleanupRegisterSwEffect() {

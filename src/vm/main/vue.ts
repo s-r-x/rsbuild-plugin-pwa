@@ -14,18 +14,15 @@ const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/vue.html | Usage}
  */
-export function useRegisterSW(
-  options: RegisterSWOptions = {},
-): UseRegisterSWReturnValue {
-  const {
-    immediate = true,
-    onNewSwActive,
-    onNewSwWaiting,
-    onOfflineReady,
-    onRegister,
-    onRegisterError,
-  } = options;
-
+export function useRegisterSW({
+  immediate = true,
+  onNewSwActive,
+  onNewSwWaiting,
+  onOfflineReady,
+  onRegister,
+  onRegisterError,
+  createWorkbox,
+}: RegisterSWOptions = {}): UseRegisterSWReturnValue {
   const offlineReady = ref(false);
   const newSwWaiting = ref(false);
   const newSwActive = ref(false);
@@ -55,6 +52,7 @@ export function useRegisterSW(
       onRegisterError(e) {
         onRegisterError?.(e);
       },
+      createWorkbox,
     });
 
     skipWaitingFn = skipWaiting;

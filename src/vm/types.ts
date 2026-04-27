@@ -1,3 +1,4 @@
+import type { Workbox } from "workbox-window";
 export interface RegisterSWOptions {
   /**
    * Setting this to true will register the SW immediately, even if the window has not loaded.
@@ -26,7 +27,19 @@ export interface RegisterSWOptions {
    * Something went wrong during the SW registration.
    */
   onRegisterError?: (error: any) => void;
+  /**
+   * workbox-window is lazy loaded by default
+   * if you're, for example, already lazy loading the virtual module
+   * you might want to minimize the number of generated chunks by importing workbox-window synchronously
+   */
+  createWorkbox?: CreateWorkboxFn;
 }
+
+export type CreateWorkboxFn = (args: {
+  swUrl: string;
+  swScope: string;
+}) => Promise<Workbox> | Workbox;
+
 export interface RegisterSWReturnValue {
   /**
    * Sends a `{type: 'SKIP_WAITING'}` message to the SW that's currently in the `waiting` state associated with the current registration.

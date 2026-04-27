@@ -1,7 +1,12 @@
+/// <reference types="../../types/register-sw.d.ts" />
 import { registerSW } from "rsbuild-plugin-pwa_vm/register-sw";
+import { Workbox } from "workbox-window";
 
 console.log("sandbox");
 const { skipWaiting } = registerSW({
+  createWorkbox({ swUrl, swScope }) {
+    return new Workbox(swUrl, { scope: swScope });
+  },
   onRegisterError(error) {
     console.error(error);
   },
@@ -13,6 +18,7 @@ const { skipWaiting } = registerSW({
     console.log("registration:", registration);
     console.log("sw url: " + swUrl);
   },
+
   onNewSwActive() {
     console.log(
       "the new sw is controlling the page. it's time to refresh the page",

@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   source: {
     entry: {
-      index: "./src/index.js",
+      index: "./src/index.ts",
     },
   },
 });
