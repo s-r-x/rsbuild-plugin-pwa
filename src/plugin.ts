@@ -147,6 +147,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             registerSwTag.children = await genRegisterSwScript({
               swUrl: handlerCtx.genSwUrl({ environment }),
               scope: handlerCtx.genSwScope({ baseUrl }),
+              features: registerSwCfg.features,
             });
           } else if (registerSwCfg.type === "script") {
             registerSwTag.attrs = {

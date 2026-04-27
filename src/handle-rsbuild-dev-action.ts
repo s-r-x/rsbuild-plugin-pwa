@@ -124,6 +124,7 @@ export function handleRsBuildDevAction({
         return genRegisterSwScript({
           swUrl,
           scope: genSwScope({ baseUrl }),
+          features: registerSwCfg.features,
         });
       } else {
         return "";

@@ -7,6 +7,7 @@ import {
 } from "./config.ts";
 import type { OmitRequired } from "./type-utils.ts";
 import type {
+  DefaultRegisterSwScriptFeatures,
   RegisterSwConfig,
   RegisterSwInlineConfig,
   RegisterSwScriptConfig,
@@ -29,26 +30,30 @@ export function normalizeRegisterSwCfg(
     const {
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
+      features,
       ...rest
     } = baseRegisterSwCfg;
     return {
       injectPosition,
       injectTarget,
+      features: normalizeDefaultRegisterSwFeatures(features),
       ...rest,
     };
   } else if (baseRegisterSwCfg.type === "script") {
     const {
-      scriptName = DEFAULT_REG_SW_FILENAME,
+      scriptName,
       injectPosition = DEFAULT_REG_SW_SCRIPT_INJ_POS,
       injectTarget = DEFAULT_REG_SW_SCRIPT_INJ_TAR,
       defer = DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
+      features,
       ...rest
     } = baseRegisterSwCfg;
     return {
-      scriptName,
+      scriptName: scriptName || DEFAULT_REG_SW_FILENAME,
       injectPosition,
       injectTarget,
       defer,
+      features: normalizeDefaultRegisterSwFeatures(features),
       ...rest,
     };
   } else if (baseRegisterSwCfg.type === "virtual-module") {
@@ -56,4 +61,13 @@ export function normalizeRegisterSwCfg(
   } else {
     throw new Error("invalid registerSw config");
   }
+}
+function normalizeDefaultRegisterSwFeatures(
+  features?: DefaultRegisterSwScriptFeatures,
+): Required<DefaultRegisterSwScriptFeatures> {
+  return {
+    autoSkipWaiting: features?.autoSkipWaiting ?? false,
+    autoReloadPage:
+      features?.autoReloadPage ?? Boolean(features?.autoSkipWaiting),
+  };
 }

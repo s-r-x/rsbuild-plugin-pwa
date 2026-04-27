@@ -19,7 +19,19 @@ export interface WebAppManifestConfig {
 export type RegisterSwScriptInjectionTarget = "head" | "body";
 export type RegisterSwScriptInjectionPosition = "start" | "end";
 
-export interface RegisterSwInjectableOptions {
+export interface DefaultRegisterSwScriptFeatures {
+  /**
+   * reloads the page when the new SW starts controlling the page.
+   * this is enabled by default if `autoSkipWaiting` is true
+   */
+  autoReloadPage?: boolean;
+  /**
+   * sends "SKIP_WAITING" message to the new SW when it enters "waiting" state.
+   * useless if your SW is unconditionally calling `self.skipWaiting()` (for example if you pass `{skipWaiting: true}` to workbox options in `generateSw` mode);
+   */
+  autoSkipWaiting?: boolean;
+}
+export interface DefaultRegisterSwScriptOptions {
   /**
    * @defaultValue "head"
    */
@@ -28,6 +40,10 @@ export interface RegisterSwInjectableOptions {
    * @defaultValue "end"
    */
   injectPosition?: RegisterSwScriptInjectionPosition;
+  /**
+   * when any of these fields are defined the default SW registration script size will be significantly larger (~3kb gzipped) because the script will include `workbox-window`
+   */
+  features?: DefaultRegisterSwScriptFeatures;
 }
 export interface RegisterSwSharedOptions {
   scope?: string;
@@ -37,11 +53,11 @@ export interface RegisterSwVirtualModuleConfig extends RegisterSwSharedOptions {
   type: "virtual-module";
 }
 export interface RegisterSwInlineConfig
-  extends RegisterSwSharedOptions, RegisterSwInjectableOptions {
+  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
   type: "inline";
 }
 export interface RegisterSwScriptConfig
-  extends RegisterSwSharedOptions, RegisterSwInjectableOptions {
+  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
   type: "script";
   /**
    * @defaultValue "register-sw.js"

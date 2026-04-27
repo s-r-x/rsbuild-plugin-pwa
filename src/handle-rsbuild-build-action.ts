@@ -65,6 +65,7 @@ export function handleRsBuildBuildAction({
           await genRegisterSwScript({
             swUrl: genSwUrl({ environment: opts.environment }),
             scope: genSwScope({ baseUrl }),
+            features: registerSwCfg.features,
           }),
         );
         api.logger.debug(formatLog("register sw script generated"));

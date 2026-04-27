@@ -31,6 +31,10 @@ export const DEFAULT_REG_SW_CONFIG = {
   injectPosition: DEFAULT_REG_SW_SCRIPT_INJ_POS,
   injectTarget: DEFAULT_REG_SW_SCRIPT_INJ_TAR,
   defer: DEFAULT_REG_SW_SCRIPT_INJ_DEFER,
+  features: {
+    autoReloadPage: false,
+    autoSkipWaiting: false,
+  },
 } as const satisfies OmitRequired<RegisterSwScriptConfig, "scope">;
 
 export const DEFAULT_WORKBOX_BUILD_VALUES = {
