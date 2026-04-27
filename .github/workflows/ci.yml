@@ -23,11 +23,13 @@ jobs:
       - run: npm ci
 
       - name: Lint
-        run: npm run lint:fix
+        run: npm run lint
       - name: Type check
         run: npm run check-types
       - name: Build VM
         run: npm run vm:build
+      - name: Build default SW reg script
+        run: npm reg-sw-script:build
       - name: Test
         run: npm test
       - name: Build
