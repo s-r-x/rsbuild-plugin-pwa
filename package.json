@@ -1,7 +1,7 @@
 {
   "name": "rsbuild-plugin-pwa",
   "description": "Zero-config PWA support for rsbuild",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "Ilya Strus <strax1990@gmail.com>",
   "license": "MIT",
   "type": "module",

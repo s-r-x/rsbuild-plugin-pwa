@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.1.0...v2.1.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* always enable virtual modules plugin unless the env output target is "web-worker" ([d5d6d44](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/d5d6d44f582e9d82f6a3813f1745168634603e61))
+
 # [2.1.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.0.0...v2.1.0) (2026-04-27)
 
 
