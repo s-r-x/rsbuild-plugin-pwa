@@ -236,11 +236,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
       }
 
       api.modifyRspackConfig(function modifyRspackCfg(rspackCfg, utils) {
-        if (
-          handlerCtx.checkIfPluginDisabled({
-            environmentName: utils.environment.name,
-          })
-        ) {
+        if (utils.environment.config.output.target === "web-worker") {
           return;
         }
 
