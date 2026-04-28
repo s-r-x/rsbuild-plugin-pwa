@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.1.1...v2.2.0) (2026-04-28)
+
+
+### Features
+
+* emit web app manifest and sw registration script to rsbuild assets instead of manually writing them to disk ([15684ca](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/15684cae5e47130a39f5b0a32043a91df2b41e40))
+
 ## [2.1.1](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.1.0...v2.1.1) (2026-04-28)
 
 
