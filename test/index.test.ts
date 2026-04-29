@@ -28,7 +28,7 @@ function genOutputDir(): string {
   );
   return outputDir;
 }
-test("should generate and inject into html pwa related stuff", async function () {
+test("should generate and inject into html pwa related stuff", async function() {
   const baseUrl = "/my-app";
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "my-sw.js";
@@ -40,13 +40,20 @@ test("should generate and inject into html pwa related stuff", async function ()
     name: "app",
     description: "desc",
   };
-  const iconTagConfig = {
-    href: "/favicon.svg",
-    type: "image/svg+xml",
-    sizes: "32x32",
-    fetchpriority: "high",
-    crossorigin: "anonymous",
-  } satisfies HtmlTagsConfig["icon"];
+  const iconTagConfig = [
+    {
+      href: "/favicon.svg",
+      type: "image/svg+xml",
+      sizes: "32x32",
+      fetchpriority: "high",
+      crossorigin: "anonymous",
+    },
+    {
+      href: "/favicon.png",
+      type: "image/png",
+      sizes: "16x16",
+    },
+  ] satisfies HtmlTagsConfig["icon"];
   const appleTouchIconTagConfig = {
     href: "touch-icon.png",
     sizes: "180x180",
@@ -122,9 +129,11 @@ test("should generate and inject into html pwa related stuff", async function ()
       `<link rel="apple-touch-icon" ${k} should be ${v}`,
     );
   }
-  const $icon = $('link[rel="icon"]');
-  for (const [k, v] of Object.entries(iconTagConfig)) {
-    assert($icon.attr(k) === v, `<link rel="icon" ${k} should be ${v}`);
+  for (const cfg of iconTagConfig) {
+    const $icon = $(`link[rel="icon"][href="${cfg.href}"]`);
+    for (const [k, v] of Object.entries(cfg)) {
+      assert($icon.attr(k) === v, `<link rel="icon" ${k} should be ${v}`);
+    }
   }
 
   const webAppManifest = await fs
@@ -148,7 +157,7 @@ test("should generate and inject into html pwa related stuff", async function ()
     "sw should be generated",
   );
 });
-test("should generate asset urls based on output.assetPrefix if it's defined", async function () {
+test("should generate asset urls based on output.assetPrefix if it's defined", async function() {
   const baseUrl = "/my-app";
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "my-sw.js";
@@ -235,7 +244,7 @@ test("should generate asset urls based on output.assetPrefix if it's defined", a
     "sw should be generated",
   );
 });
-test("should generate and inject into html pwa related stuff in 'injectManifest' mode", async function () {
+test("should generate and inject into html pwa related stuff in 'injectManifest' mode", async function() {
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "sw-with-injected-manifest.js";
   const webAppManifestName = "my-manifest.webmanifest";
@@ -359,7 +368,7 @@ function testVmApp({
   entryFile: string;
   appName: string;
 }) {
-  test(`should build a ${appName} app that uses a vm`, async function () {
+  test(`should build a ${appName} app that uses a vm`, async function() {
     const result = await buildVmApp({
       appDir,
       entryFile,

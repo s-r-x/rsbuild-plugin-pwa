@@ -53,11 +53,13 @@ export interface RegisterSwVirtualModuleConfig extends RegisterSwSharedOptions {
   type: "virtual-module";
 }
 export interface RegisterSwInlineConfig
-  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions,
+  DefaultRegisterSwScriptOptions {
   type: "inline";
 }
 export interface RegisterSwScriptConfig
-  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions,
+  DefaultRegisterSwScriptOptions {
   type: "script";
   /**
    * @defaultValue "register-sw.js"
@@ -126,6 +128,14 @@ export type RegisterSwConfig =
   | RegisterSwScriptConfig
   | RegisterSwVirtualModuleConfig;
 
+export interface IconHtmlTagConfig {
+  href: string;
+  type?: string;
+  media?: string;
+  crossorigin?: string;
+  fetchpriority?: string;
+  sizes?: string;
+}
 export interface HtmlTagsConfig {
   /**
    * generates <meta name="theme-color" />
@@ -142,14 +152,7 @@ export interface HtmlTagsConfig {
   /**
    * generates <link rel="icon"/>
    */
-  icon?: {
-    href: string;
-    type?: string;
-    media?: string;
-    crossorigin?: string;
-    fetchpriority?: string;
-    sizes?: string;
-  };
+  icon?: IconHtmlTagConfig | IconHtmlTagConfig[];
 }
 export interface PWAPluginOptions {
   htmlTags?: HtmlTagsConfig;

@@ -45,11 +45,11 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
     }
 
     const extractEnvBaseUrl: RsBuildActionHandlerCtx["extractEnvBaseUrl"] =
-      function (env) {
+      function(env) {
         return env?.config.server.base || "/";
       };
     const extractAssetPrefix: RsBuildActionHandlerCtx["extractAssetPrefix"] =
-      function (env) {
+      function(env) {
         let prefix: string;
         const assetPrefix = env?.config.output.assetPrefix;
         const baseUrl = extractEnvBaseUrl(env);
@@ -66,15 +66,15 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
         return prefix.replace(/\/$/, "");
       };
     const normalizeAssetUrl: RsBuildActionHandlerCtx["normalizeAssetUrl"] =
-      function ({ environment, asset }) {
+      function({ environment, asset }) {
         const assetPrefix = extractAssetPrefix(environment);
         return assetPrefix + "/" + asset.replace(/^\//, "");
       };
     const genWebAppManifestUrl: RsBuildActionHandlerCtx["genWebAppManifestUrl"] =
-      function ({ environment, filename = DEFAULT_WEB_APP_MANIFEST_FILENAME }) {
+      function({ environment, filename = DEFAULT_WEB_APP_MANIFEST_FILENAME }) {
         return normalizeAssetUrl({ environment, asset: filename });
       };
-    const genSwScope: RsBuildActionHandlerCtx["genSwScope"] = function ({
+    const genSwScope: RsBuildActionHandlerCtx["genSwScope"] = function({
       baseUrl,
     }) {
       if (cfg.registerSw?.scope) return cfg.registerSw.scope;
@@ -83,7 +83,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
       if (webAppManifestScope) return webAppManifestScope;
       return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     };
-    const genSwUrl: RsBuildActionHandlerCtx["genSwUrl"] = function ({
+    const genSwUrl: RsBuildActionHandlerCtx["genSwUrl"] = function({
       environment,
     }) {
       return normalizeAssetUrl({
@@ -185,8 +185,8 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
               content: (typeof themeColor === "string"
                 ? themeColor
                 : (webAppManifestCfg !== false &&
-                    webAppManifestCfg.content?.theme_color) ||
-                  DEFAULT_THEME_COLOR) satisfies string,
+                  webAppManifestCfg.content?.theme_color) ||
+                DEFAULT_THEME_COLOR) satisfies string,
             },
           });
         }
@@ -205,19 +205,19 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
             },
           });
         }
-        if (
-          cfg.htmlTags?.icon &&
-          !tags.headTags.some(
-            ({ tag, attrs }) => tag === "link" && attrs?.rel === "icon",
-          )
-        ) {
-          tags.headTags.unshift({
-            tag: "link",
-            attrs: {
-              ...cfg.htmlTags.icon,
-              rel: "icon",
-            },
-          });
+        if (cfg.htmlTags?.icon) {
+          const icons = Array.isArray(cfg.htmlTags.icon)
+            ? cfg.htmlTags.icon
+            : [cfg.htmlTags.icon];
+          for (const icon of icons) {
+            tags.headTags.unshift({
+              tag: "link",
+              attrs: {
+                ...icon,
+                rel: "icon",
+              },
+            });
+          }
         }
         if (webAppManifestCfg && !webAppManifestCfg.skipHtmlInjection) {
           tags.headTags.unshift({
@@ -269,7 +269,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
           },
           async function transformVirtualModule(ctx) {
             const content = await fs.readFile(realPath, "utf8");
-            return content.replace(/__SW_URL|__SW_SCOPE/g, function (match) {
+            return content.replace(/__SW_URL|__SW_SCOPE/g, function(match) {
               const baseUrl = handlerCtx.extractEnvBaseUrl(ctx.environment);
               switch (match) {
                 case "__SW_URL":
