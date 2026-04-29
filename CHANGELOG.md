@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.3.0...v2.4.0) (2026-04-29)
+
+
+### Features
+
+* support multiple icons in `htmlTags` config ([546f87c](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/546f87c7bf155586e5c250906d1b0b464c44bd01))
+
 # [2.3.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.2.0...v2.3.0) (2026-04-29)
 
 
