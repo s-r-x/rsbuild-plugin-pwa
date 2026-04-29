@@ -48,6 +48,8 @@ export const DEFAULT_SW_CONFIG: ServiceWorkerConfig = {
   filename: DEFAULT_SW_FILENAME,
 };
 
+export const DEFAULT_THEME_COLOR = "#ffffff";
+
 export const DEFAULT_DISABLE_PLUGIN: NonNullable<
   PWAPluginOptions["disabled"]
 > = ({ environmentName }) => environmentName !== "web";
