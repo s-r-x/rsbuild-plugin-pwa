@@ -3,6 +3,7 @@ import path from "node:path";
 import type { HtmlBasicTag, RsbuildPlugin } from "@rsbuild/core";
 import {
   DEFAULT_SW_FILENAME,
+  DEFAULT_THEME_COLOR,
   DEFAULT_WEB_APP_MANIFEST_FILENAME,
   PLUGIN_NAME,
   VM_COMPILED_FOLDER,
@@ -170,6 +171,54 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
           api.logger.debug(formatLog("register sw script added to the html"));
         }
 
+        if (
+          cfg.htmlTags?.themeColor &&
+          !tags.headTags.some(
+            ({ tag, attrs }) => tag === "meta" && attrs?.name === "theme-color",
+          )
+        ) {
+          const themeColor = cfg.htmlTags.themeColor;
+          tags.headTags.unshift({
+            tag: "meta",
+            attrs: {
+              name: "theme-color",
+              content: (typeof themeColor === "string"
+                ? themeColor
+                : (webAppManifestCfg !== false &&
+                    webAppManifestCfg.content?.theme_color) ||
+                  DEFAULT_THEME_COLOR) satisfies string,
+            },
+          });
+        }
+        if (
+          cfg.htmlTags?.appleTouchIcon?.href &&
+          !tags.headTags.some(
+            ({ tag, attrs }) =>
+              tag === "link" && attrs?.rel === "apple-touch-icon",
+          )
+        ) {
+          tags.headTags.unshift({
+            tag: "link",
+            attrs: {
+              ...cfg.htmlTags.appleTouchIcon,
+              rel: "apple-touch-icon",
+            },
+          });
+        }
+        if (
+          cfg.htmlTags?.icon &&
+          !tags.headTags.some(
+            ({ tag, attrs }) => tag === "link" && attrs?.rel === "icon",
+          )
+        ) {
+          tags.headTags.unshift({
+            tag: "link",
+            attrs: {
+              ...cfg.htmlTags.icon,
+              rel: "icon",
+            },
+          });
+        }
         if (webAppManifestCfg && !webAppManifestCfg.skipHtmlInjection) {
           tags.headTags.unshift({
             tag: "link",

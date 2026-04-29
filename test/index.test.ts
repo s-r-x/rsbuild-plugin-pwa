@@ -6,13 +6,18 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { createRsbuild, type RsbuildPlugin } from "@rsbuild/core";
 import { pluginBabel } from "@rsbuild/plugin-babel";
+import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginSolid } from "@rsbuild/plugin-solid";
 import { pluginSvelte } from "@rsbuild/plugin-svelte";
 import { pluginVue } from "@rsbuild/plugin-vue";
-import { pluginPreact } from "@rsbuild/plugin-preact";
 import * as cheerio from "cheerio";
-import { pluginPWA, type WebAppManifest } from "../src/index.ts";
+import { DEFAULT_THEME_COLOR } from "../src/config.ts";
+import {
+  type HtmlTagsConfig,
+  pluginPWA,
+  type WebAppManifest,
+} from "../src/index.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const baseOutputDir = path.join(__dirname, "dist");
@@ -35,6 +40,17 @@ test("should generate and inject into html pwa related stuff", async function ()
     name: "app",
     description: "desc",
   };
+  const iconTagConfig = {
+    href: "/favicon.svg",
+    type: "image/svg+xml",
+    sizes: "32x32",
+    fetchpriority: "high",
+    crossorigin: "anonymous",
+  } satisfies HtmlTagsConfig["icon"];
+  const appleTouchIconTagConfig = {
+    href: "touch-icon.png",
+    sizes: "180x180",
+  } satisfies HtmlTagsConfig["appleTouchIcon"];
   const rsbuild = await createRsbuild({
     cwd: __dirname,
     rsbuildConfig: {
@@ -52,6 +68,11 @@ test("should generate and inject into html pwa related stuff", async function ()
           sw: {
             mode: "generateSw",
             filename: swScriptName,
+          },
+          htmlTags: {
+            themeColor: true,
+            appleTouchIcon: appleTouchIconTagConfig,
+            icon: iconTagConfig,
           },
         }),
       ],
@@ -89,6 +110,22 @@ test("should generate and inject into html pwa related stuff", async function ()
     `link[rel="manifest"][href="${baseUrl + "/" + webAppManifestName}"]`,
   )[0];
   assert($manifest, "link to web app manifest should be in html");
+  const $themeColor = $('meta[name="theme-color"]');
+  assert(
+    $themeColor.attr("content") === DEFAULT_THEME_COLOR,
+    '<meta name="theme-color" should be generated',
+  );
+  const $appleTouchIcon = $('link[rel="apple-touch-icon"]');
+  for (const [k, v] of Object.entries(appleTouchIconTagConfig)) {
+    assert(
+      $appleTouchIcon.attr(k) === v,
+      `<link rel="apple-touch-icon" ${k} should be ${v}`,
+    );
+  }
+  const $icon = $('link[rel="icon"]');
+  for (const [k, v] of Object.entries(iconTagConfig)) {
+    assert($icon.attr(k) === v, `<link rel="icon" ${k} should be ${v}`);
+  }
 
   const webAppManifest = await fs
     .readFile(path.join(outputDir, webAppManifestName), "utf8")
@@ -101,6 +138,7 @@ test("should generate and inject into html pwa related stuff", async function ()
       ...webAppManifestContent,
       scope: baseUrl + "/",
       start_url: baseUrl,
+      theme_color: DEFAULT_THEME_COLOR,
     } satisfies WebAppManifest,
     "web app manifest should include user defined values and some default ones",
   );
@@ -121,6 +159,7 @@ test("should generate asset urls based on output.assetPrefix if it's defined", a
   const webAppManifestContent: WebAppManifest = {
     name: "app",
     description: "desc",
+    theme_color: "#000000",
   };
   const assetPrefix = "https://cdn.example.com/assets/";
   const rsbuild = await createRsbuild({

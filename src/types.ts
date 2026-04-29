@@ -126,7 +126,33 @@ export type RegisterSwConfig =
   | RegisterSwScriptConfig
   | RegisterSwVirtualModuleConfig;
 
+export interface HtmlTagsConfig {
+  /*
+   * generates <meta name="theme-color" />
+   * if `true` `theme_color` will be extracted from the web app manifest config if it's defined or the default one will be used.
+   */
+  themeColor?: string | true;
+  /*
+   * generates <link rel="apple-touch-icon"/>
+   */
+  appleTouchIcon?: {
+    href: string;
+    sizes?: string;
+  };
+  /*
+   * generates <link rel="icon"/>
+   */
+  icon?: {
+    href: string;
+    type?: string;
+    media?: string;
+    crossorigin?: string;
+    fetchpriority?: string;
+    sizes?: string;
+  };
+}
 export interface PWAPluginOptions {
+  htmlTags?: HtmlTagsConfig;
   sw?: ServiceWorkerConfig;
   /**
    * false to disable
