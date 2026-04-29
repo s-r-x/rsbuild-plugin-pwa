@@ -6,7 +6,7 @@
 ### Features
 
 * add `htmlTags` to the plugin config ([a736888](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/a7368886a4a4a142bd64ef2f3d89e60093b49dcb))
-* add `theme_color` to the web app manifest if not specified (#ffffff) ([423d403](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/423d403f13d937e69fc32b0d17e3dfa118cd3699)), closes [#ffffff](https://github.com/s-r-x/rsbuild-plugin-pwa/issues/ffffff)
+* add `theme_color` to the web app manifest if not specified (#ffffff) ([423d403](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/423d403f13d937e69fc32b0d17e3dfa118cd3699))
 
 # [2.2.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.1.1...v2.2.0) (2026-04-28)
 
