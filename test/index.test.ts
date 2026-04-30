@@ -146,7 +146,7 @@ test("should generate and inject into html pwa related stuff", async function() 
     {
       ...webAppManifestContent,
       scope: baseUrl + "/",
-      start_url: baseUrl,
+      start_url: baseUrl + "/",
       theme_color: DEFAULT_THEME_COLOR,
     } satisfies WebAppManifest,
     "web app manifest should include user defined values and some default ones",
@@ -234,7 +234,7 @@ test("should generate asset urls based on output.assetPrefix if it's defined", a
     {
       ...webAppManifestContent,
       scope: baseUrl + "/",
-      start_url: baseUrl,
+      start_url: baseUrl + "/",
     } satisfies WebAppManifest,
     "web app manifest should include user defined values and some default ones",
   );

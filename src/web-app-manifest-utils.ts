@@ -16,7 +16,7 @@ export async function normalizeWebAppManifest(
   const pkgJson = shouldReadPkgJson ? await readHostPackageJson() : null;
   const {
     name = pkgJson?.name || DEFAULT_WEB_APP_MANIFEST_NAME,
-    start_url = baseUrl,
+    start_url,
     description = pkgJson?.description,
     theme_color = DEFAULT_THEME_COLOR,
     ...baseManifest
@@ -27,7 +27,7 @@ export async function normalizeWebAppManifest(
     theme_color,
     scope:
       baseManifest.scope || (baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"),
-    start_url,
+    start_url: start_url || (baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"),
     description,
   };
 }
