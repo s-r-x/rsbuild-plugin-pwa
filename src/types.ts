@@ -91,6 +91,7 @@ export interface SharedSwConfig {
    * true
    * ```
    * @example
+   * ```ts
    * [0, 1]
    * ```
    */
