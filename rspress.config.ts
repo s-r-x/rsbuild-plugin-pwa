@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "@rspress/core";
 import { pluginTypeDoc } from "@rspress/plugin-typedoc";
+import { pluginPWA } from "./src/plugin.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -10,9 +11,10 @@ const pkgJson: { name: string } = JSON.parse(
   fs.readFileSync(path.join(__dirname, "package.json"), "utf8"),
 );
 const title = pkgJson.name;
+const baseUrl = "/" + pkgJson.name + "/";
 export default defineConfig({
   title,
-  base: pkgJson.name,
+  base: baseUrl,
   lang: "en",
   locales: [
     {
@@ -30,10 +32,61 @@ export default defineConfig({
   ],
   root: "docs-src",
   outDir: "docs",
+  globalUIComponents: [
+    path.join(__dirname, "docs-src", "ServiceWorkerManager.tsx"),
+  ],
   builderConfig: {
-    source: {
-      tsconfigPath: path.join(__dirname, "./tsconfig.docs.json"),
-    },
+    plugins: [
+      pluginPWA({
+        htmlTags: {
+          icon: [
+            {
+              href: baseUrl + "favicon-16x16.png",
+              sizes: "16x16",
+              type: "image/png",
+            },
+            {
+              href: baseUrl + "favicon-32x32.png",
+              sizes: "32x32",
+              type: "image/png",
+            },
+            {
+              href: baseUrl + "favicon.svg",
+              type: "image/svg+xml",
+            },
+          ],
+        },
+        webAppManifest: {
+          content: {
+            display: "minimal-ui",
+            theme_color: "#ffffff",
+            icons: [
+              {
+                src: baseUrl + "icon-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
+              },
+              {
+                src: baseUrl + "icon-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
+              },
+            ],
+          },
+        },
+        sw: {
+          mode: "injectManifest",
+          includeWebAppManifestIcons: [0],
+          include(assets) {
+            return assets.concat(["favicon.svg"]);
+          },
+          srcFile: path.join(__dirname, "docs-sw.ts"),
+        },
+        registerSw: {
+          type: "virtual-module",
+        },
+      }),
+    ],
   },
   plugins: [
     pluginTypeDoc({

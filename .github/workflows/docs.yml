@@ -35,6 +35,8 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm run vm:build
+      - run: npm run vm:build-types
       - run: npm run docs:build
 
       - uses: actions/upload-pages-artifact@v3
