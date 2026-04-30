@@ -1,5 +1,17 @@
 # Changelog
 
+# [2.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.4.0...v2.5.0) (2026-04-30)
+
+
+### Bug Fixes
+
+* use base url + "/" as the default value for `start_url` in the web app manifest if it's not defined ([f5a89b3](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/f5a89b33243250170e93c1326f712fe42aea555f))
+
+
+### Features
+
+* add `includeWebAppManifestIcons` to `sw` options ([bac88be](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/bac88be1bdc9ffe2d0ec4b5f62d1520191762815))
+
 # [2.4.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.3.0...v2.4.0) (2026-04-29)
 
 
