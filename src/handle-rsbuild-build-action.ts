@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import chalk from "chalk";
+import type { ImageResource } from "web-app-manifest";
 import { generateSW, injectManifest } from "workbox-build";
 import { buildCustomSw } from "./build-custom-sw.ts";
 import {
@@ -100,6 +101,51 @@ export function handleRsBuildBuildAction({
         }
         return acc;
       }, [] as string[]);
+      if (
+        swConfig.includeWebAppManifestIcons &&
+        webAppManifestCfg !== false &&
+        webAppManifestCfg.content?.icons?.length
+      ) {
+        const assetPrefix = extractAssetPrefix(environment);
+        if (Array.isArray(swConfig.includeWebAppManifestIcons)) {
+          for (const idx of swConfig.includeWebAppManifestIcons) {
+            const icon = webAppManifestCfg.content.icons[idx];
+            if (!icon) {
+              api.logger.warn(
+                formatLog(
+                  `Cannot precache web app manifest icon at index ${idx} cause it's not defined`,
+                ),
+              );
+              continue;
+            }
+            processIcon(icon);
+          }
+        } else {
+          for (const icon of webAppManifestCfg.content.icons) {
+            processIcon(icon);
+          }
+        }
+
+        function processIcon(icon: ImageResource) {
+          const baseSrc = icon.src;
+          if (!baseSrc) {
+            api.logger.warn(
+              formatLog(
+                'Cannot precache web app manifest icon cause "src" is not defined',
+              ),
+            );
+            return;
+          }
+          const src = (
+            baseSrc.startsWith(assetPrefix)
+              ? baseSrc.replace(assetPrefix, "")
+              : baseSrc
+          ).replace(/^\//, "");
+          assetsToPrecache.push(src);
+        }
+
+        api.logger.debug(formatLog("Web app manifest icons are precached"));
+      }
 
       const wbGlobPatterns = swConfig.include
         ? typeof swConfig.include === "function"

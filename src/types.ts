@@ -53,13 +53,11 @@ export interface RegisterSwVirtualModuleConfig extends RegisterSwSharedOptions {
   type: "virtual-module";
 }
 export interface RegisterSwInlineConfig
-  extends RegisterSwSharedOptions,
-  DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
   type: "inline";
 }
 export interface RegisterSwScriptConfig
-  extends RegisterSwSharedOptions,
-  DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
   type: "script";
   /**
    * @defaultValue "register-sw.js"
@@ -85,6 +83,18 @@ export interface SharedSwConfig {
    * @defaultValue "sw.js"
    */
   filename?: string;
+  /**
+   * should precache the icons defined in {@link WebAppManifestConfig}?
+   * it can be a boolean or an array of the icons' indexes that should be precached.
+   * @example
+   * ```ts
+   * true
+   * ```
+   * @example
+   * [0, 1]
+   * ```
+   */
+  includeWebAppManifestIcons?: boolean | number[];
   /**
    * This array will be passed to workbox globPatterns.
    * By default all assets bundled by rsbuild are included plus sw registration script and web app manifest
