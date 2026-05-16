@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import type { UseRegisterSWReturnValue } from "../types-preact.ts";
+import type {
+  RegisterSWOptions,
+  RegisterSwBindingReturnValue,
+} from "../types.ts";
+import type {
+  BooleanStateTuple,
+  UseRegisterSWReturnValue,
+} from "../types-preact.ts";
 import { registerSW } from "./register-sw.ts";
-import { defaultSkipWaitingFn } from "./utils.ts";
+import { defaultRegisterSwReturnValue } from "./utils.ts";
 
-export type { RegisterSWOptions, UseRegisterSWReturnValue };
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting: defaultSkipWaitingFn,
-  };
+export type {
+  RegisterSWOptions,
+  UseRegisterSWReturnValue,
+  RegisterSwBindingReturnValue,
+  BooleanStateTuple,
+};
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/preact.html | Usage}

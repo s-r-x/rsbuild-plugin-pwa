@@ -1,11 +1,11 @@
 import type { Writable } from "svelte/store";
-import type { RegisterSWReturnValue } from "./types.ts";
+import type { RegisterSwBindingReturnValue } from "./types.ts";
 
-export interface UseRegisterSWReturnValue extends Pick<
-  RegisterSWReturnValue,
-  "skipWaiting"
-> {
-  newSwActive: Writable<boolean>;
-  newSwWaiting: Writable<boolean>;
-  offlineReady: Writable<boolean>;
-}
+export type { RegisterSwBindingReturnValue };
+
+export type WritableBoolean = Writable<boolean>;
+export interface UseRegisterSWReturnValue extends RegisterSwBindingReturnValue<
+  WritableBoolean,
+  WritableBoolean,
+  WritableBoolean
+> {}

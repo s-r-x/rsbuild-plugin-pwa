@@ -1,15 +1,19 @@
 import { onMounted, onUnmounted, ref } from "vue";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import type { UseRegisterSWReturnValue } from "../types-vue.ts";
+import type { RegisterSWOptions } from "../types.ts";
+import type {
+  BooleanRef,
+  RegisterSwBindingReturnValue,
+  UseRegisterSWReturnValue,
+} from "../types-vue.ts";
 import { registerSW } from "./register-sw.ts";
-import { defaultSkipWaitingFn } from "./utils.ts";
+import { defaultRegisterSwReturnValue } from "./utils.ts";
 
-export type { RegisterSWOptions, UseRegisterSWReturnValue };
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting: defaultSkipWaitingFn,
-  };
+export type {
+  RegisterSWOptions,
+  UseRegisterSWReturnValue,
+  RegisterSwBindingReturnValue,
+  BooleanRef,
+};
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/vue.html | Usage}

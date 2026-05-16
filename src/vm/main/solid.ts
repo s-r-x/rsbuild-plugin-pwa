@@ -1,15 +1,19 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import type { UseRegisterSWReturnValue } from "../types-solid.ts";
+import type { RegisterSWOptions } from "../types.ts";
+import type {
+  BooleanSignal,
+  RegisterSwBindingReturnValue,
+  UseRegisterSWReturnValue,
+} from "../types-solid.ts";
 import { registerSW } from "./register-sw.ts";
-import { defaultSkipWaitingFn } from "./utils.ts";
+import { defaultRegisterSwReturnValue } from "./utils.ts";
 
-export type { UseRegisterSWReturnValue, RegisterSWOptions };
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting: defaultSkipWaitingFn,
-  };
+export type {
+  UseRegisterSWReturnValue,
+  RegisterSWOptions,
+  RegisterSwBindingReturnValue,
+  BooleanSignal,
+};
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/solid.html | Usage}

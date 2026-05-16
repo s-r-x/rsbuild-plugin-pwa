@@ -1,11 +1,11 @@
 import type { Ref } from "vue";
-import type { RegisterSWReturnValue } from "./types.ts";
+import type { RegisterSwBindingReturnValue } from "./types.ts";
 
-export interface UseRegisterSWReturnValue extends Pick<
-  RegisterSWReturnValue,
-  "skipWaiting"
-> {
-  newSwActive: Ref<boolean>;
-  newSwWaiting: Ref<boolean>;
-  offlineReady: Ref<boolean>;
-}
+export type { RegisterSwBindingReturnValue };
+
+export type BooleanRef = Ref<boolean>;
+export interface UseRegisterSWReturnValue extends RegisterSwBindingReturnValue<
+  BooleanRef,
+  BooleanRef,
+  BooleanRef
+> {}

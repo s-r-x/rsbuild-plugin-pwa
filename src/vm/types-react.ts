@@ -1,11 +1,14 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { RegisterSWReturnValue } from "./types.ts";
+import type { RegisterSwBindingReturnValue } from "./types.ts";
 
-export interface UseRegisterSWReturnValue extends Pick<
-  RegisterSWReturnValue,
-  "skipWaiting"
-> {
-  newSwWaiting: [boolean, Dispatch<SetStateAction<boolean>>];
-  newSwActive: [boolean, Dispatch<SetStateAction<boolean>>];
-  offlineReady: [boolean, Dispatch<SetStateAction<boolean>>];
-}
+export type { RegisterSwBindingReturnValue };
+
+export type BooleanStateTuple = [
+  state: boolean,
+  setter: Dispatch<SetStateAction<boolean>>,
+];
+export interface UseRegisterSWReturnValue extends RegisterSwBindingReturnValue<
+  BooleanStateTuple,
+  BooleanStateTuple,
+  BooleanStateTuple
+> {}

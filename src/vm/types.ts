@@ -1,4 +1,5 @@
 import type { Workbox } from "workbox-window";
+
 export interface RegisterSWOptions {
   /**
    * Setting this to true will register the SW immediately, even if the window has not loaded.
@@ -49,4 +50,14 @@ export interface RegisterSWReturnValue {
    * Removes all attached event listeners from the SW.
    */
   detachEventListeners: () => Promise<void>;
+}
+
+export interface RegisterSwBindingReturnValue<
+  TNewSwActiveState,
+  TNewSwWaitingState,
+  TOfflineReadyState,
+> extends Pick<RegisterSWReturnValue, "skipWaiting"> {
+  newSwActive: TNewSwActiveState;
+  newSwWaiting: TNewSwWaitingState;
+  offlineReady: TOfflineReadyState;
 }

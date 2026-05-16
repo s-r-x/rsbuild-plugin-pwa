@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import type { UseRegisterSWReturnValue } from "../types-react.ts";
+import type { RegisterSWOptions } from "../types.ts";
+import type {
+  BooleanStateTuple,
+  RegisterSwBindingReturnValue,
+  UseRegisterSWReturnValue,
+} from "../types-react.ts";
 import { registerSW } from "./register-sw.ts";
-import { defaultSkipWaitingFn } from "./utils.ts";
+import { defaultRegisterSwReturnValue } from "./utils.ts";
 
-export type { RegisterSWOptions, UseRegisterSWReturnValue };
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting: defaultSkipWaitingFn,
-  };
+export type {
+  RegisterSWOptions,
+  UseRegisterSWReturnValue,
+  RegisterSwBindingReturnValue,
+  BooleanStateTuple,
+};
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/react.html | Usage}

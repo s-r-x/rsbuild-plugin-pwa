@@ -1,16 +1,20 @@
 import { onDestroy, onMount } from "svelte";
 import { writable } from "svelte/store";
-import type { RegisterSWOptions, RegisterSWReturnValue } from "../types.ts";
-import type { UseRegisterSWReturnValue } from "../types-svelte.ts";
+import type { RegisterSWOptions } from "../types.ts";
+import type {
+  RegisterSwBindingReturnValue,
+  UseRegisterSWReturnValue,
+  WritableBoolean,
+} from "../types-svelte.ts";
 import { registerSW } from "./register-sw.ts";
-import { defaultSkipWaitingFn } from "./utils.ts";
+import { defaultRegisterSwReturnValue } from "./utils.ts";
 
-export type { UseRegisterSWReturnValue, RegisterSWOptions };
-
-const defaultRegisterSwReturnValue: Pick<RegisterSWReturnValue, "skipWaiting"> =
-  {
-    skipWaiting: defaultSkipWaitingFn,
-  };
+export type {
+  UseRegisterSWReturnValue,
+  RegisterSWOptions,
+  RegisterSwBindingReturnValue,
+  WritableBoolean,
+};
 
 /**
  * {@link https://s-r-x.github.io/rsbuild-plugin-pwa/guide/virtual-modules/svelte.html | Usage}
