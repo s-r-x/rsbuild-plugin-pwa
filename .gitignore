@@ -19,3 +19,6 @@ test/dist/
 !.vscode/extensions.json
 .idea
 
+# VS Code
+*.code-workspace
+

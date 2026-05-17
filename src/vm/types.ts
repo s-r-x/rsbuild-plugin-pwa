@@ -57,7 +57,16 @@ export interface RegisterSwBindingReturnValue<
   TNewSwWaitingState,
   TOfflineReadyState,
 > extends Pick<RegisterSWReturnValue, "skipWaiting"> {
+  /**
+   * The new SW is controlling the page.
+   */
   newSwActive: TNewSwActiveState;
+  /**
+   * The newer SW gets installed alongside the previous one, but the old one is still controlling the page.
+   */
   newSwWaiting: TNewSwWaitingState;
+  /**
+   * The SW is ready to work offline.
+   */
   offlineReady: TOfflineReadyState;
 }
