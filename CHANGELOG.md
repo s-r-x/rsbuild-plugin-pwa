@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.6.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.5.0...v2.6.0) (2026-05-17)
+
+
+### Features
+
+* set `display` to `standalone` in the web app manifest if not specified ([f8e492e](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/f8e492e60d080aa8ddda5bbc1a850b47d7f60bde))
+
 # [2.5.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.4.0...v2.5.0) (2026-04-30)
 
 
