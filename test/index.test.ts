@@ -12,7 +12,10 @@ import { pluginSolid } from "@rsbuild/plugin-solid";
 import { pluginSvelte } from "@rsbuild/plugin-svelte";
 import { pluginVue } from "@rsbuild/plugin-vue";
 import * as cheerio from "cheerio";
-import { DEFAULT_THEME_COLOR } from "../src/config.ts";
+import {
+  DEFAULT_THEME_COLOR,
+  DEFAULT_WEB_APP_MANIFEST_DISPLAY,
+} from "../src/config.ts";
 import {
   type HtmlTagsConfig,
   pluginPWA,
@@ -28,7 +31,7 @@ function genOutputDir(): string {
   );
   return outputDir;
 }
-test("should generate and inject into html pwa related stuff", async function() {
+test("should generate and inject into html pwa related stuff", async function () {
   const baseUrl = "/my-app";
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "my-sw.js";
@@ -148,6 +151,7 @@ test("should generate and inject into html pwa related stuff", async function() 
       scope: baseUrl + "/",
       start_url: baseUrl + "/",
       theme_color: DEFAULT_THEME_COLOR,
+      display: DEFAULT_WEB_APP_MANIFEST_DISPLAY,
     } satisfies WebAppManifest,
     "web app manifest should include user defined values and some default ones",
   );
@@ -157,7 +161,7 @@ test("should generate and inject into html pwa related stuff", async function() 
     "sw should be generated",
   );
 });
-test("should generate asset urls based on output.assetPrefix if it's defined", async function() {
+test("should generate asset urls based on output.assetPrefix if it's defined", async function () {
   const baseUrl = "/my-app";
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "my-sw.js";
@@ -169,6 +173,7 @@ test("should generate asset urls based on output.assetPrefix if it's defined", a
     name: "app",
     description: "desc",
     theme_color: "#000000",
+    display: "minimal-ui",
   };
   const assetPrefix = "https://cdn.example.com/assets/";
   const rsbuild = await createRsbuild({
@@ -244,7 +249,7 @@ test("should generate asset urls based on output.assetPrefix if it's defined", a
     "sw should be generated",
   );
 });
-test("should generate and inject into html pwa related stuff in 'injectManifest' mode", async function() {
+test("should generate and inject into html pwa related stuff in 'injectManifest' mode", async function () {
   const registerSwScriptName = "my-register-sw.js";
   const swScriptName = "sw-with-injected-manifest.js";
   const webAppManifestName = "my-manifest.webmanifest";
@@ -368,7 +373,7 @@ function testVmApp({
   entryFile: string;
   appName: string;
 }) {
-  test(`should build a ${appName} app that uses a vm`, async function() {
+  test(`should build a ${appName} app that uses a vm`, async function () {
     const result = await buildVmApp({
       appDir,
       entryFile,

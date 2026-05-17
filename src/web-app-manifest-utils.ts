@@ -1,5 +1,6 @@
 import {
   DEFAULT_THEME_COLOR,
+  DEFAULT_WEB_APP_MANIFEST_DISPLAY,
   DEFAULT_WEB_APP_MANIFEST_NAME,
 } from "./config.ts";
 import type { SetRequired } from "./type-utils.ts";
@@ -10,7 +11,10 @@ export async function normalizeWebAppManifest(
   manifest: WebAppManifest = {},
   { baseUrl }: { baseUrl: string },
 ): Promise<
-  SetRequired<WebAppManifest, "name" | "scope" | "start_url" | "theme_color">
+  SetRequired<
+    WebAppManifest,
+    "name" | "scope" | "start_url" | "theme_color" | "display"
+  >
 > {
   const shouldReadPkgJson = !manifest.name || !manifest.description;
   const pkgJson = shouldReadPkgJson ? await readHostPackageJson() : null;
@@ -19,6 +23,7 @@ export async function normalizeWebAppManifest(
     start_url,
     description = pkgJson?.description,
     theme_color = DEFAULT_THEME_COLOR,
+    display = DEFAULT_WEB_APP_MANIFEST_DISPLAY,
     ...baseManifest
   } = manifest;
   return {
@@ -29,6 +34,7 @@ export async function normalizeWebAppManifest(
       baseManifest.scope || (baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"),
     start_url: start_url || (baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"),
     description,
+    display,
   };
 }
 

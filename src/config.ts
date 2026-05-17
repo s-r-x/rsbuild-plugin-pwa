@@ -9,6 +9,7 @@ import type {
   RegisterSwScriptInjectionPosition,
   RegisterSwScriptInjectionTarget,
   ServiceWorkerConfig,
+  WebAppManifest,
 } from "./types.ts";
 
 export const PLUGIN_NAME = "rsbuild:pwa";
@@ -16,6 +17,8 @@ export const LOG_PREFIX = chalk.magenta("pwa") + ": ";
 
 export const DEFAULT_WEB_APP_MANIFEST_FILENAME = "manifest.webmanifest";
 export const DEFAULT_WEB_APP_MANIFEST_NAME = "App";
+export const DEFAULT_WEB_APP_MANIFEST_DISPLAY =
+  "standalone" satisfies WebAppManifest["display"];
 
 export const DEFAULT_SW_FILENAME = "sw.js";
 
