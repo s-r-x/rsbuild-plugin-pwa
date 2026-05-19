@@ -22,6 +22,9 @@ includes:
   example.preact:
     taskfile: ./examples/preact/Taskfile.yml
     dir: ./examples/preact
+  example.modernjs:
+    taskfile: ./examples/modernjs/Taskfile.yml
+    dir: ./examples/modernjs
 tasks:
   default:
     - task: dev

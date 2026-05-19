@@ -1,0 +1,29 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "types": [
+      "rsbuild-plugin-pwa/types/register-sw"
+    ],
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "modern.config.ts",
+    "server"
+  ],
+  "exclude": [
+    "**/node_modules"
+  ]
+}
