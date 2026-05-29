@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.7.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.6.0...v2.7.0) (2026-05-29)
+
+
+### Features
+
+* debug virtual module ([c749b16](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/c749b16b04c14a8233ef96fb90bebd6982d771d9))
+
 # [2.6.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.5.0...v2.6.0) (2026-05-17)
 
 
