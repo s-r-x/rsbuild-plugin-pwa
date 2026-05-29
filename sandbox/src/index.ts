@@ -1,6 +1,16 @@
 /// <reference types="../../types/register-sw.d.ts" />
+/// <reference types="../../types/debug.d.ts" />
+import * as debug from "rsbuild-plugin-pwa_vm/debug";
 import { registerSW } from "rsbuild-plugin-pwa_vm/register-sw";
 import { Workbox } from "workbox-window";
+
+debug.printDebugValues();
+console.log("base url: ", debug.getBaseUrl());
+console.log("sw url: ", debug.getSwUrl());
+console.log("sw scope: ", debug.getSwScope());
+console.log("build date:", debug.getBuildDate());
+console.log("custom values:", debug.getCustomDebugValues());
+console.log("plugin version", debug.getPluginVersion());
 
 console.log("sandbox");
 const { skipWaiting } = registerSW({

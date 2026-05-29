@@ -13,6 +13,7 @@ export interface NormalizedPluginConfig extends Omit<
 export interface RsBuildActionHandlerCtx {
   rsbuildApi: RsbuildPluginAPI;
   pluginConfig: NormalizedPluginConfig;
+  pluginPkgJson: PackageJson | null;
   checkIfPluginDisabled: (args: { environmentName: string }) => boolean;
   extractAssetPrefix: (env: EnvironmentContext | null) => string;
   extractEnvBaseUrl: (env: EnvironmentContext | null) => string;
@@ -27,3 +28,9 @@ export interface RsBuildActionHandlerCtx {
   }) => string;
   genSwScope: (args: { baseUrl: string }) => string;
 }
+
+export type PackageJson = {
+  version: string;
+  name?: string;
+  description?: string;
+};

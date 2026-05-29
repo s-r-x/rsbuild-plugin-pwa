@@ -28,6 +28,9 @@
     },
     "./types/preact": {
       "types": "./types/preact.d.ts"
+    },
+    "./types/debug": {
+      "types": "./types/debug.d.ts"
     }
   },
   "main": "./dist/index.cjs",

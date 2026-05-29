@@ -1,6 +1,8 @@
+import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { LOG_PREFIX } from "./config.ts";
+import { LOG_PREFIX, PLUGIN_PKG_JSON_PATH } from "./config.ts";
+import type { PackageJson } from "./types-internal.ts";
 
 export function formatMs(ms: number): string {
   return (ms / 1000).toFixed(2) + "s";
@@ -23,12 +25,9 @@ export function formatLog(message: string): string {
  * @param startDir The directory to start searching from. Defaults to process.cwd().
  * @returns A promise resolving to the parsed package.json, or null if not found.
  */
-export async function readHostPackageJson<
-  T = {
-    name?: string;
-    description?: string;
-  },
->(startDir: string = process.cwd()): Promise<T | null> {
+export async function readHostPackageJson<T extends PackageJson>(
+  startDir: string = process.cwd(),
+): Promise<T | null> {
   let currentDir: string = startDir;
 
   while (true) {
@@ -59,6 +58,16 @@ export async function readHostPackageJson<
 
       currentDir = parentDir;
     }
+  }
+}
+
+export function readPluginPackageJson<T extends PackageJson>(): T | null {
+  try {
+    const content = fsSync.readFileSync(PLUGIN_PKG_JSON_PATH, "utf8");
+    return JSON.parse(content) as T;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 }
 

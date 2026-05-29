@@ -67,6 +67,11 @@ export const DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME =
 export const DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT =
   "const meaningOfLine = '42';";
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+const PLUGIN_ROOT_FOLDER = path.join(dirname, "..");
+
+export const PLUGIN_PKG_JSON_PATH = path.join(PLUGIN_ROOT_FOLDER, "package.json");
+
 export const VM_MOD_BASE_NAME = "rsbuild-plugin-pwa_vm";
 export const VM_LIST = [
   "preact",
@@ -75,12 +80,12 @@ export const VM_LIST = [
   "solid",
   "svelte",
   "vue",
+  "debug",
 ] as const;
-const dirname = path.dirname(fileURLToPath(import.meta.url));
 export const VM_SRC_BASE_FOLDER = path.join(dirname, "vm");
 export const VM_SRC_FOLDER_MOCK = path.join(VM_SRC_BASE_FOLDER, "mock");
 export const VM_SRC_FOLDER = path.join(VM_SRC_BASE_FOLDER, "main");
-export const VM_COMPILED_BASE_FOLDER = path.join(dirname, "..", "vm-dist");
+export const VM_COMPILED_BASE_FOLDER = path.join(PLUGIN_ROOT_FOLDER, "vm-dist");
 export const VM_COMPILED_FOLDER = path.join(VM_COMPILED_BASE_FOLDER, "main");
 export const VM_COMPILED_FOLDER_MOCK = path.join(
   VM_COMPILED_BASE_FOLDER,
@@ -92,7 +97,6 @@ export const REG_SW_SCRIPT_SRC_FOLDER = path.join(
   "register-sw-script",
 );
 export const REG_SW_SCRIPT_COMPILED_FOLDER = path.join(
-  dirname,
-  "..",
+  PLUGIN_ROOT_FOLDER,
   "register-sw-script-dist",
 );

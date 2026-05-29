@@ -51,13 +51,28 @@ export interface RegisterSwSharedOptions {
 
 export interface RegisterSwVirtualModuleConfig extends RegisterSwSharedOptions {
   type: "virtual-module";
+  /**
+   * can be accessed later in `debug` virtual module.
+   * must be serializable.
+   * @example
+   * ```ts
+   * "my value"
+   * ```
+   * @example
+   * ```ts
+   * { key: "value" }
+   * ```
+   */
+  customDebugValues?: any;
 }
 export interface RegisterSwInlineConfig
-  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions,
+    DefaultRegisterSwScriptOptions {
   type: "inline";
 }
 export interface RegisterSwScriptConfig
-  extends RegisterSwSharedOptions, DefaultRegisterSwScriptOptions {
+  extends RegisterSwSharedOptions,
+    DefaultRegisterSwScriptOptions {
   type: "script";
   /**
    * @defaultValue "register-sw.js"

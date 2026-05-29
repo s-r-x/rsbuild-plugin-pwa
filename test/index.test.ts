@@ -342,8 +342,8 @@ const vmApps: Parameters<typeof testVmApp>[0][] = [
     plugins: [pluginSvelte()],
   },
   {
-    appDir: "vm-vanilla-app",
-    appName: "vanilla js",
+    appDir: "vm-debug-app",
+    appName: "debug",
     entryFile: "index.js",
     plugins: [],
   },

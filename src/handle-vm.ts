@@ -8,6 +8,7 @@ import {
 } from "./config.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
 import { formatLog } from "./utils.ts";
+import type { DebugValues } from "./vm/types-debug.ts";
 
 export function handleVirtualModules(ctx: RsBuildActionHandlerCtx) {
   const { rsbuildApi: api, pluginConfig: cfg } = ctx;
@@ -40,17 +41,36 @@ export function handleVirtualModules(ctx: RsBuildActionHandlerCtx) {
       },
       async function transformVirtualModule(transformCtx) {
         const content = await fs.readFile(realPath, "utf8");
-        return content.replace(/__SW_URL|__SW_SCOPE/g, function (match) {
-          const baseUrl = ctx.extractEnvBaseUrl(transformCtx.environment);
-          switch (match) {
-            case "__SW_URL":
-              return ctx.genSwUrl({ environment: transformCtx.environment });
-            case "__SW_SCOPE":
-              return ctx.genSwScope({ baseUrl });
-            default:
-              return match;
-          }
-        });
+        return content.replace(
+          /__SW_URL|__SW_SCOPE|"__DEBUG_VALUES"/g,
+          function (match) {
+            const baseUrl = ctx.extractEnvBaseUrl(transformCtx.environment);
+            switch (match) {
+              case "__SW_URL":
+                return ctx.genSwUrl({ environment: transformCtx.environment });
+              case "__SW_SCOPE":
+                return ctx.genSwScope({ baseUrl });
+              case '"__DEBUG_VALUES"': {
+                const debugValues: DebugValues = {
+                  customValues:
+                    cfg.registerSw?.type === "virtual-module"
+                      ? cfg.registerSw.customDebugValues
+                      : undefined,
+                  pluginVersion: ctx.pluginPkgJson?.version || "0.0.0",
+                  buildDate: new Date().toISOString(),
+                  baseUrl,
+                  swScope: ctx.genSwScope({ baseUrl }),
+                  swUrl: ctx.genSwUrl({
+                    environment: transformCtx.environment,
+                  }),
+                };
+                return JSON.stringify(debugValues);
+              }
+              default:
+                return match;
+            }
+          },
+        );
       },
     );
   }

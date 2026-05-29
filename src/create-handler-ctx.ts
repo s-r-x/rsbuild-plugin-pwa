@@ -3,7 +3,11 @@ import {
   DEFAULT_SW_FILENAME,
   DEFAULT_WEB_APP_MANIFEST_FILENAME,
 } from "./config.ts";
-import type { NormalizedPluginConfig, RsBuildActionHandlerCtx } from "./types-internal.ts";
+import type {
+  NormalizedPluginConfig,
+  RsBuildActionHandlerCtx,
+} from "./types-internal.ts";
+import { readPluginPackageJson } from "./utils.ts";
 
 export function createHandlerCtx({
   rsbuildApi: api,
@@ -12,7 +16,6 @@ export function createHandlerCtx({
   rsbuildApi: RsbuildPluginAPI;
   pluginConfig: NormalizedPluginConfig;
 }): RsBuildActionHandlerCtx {
-
   const extractEnvBaseUrl: RsBuildActionHandlerCtx["extractEnvBaseUrl"] =
     function (env) {
       return env?.config.server.base || "/";
@@ -60,7 +63,9 @@ export function createHandlerCtx({
       asset: cfg.sw.filename || DEFAULT_SW_FILENAME,
     });
   };
+  const pluginPkgJson = readPluginPackageJson()
   const handlerCtx: RsBuildActionHandlerCtx = {
+    pluginPkgJson,
     rsbuildApi: api,
     pluginConfig: cfg,
     extractEnvBaseUrl,

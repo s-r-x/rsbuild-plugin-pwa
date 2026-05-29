@@ -17,7 +17,7 @@ import type {
 export type NormalizedRegisterSwConfig =
   | OmitRequired<RegisterSwInlineConfig, "scope">
   | OmitRequired<RegisterSwScriptConfig, "scope">
-  | OmitRequired<RegisterSwVirtualModuleConfig, "scope">
+  | OmitRequired<RegisterSwVirtualModuleConfig, "scope" | "customDebugValues">
   | null;
 export function normalizeRegisterSwCfg(
   baseRegisterSwCfg?: RegisterSwConfig | false,

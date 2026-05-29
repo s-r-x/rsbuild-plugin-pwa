@@ -98,6 +98,7 @@ export default defineConfig({
         path.join(__dirname, "src", "vm", "main/svelte.ts"),
         path.join(__dirname, "src", "vm", "main/solid.ts"),
         path.join(__dirname, "src", "vm", "main/preact.ts"),
+        path.join(__dirname, "src", "vm", "main/debug.ts"),
       ],
     }),
   ],

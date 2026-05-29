@@ -13,6 +13,11 @@ export default defineConfig({
       dev: true,
       registerSw: {
         type: "virtual-module",
+        customDebugValues: {
+          lul: true,
+          name: "me",
+          o: { hi: "there" },
+        },
       },
       sw: {
         srcFile: "./src/sw.js",
