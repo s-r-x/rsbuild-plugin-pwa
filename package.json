@@ -52,11 +52,7 @@
   "bugs": {
     "url": "https://github.com/s-r-x/rsbuild-plugin-pwa/issues"
   },
-  "keywords": [
-    "rsbuild",
-    "rsbuild-plugin",
-    "pwa"
-  ],
+  "keywords": ["rsbuild", "rsbuild-plugin", "pwa"],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",

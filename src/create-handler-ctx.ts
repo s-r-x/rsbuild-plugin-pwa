@@ -63,7 +63,7 @@ export function createHandlerCtx({
       asset: cfg.sw.filename || DEFAULT_SW_FILENAME,
     });
   };
-  const pluginPkgJson = readPluginPackageJson()
+  const pluginPkgJson = readPluginPackageJson();
   const handlerCtx: RsBuildActionHandlerCtx = {
     pluginPkgJson,
     rsbuildApi: api,

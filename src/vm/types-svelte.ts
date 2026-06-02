@@ -4,8 +4,9 @@ import type { RegisterSwBindingReturnValue } from "./types.ts";
 export type { RegisterSwBindingReturnValue };
 
 export type WritableBoolean = Writable<boolean>;
-export interface UseRegisterSWReturnValue extends RegisterSwBindingReturnValue<
-  WritableBoolean,
-  WritableBoolean,
-  WritableBoolean
-> {}
+export interface UseRegisterSWReturnValue
+  extends RegisterSwBindingReturnValue<
+    WritableBoolean,
+    WritableBoolean,
+    WritableBoolean
+  > {}

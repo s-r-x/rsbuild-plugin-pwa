@@ -25,7 +25,8 @@
     "bracketSameLine": false,
     "bracketSpacing": true,
     "expand": "auto",
-    "useEditorconfig": true
+    "useEditorconfig": true,
+    "includes": ["**", "!examples", "!types"]
   },
   "javascript": {
     "formatter": {

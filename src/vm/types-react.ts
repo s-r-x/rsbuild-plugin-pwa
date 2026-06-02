@@ -7,8 +7,9 @@ export type BooleanStateTuple = [
   state: boolean,
   setter: Dispatch<SetStateAction<boolean>>,
 ];
-export interface UseRegisterSWReturnValue extends RegisterSwBindingReturnValue<
-  BooleanStateTuple,
-  BooleanStateTuple,
-  BooleanStateTuple
-> {}
+export interface UseRegisterSWReturnValue
+  extends RegisterSwBindingReturnValue<
+    BooleanStateTuple,
+    BooleanStateTuple,
+    BooleanStateTuple
+  > {}

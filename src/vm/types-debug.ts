@@ -4,5 +4,5 @@ export type DebugValues = {
   swUrl: string;
   swScope: string;
   baseUrl: string;
-  customValues?: any
+  customValues?: any;
 };
