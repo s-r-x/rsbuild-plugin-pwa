@@ -42,7 +42,7 @@ export const DEFAULT_REG_SW_CONFIG = {
 
 export const DEFAULT_WORKBOX_BUILD_VALUES = {
   inlineWorkboxRuntime: true,
-  globIgnores: ["**/*.map"],
+  globIgnores: ["**/*.map", "**/*.LICENSE.txt"],
   cleanupOutdatedCaches: true,
 };
 
@@ -70,7 +70,10 @@ export const DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT =
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT_FOLDER = path.join(dirname, "..");
 
-export const PLUGIN_PKG_JSON_PATH = path.join(PLUGIN_ROOT_FOLDER, "package.json");
+export const PLUGIN_PKG_JSON_PATH = path.join(
+  PLUGIN_ROOT_FOLDER,
+  "package.json",
+);
 
 export const VM_MOD_BASE_NAME = "rsbuild-plugin-pwa_vm";
 export const VM_LIST = [
