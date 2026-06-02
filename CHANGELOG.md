@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.8.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.7.0...v2.8.0) (2026-06-02)
+
+
+### Features
+
+* add `**/*.LICENSE.txt` to default `globIgnores` of `workbox-build` config ([9fe0eec](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/9fe0eec83ab6cf65fcea39d76e8464bb54215db1))
+
 # [2.7.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.6.0...v2.7.0) (2026-05-29)
 
 
