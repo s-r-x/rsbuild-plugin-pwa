@@ -1,7 +1,6 @@
 
 declare module "rsbuild-plugin-pwa_vm/preact" {
-  export type RegisterSWOptions =
-    import("../vm-dist/main/preact").RegisterSWOptions;
+  export type RegisterSWOptions = import("../vm-dist/main/preact").RegisterSWOptions;
   export type RegisterSWReturnValue =
     import("../vm-dist/main/preact").UseRegisterSWReturnValue;
 

@@ -1,7 +1,6 @@
 
 declare module "rsbuild-plugin-pwa_vm/vue" {
-  export type RegisterSWOptions =
-    import("../vm-dist/main/vue").RegisterSWOptions;
+  export type RegisterSWOptions = import("../vm-dist/main/vue").RegisterSWOptions;
   export type RegisterSWReturnValue =
     import("../vm-dist/main/vue").UseRegisterSWReturnValue;
 

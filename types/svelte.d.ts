@@ -1,7 +1,6 @@
 
 declare module "rsbuild-plugin-pwa_vm/svelte" {
-  export type RegisterSWOptions =
-    import("../vm-dist/main/svelte").RegisterSWOptions;
+  export type RegisterSWOptions = import("../vm-dist/main/svelte").RegisterSWOptions;
   export type RegisterSWReturnValue =
     import("../vm-dist/main/svelte").UseRegisterSWReturnValue;
 
