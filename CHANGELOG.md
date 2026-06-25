@@ -1,5 +1,13 @@
 # Changelog
 
+# [2.9.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.8.0...v2.9.0) (2026-06-25)
+
+
+### Features
+
+* emit the sw to rsbuild assets in dev mode ([def180b](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/def180b974335ab446106892368ac57cd7d8375d))
+* emit web app manifest and sw registration script to rsbuild assets in dev mode ([a85b7c4](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/a85b7c4d3903e1081cf6745677c85150be0ee29e))
+
 # [2.8.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.7.0...v2.8.0) (2026-06-02)
 
 
