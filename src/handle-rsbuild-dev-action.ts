@@ -11,26 +11,13 @@ import {
   DEV_SUPPRESS_WORKBOX_WARNINGS_CONTENT,
   DEV_SUPPRESS_WORKBOX_WARNINGS_FILENAME,
 } from "./config.ts";
-import { genRegisterSwScript } from "./gen-register-sw-script.ts";
-import type { WebAppManifest } from "./types.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
 import { formatLog, resetDir } from "./utils.ts";
-import {
-  normalizeWebAppManifest,
-  serializeWebAppManifest,
-} from "./web-app-manifest-utils.ts";
 import { genWbModifyUrlPrefix } from "./workbox-utils.ts";
 
 export function handleRsBuildDevAction({
   rsbuildApi: api,
-  pluginConfig: {
-    webAppManifest: webAppManifestCfg,
-    sw: swConfig,
-    registerSw: registerSwCfg,
-  },
-  genSwScope,
-  genWebAppManifestUrl,
-  extractEnvBaseUrl,
+  pluginConfig: { sw: swConfig },
   genSwUrl,
   normalizeAssetUrl,
   extractAssetPrefix,
@@ -46,24 +33,6 @@ export function handleRsBuildDevAction({
         break;
       }
     }
-    const baseUrl = extractEnvBaseUrl(env);
-
-    const manifestUrl = webAppManifestCfg
-      ? genWebAppManifestUrl({
-          environment: env,
-          filename: webAppManifestCfg.filename,
-        })
-      : undefined;
-    const manifestPromise: Promise<WebAppManifest | null> =
-      (async function generateDevWebAppManifest() {
-        if (webAppManifestCfg) {
-          return await normalizeWebAppManifest(webAppManifestCfg.content, {
-            baseUrl,
-          });
-        } else {
-          return null;
-        }
-      })();
     const swContentPromise: Promise<string> = (async function generateDevSw() {
       if (swConfig.mode === "injectManifest") {
         const rootFolder = api.context.rootPath;
@@ -119,41 +88,8 @@ export function handleRsBuildDevAction({
       }
     })();
     const swUrl = genSwUrl({ environment: env });
-    const regSwScriptPromise: Promise<string> = (async function () {
-      if (registerSwCfg?.type === "script") {
-        return genRegisterSwScript({
-          swUrl,
-          scope: genSwScope({ baseUrl }),
-          features: registerSwCfg.features,
-        });
-      } else {
-        return "";
-      }
-    })();
     server.middlewares.use(function (req, res, next) {
-      if (req.url === manifestUrl) {
-        manifestPromise.then(function (manifest) {
-          if (webAppManifestCfg && manifest) {
-            writeRes(
-              serializeWebAppManifest(manifest, webAppManifestCfg.minify),
-              "application/manifest+json",
-            );
-          } else {
-            next();
-          }
-        });
-      } else if (
-        registerSwCfg?.type === "script" &&
-        req.url ===
-          normalizeAssetUrl({
-            environment: env,
-            asset: registerSwCfg.scriptName,
-          })
-      ) {
-        regSwScriptPromise.then(function (regScript) {
-          writeRes(regScript, "text/javascript");
-        });
-      } else if (req.url === swUrl) {
+      if (req.url === swUrl) {
         swContentPromise.then(function (sw) {
           writeRes(sw, "text/javascript");
         });

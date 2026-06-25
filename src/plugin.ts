@@ -1,6 +1,7 @@
 import type { RsbuildPlugin } from "@rsbuild/core";
 import { PLUGIN_NAME } from "./config.ts";
 import { createHandlerCtx } from "./create-handler-ctx.ts";
+import { handleAssetsEmitting } from "./handle-assets-emitting.ts";
 import { handleHtmlInjection } from "./handle-html-injection.ts";
 import { handleRsBuildBuildAction } from "./handle-rsbuild-build-action.ts";
 import { handleRsBuildDevAction } from "./handle-rsbuild-dev-action.ts";
@@ -46,6 +47,7 @@ export const pluginPWA = (baseCfg: PWAPluginOptions = {}): RsbuildPlugin => ({
     const shouldHandleDev = api.context.action === "dev" && cfg.dev;
     if (shouldHandleBuild || shouldHandleDev) {
       handleHtmlInjection(handlerCtx);
+      handleAssetsEmitting(handlerCtx);
     }
     if (shouldHandleBuild) {
       handleRsBuildBuildAction(handlerCtx);
