@@ -4,7 +4,11 @@ import chalk from "chalk";
 import type { ImageResource } from "web-app-manifest";
 import { generateSW, injectManifest } from "workbox-build";
 import { buildCustomSw } from "./build-custom-sw.ts";
-import { DEFAULT_SW_FILENAME, DEFAULT_WORKBOX_BUILD_VALUES } from "./config.ts";
+import {
+  DEFAULT_SW_FILENAME,
+  DEFAULT_WORKBOX_BUILD_VALUES,
+  GARBAGE_ASSET_PATTERN,
+} from "./config.ts";
 import type { RsBuildActionHandlerCtx } from "./types-internal.ts";
 import { formatLog, formatMs } from "./utils.ts";
 import { genWbModifyUrlPrefix } from "./workbox-utils.ts";
@@ -36,12 +40,24 @@ export function handleRsBuildBuildAction({
       api.logger.start(formatLog("generating..."));
       const buildStartedAt = performance.now();
 
-      const assetsToPrecache = (assets || []).reduce((acc, asset) => {
-        if (asset.name && !asset.name.endsWith(".map")) {
-          acc.push(asset.name);
-        }
-        return acc;
-      }, [] as string[]);
+      const { assetsToPrecache, initialAssetsToPrecache } = (
+        assets || []
+      ).reduce(
+        (acc, asset) => {
+          const assetName = asset?.name;
+          if (assetName) {
+            acc.initialAssetsToPrecache.push(assetName);
+            if (!GARBAGE_ASSET_PATTERN.test(assetName)) {
+              acc.assetsToPrecache.push(assetName);
+            }
+          }
+          return acc;
+        },
+        {
+          assetsToPrecache: [] as string[],
+          initialAssetsToPrecache: [] as string[],
+        },
+      );
       if (
         swConfig.includeWebAppManifestIcons &&
         webAppManifestCfg !== false &&
@@ -90,7 +106,7 @@ export function handleRsBuildBuildAction({
 
       const wbGlobPatterns = swConfig.include
         ? typeof swConfig.include === "function"
-          ? swConfig.include(assetsToPrecache)
+          ? swConfig.include(assetsToPrecache, initialAssetsToPrecache)
           : swConfig.include
         : assetsToPrecache;
       const defaultWbModifyUrlPrefix = genWbModifyUrlPrefix(

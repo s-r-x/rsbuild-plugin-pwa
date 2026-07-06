@@ -112,8 +112,8 @@ export interface SharedSwConfig {
    */
   includeWebAppManifestIcons?: boolean | number[];
   /**
-   * This array will be passed to workbox globPatterns.
-   * By default all assets bundled by rsbuild are included plus sw registration script and web app manifest
+   * This array (or the array returned by the callback) is passed directly to workbox's `globPatterns`.
+   * By default all assets bundled by rsbuild are included (except the ones that match *.map or *.LICENSE.txt patterns)  plus the sw registration script and the web app manifest
    * @example
    * ```ts
    * ["**\/*.{js,wasm,css,html}"]
@@ -122,8 +122,15 @@ export interface SharedSwConfig {
    * ```ts
    * (assets) => [...assets.map(asset => asset), "**\/*.{ico,svg,png}"]
    * ```
+   * @example
+   * ```ts
+   * // initialAssets is the assets before "*.map" and other patterns (see above) were filtered out
+   * (_assets, initialAssets) => initialAssets
+   * ```
    */
-  include?: string[] | ((assets: string[]) => string[]);
+  include?:
+    | string[]
+    | ((assets: string[], initialAssets: string[]) => string[]);
 }
 export interface GenerateSwModeConfig extends SharedSwConfig {
   mode: "generateSw";
