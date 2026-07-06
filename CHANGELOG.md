@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.10.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.9.0...v2.10.0) (2026-07-06)
+
+
+### Features
+
+* *.map and *.LICENSE.txt assets are excluded from the `include` array/callback ([5dcd586](https://github.com/s-r-x/rsbuild-plugin-pwa/commit/5dcd586fea4357b0c3b3a2c4e884c7368f1eb9aa))
+
 # [2.9.0](https://github.com/s-r-x/rsbuild-plugin-pwa/compare/v2.8.0...v2.9.0) (2026-06-25)
 
 
