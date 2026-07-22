@@ -1,7 +1,12 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/test/vm-vue-app", "!**/test/vm-svelte-app"]
+    "includes": [
+      "**",
+      "!**/test/vm-vue-app",
+      "!**/test/vm-svelte-app",
+      "!**/examples/tanstack-start"
+    ]
   },
   "assist": {
     "actions": {
