@@ -1,0 +1,35 @@
+{
+  "name": "@rsbuild-example/tanstack-start",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "rsbuild",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
+    "start": "srvx --prod -s ../client dist/server/index.js"
+  },
+  "dependencies": {
+    "@tanstack/react-devtools": "^0.10.5",
+    "@tanstack/react-router": "^1.170.18",
+    "@tanstack/react-router-devtools": "^1.167.0",
+    "@tanstack/react-start": "^1.168.32",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "srvx": "^0.11.16",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^2.1.6",
+    "@rsbuild/plugin-react": "^2.1.0",
+    "@rsbuild/plugin-tailwindcss": "^2.0.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^24.12.4",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "rsbuild-plugin-pwa": "^2.10.0",
+    "typescript": "^6.0.3"
+  }
+}

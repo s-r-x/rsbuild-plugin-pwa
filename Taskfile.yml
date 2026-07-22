@@ -25,6 +25,9 @@ includes:
   example.modernjs:
     taskfile: ./examples/modernjs/Taskfile.yml
     dir: ./examples/modernjs
+  example.tanstack-start:
+    taskfile: ./examples/tanstack-start/Taskfile.yml
+    dir: ./examples/tanstack-start
 tasks:
   default:
     - task: dev
